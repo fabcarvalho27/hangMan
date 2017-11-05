@@ -4,18 +4,22 @@ package org.academiadecodigo.terminalGFX;
 public class TerminalGFX {
 
     private String block = "#";
-    private int width = 20;
-    private int height = 10;
+    private int width = 40;
+    private int height = 20;
     private String[][] outputScreenArray = new String[width][height];
 
 
     public void run() {
 
-        //System.out.println(outputScreen());
+        initializeArray(outputScreenArray);
         printOutputScreenArray();
+
         System.out.println("");
 
         printArray(dummy());
+
+        insertDrawingIntoArray(dummy(), outputScreenArray, 1, 1);
+        printOutputScreenArray();
 
     }
 
@@ -49,7 +53,7 @@ public class TerminalGFX {
 
     public void printOutputScreenArray() {
 
-        initializeArray(outputScreenArray);
+
 
         outputScreenArray[0][0] = "H";
         outputScreenArray[19][9] = "u";
@@ -104,9 +108,16 @@ public class TerminalGFX {
     }
 
 
-    public void insertDrawingIntoArray(String[][] drawing, String[][] array /*, String sector*/) {
+    public void insertDrawingIntoArray(String[][] drawing, String[][] array, int x, int y /*String sector*/) {
 
+        for (int j = 0; j < drawing[0].length; j++) {
+            for (int i = 0; i < drawing.length; i++) {
 
+                array[x + i][y + j] = drawing[i][j];
+            }
+        }
+
+        this.outputScreenArray = array;
     }
 
 
