@@ -15,7 +15,7 @@ public class DatabaseManager {
         pickFilePath(theme);
         System.out.println("File Path: " + file);
 
-        countNumberOfwords();
+        countNumberOfWords();
         System.out.println("Number of words: " + numberOfWords);
 
         System.out.println("Random word: " + selectRandomWord());
@@ -33,7 +33,7 @@ public class DatabaseManager {
 
     }
 
-    public void countNumberOfwords() {
+    public void countNumberOfWords() {
 
         try {
             numberOfWords = 0;
