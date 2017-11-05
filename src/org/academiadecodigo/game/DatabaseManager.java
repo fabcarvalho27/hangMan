@@ -8,7 +8,8 @@ public class DatabaseManager {
 
     private File file;
     private int numberOfWords;
-    private LinkedList<String> wordList;
+    //private LinkedList<String> wordList;
+    String[] wordList;
 
     public String pickRandomWord(String theme) {
 
@@ -29,9 +30,9 @@ public class DatabaseManager {
         System.out.println("File Path: " + file);
 
         countNumberOfWords();
-        System.out.println("Number of sentences: " + numberOfWords);
+        //System.out.println("Number of sentences: " + numberOfWords);
 
-        System.out.println("Random sentence: " + selectRandomWord());
+        //System.out.println("Random sentence: " + selectRandomWord());
         return selectRandomWord();
 
     }
@@ -40,13 +41,12 @@ public class DatabaseManager {
     public File pickFilePath(String theme) {
 
         file = new File("resources/themes/" + theme + ".txt");
-        //return String.valueOf(file);
         return file;
 
 
     }
 
-    public void countNumberOfWords() {
+    /*public void countNumberOfWords() {
 
         try {
             numberOfWords = 0;
@@ -63,14 +63,52 @@ public class DatabaseManager {
         } catch (IOException e) {
             System.out.println("File reading problem");
         }
+    }*/
+
+    public void countNumberOfWords() {
+
+        try {
+            int numberOfWords;
+            String line;
+            String longList = "";
+
+            BufferedReader bReader = new BufferedReader(new FileReader(file));
+
+            while ((line = bReader.readLine()) != null) {
+                longList = longList.concat(line + " ");
+            }
+
+            bReader.close();
+            System.out.println("Concatenated text: " + longList);
+
+            wordList = longList.split(" ");
+
+            numberOfWords = wordList.length;
+            System.out.println("Number of words: " + numberOfWords);
+
+
+        } catch (IOException e) {
+            System.out.println("File reading problem");
+        }
     }
 
     public String selectRandomWord() {
+        int index = (int) ((Math.random() * wordList.length));
+        System.out.println("Index: " + index);
+
+        String randomWord = wordList[index];
+        System.out.println("Random word: " + randomWord);
+
+        return randomWord;
+    }
+
+
+    /*public String selectRandomWord() {
         int index = (int) ((Math.random() * numberOfWords));
         String randomWord = wordList.get(index);
         //wordList.clear();
         return randomWord;
-    }
+    }*/
 
 
 //TODO: make it beautiful!! :)

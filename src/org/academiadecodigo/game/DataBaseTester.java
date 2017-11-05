@@ -6,7 +6,7 @@ public class DataBaseTester {
 
         DatabaseManager dataBase = new DatabaseManager();
 
-        /*for (int i = 0; i < 6 ; i++) {
+       /* for (int i = 0; i < 6 ; i++) {
 
             dataBase.pickRandomWord("portugues");
             System.out.println("");
