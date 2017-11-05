@@ -21,12 +21,25 @@ public class DatabaseManager {
         System.out.println("Random word: " + selectRandomWord());
         return selectRandomWord();
 
+    }
+
+    public String pickRandomSentence(String theme) {
+
+        pickFilePath(theme);
+        System.out.println("File Path: " + file);
+
+        countNumberOfWords();
+        System.out.println("Number of sentences: " + numberOfWords);
+
+        System.out.println("Random sentence: " + selectRandomWord());
+        return selectRandomWord();
 
     }
 
+
     public File pickFilePath(String theme) {
 
-        file = new File("resources/" + theme + ".txt");
+        file = new File("resources/themes/" + theme + ".txt");
         //return String.valueOf(file);
         return file;
 
