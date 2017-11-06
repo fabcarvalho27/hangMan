@@ -9,6 +9,7 @@ public class DatabaseManager {
     private File file;
     private int numberOfWords;
     String[] wordList;
+    LinkedList<String> sentenceList;
 
     public String pickRandomWord(String theme) {
 
@@ -25,111 +26,98 @@ public class DatabaseManager {
     }
 
 
-
-
     public File pickFilePath(String theme) {
 
         file = new File("resources/themes/" + theme + ".txt");
         return file;
 
-
     }
 
-    public void countNumberOfSentences() {
+
+    public void countNumberOfWords() {
 
         try {
-
             String line;
-            String longlist = "";
+            String longText = "";
 
             BufferedReader bReader = new BufferedReader(new FileReader(file));
 
             while ((line = bReader.readLine()) != null) {
-            longlist = longlist.concat(line + " ");
+                longText = longText.concat(line + " ");
             }
 
             bReader.close();
-            System.out.println("Concatenated text: " + longList);
+            System.out.println("Concatenated text: " + longText);
 
-            sentenceList = longList.split("\\W+");
+            wordList = longText.split("\\W+");
 
             numberOfWords = wordList.length;
-            System.out.println("Number of words: " + numberOfWords);
-
 
         } catch (IOException e) {
             System.out.println("File reading problem");
         }
     }
-
-    /*public void countNumberOfWords() {
-
-        try {
-            String line;
-            String longList = "";
-
-            BufferedReader bReader = new BufferedReader(new FileReader(file));
-
-            while ((line = bReader.readLine()) != null) {
-                longList = longList.concat(line + " ");
-            }
-
-            bReader.close();
-            System.out.println("Concatenated text: " + longList);
-
-            wordList = longList.split("\\W+");
-
-            numberOfWords = wordList.length;
-            System.out.println("Number of words: " + numberOfWords);
-
-
-        } catch (IOException e) {
-            System.out.println("File reading problem");
-        }
-    }*/
 
     public String selectRandomWord() {
+
         int index = (int) ((Math.random() * wordList.length));
         System.out.println("Index: " + index);
 
         String randomWord = wordList[index];
-        System.out.println("Random word: " + randomWord);
 
         return randomWord;
     }
-
-
-    /*public String selectRandomWord() {
-        int index = (int) ((Math.random() * numberOfWords));
-        String randomWord = wordList.get(index);
-        //wordList.clear();
-        return randomWord;
-    }*/
 
 
 //TODO: make it beautiful!! :)
 //TODO: create .txt database files by theme
 
-    public String pickSentence(String theme) {
+
+    public String pickRandomSentence(String theme) {
 
         pickFilePath(theme);
         System.out.println("File Path: " + file);
 
         countNumberOfSentences();
-        System.out.println("Number of sentences: " + numberOfWords);
+        System.out.println("Number of sentences: " + sentenceList.size());
 
-        String sentence = selectRandomWord();
+        String sentence = selectRandomSentence();
         System.out.println("Random sentence: " + sentence);
         return sentence;
 
     }
 
-    public File pickSentencePath(String theme) {
 
-        file = new File("resources/themes/" + theme + ".txt");
-        return file;
+    public void countNumberOfSentences() {
+
+        String line;
+        sentenceList = new LinkedList<>();
+        BufferedReader bReader = null;
+
+        try {
+
+            bReader = new BufferedReader(new FileReader(file));
+
+        while((line = bReader.readLine()) != null){
+            sentenceList.add(line);
+        }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
+    }
+
+    public String selectRandomSentence() {
+
+        int index = (int) ((Math.random() * sentenceList.size()));
+        System.out.println("Index: " + index);
+
+        String randomSentence = sentenceList.get(index);
+        return randomSentence;
     }
 
 
