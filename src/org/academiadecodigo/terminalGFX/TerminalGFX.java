@@ -1,28 +1,38 @@
 package org.academiadecodigo.terminalGFX;
 
 
+import org.academiadecodigo.game.Game;
+
 public class TerminalGFX {
 
     private String block = "#";
-    private int width = 40;
+    private int width = 50;
     private int height = 20;
     private String[][] outputScreenArray = new String[width][height];
 
 
     public void run() {
 
-        initializeArray(outputScreenArray);
-        printOutputScreenArray();
+        mountOutputScreen();
 
-        System.out.println("");
-
-        printArray(dummy());
-
-        insertDrawingIntoArray(dummy(), outputScreenArray, 1, 1);
         printOutputScreenArray();
 
     }
 
+/*
+    public String giveScreenChar(GameStatus gameStatus) {
+
+        String str = "";
+
+        return str;
+    }
+
+
+    public String[][] giveScreenArray(GameStatus gameStatus) {
+
+        return outputScreenArray; //TODO
+    }
+*/
 
     public void initializeArray(String[][] array) {
 
@@ -52,7 +62,6 @@ public class TerminalGFX {
 
 
     public void printOutputScreenArray() {
-
 
 
         outputScreenArray[0][0] = "H";
@@ -89,7 +98,7 @@ public class TerminalGFX {
     }
 
 
-    public String[][] dummy() {
+    public String[][] dummy(int mistakes) {
 
         int dWidth = 3;
         int dHeigth = 4;
@@ -97,18 +106,32 @@ public class TerminalGFX {
         String[][] dummy = new String[dWidth][dHeigth];
         initializeArray(dummy);
 
-        dummy[1][0] = "O";                      //head
-        dummy[1][1] = dummy[1][2] = "|";        //torso
-        dummy[0][1] = dummy[2][1] = "-";        //arms
-        dummy[0][3] = "/";
-        dummy[2][3] = "\\";  //legs
+
+        switch (mistakes) {
+
+            case 4:
+                dummy[0][3] = "/";
+                dummy[2][3] = "\\";  //legs
+
+            case 3:
+                dummy[0][1] = dummy[2][1] = "-";        //arms
+
+            case 2:
+                dummy[1][1] = dummy[1][2] = "|";        //torso
+
+            case 1:
+                dummy[1][0] = "O";                      //head
+
+            case 0:
+
+        }
 
         return dummy;
 
     }
 
 
-    public void insertDrawingIntoArray(String[][] drawing, String[][] array, int x, int y /*String sector*/) {
+    public String[][] insertDrawingIntoArray(String[][] drawing, String[][] array, int x, int y /*String sector*/) {
 
         for (int j = 0; j < drawing[0].length; j++) {
             for (int i = 0; i < drawing.length; i++) {
@@ -117,8 +140,31 @@ public class TerminalGFX {
             }
         }
 
-        this.outputScreenArray = array;
+        return array;
     }
 
+
+    public void insertDrawingIntoOutputScreen(String[][] drawing, int x, int y) {
+
+        this.outputScreenArray = insertDrawingIntoArray(drawing, outputScreenArray, x, y);
+
+    }
+
+
+    public void insertWordsIntoArray() {
+    }
+
+
+    public void mountOutputScreen() {
+
+        initializeArray(outputScreenArray);
+
+        insertDrawingIntoOutputScreen(dummy(0), 1, 1);
+        insertDrawingIntoOutputScreen(dummy(2), 10, 10);
+
+        insertDrawingIntoOutputScreen(dummy(3), 30, 10);
+
+        insertDrawingIntoOutputScreen(dummy(4), 30, 1);
+    }
 
 }

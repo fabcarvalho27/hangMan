@@ -1,4 +1,6 @@
-package org.academiadecodigo.terminalGFX;
+package org.academiadecodigo.testers;
+
+import org.academiadecodigo.terminalGFX.TerminalGFX;
 
 /**
  * Created by codecadet on 05/11/2017.
