@@ -1,6 +1,9 @@
 package org.academiadecodigo.network;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
@@ -12,16 +15,12 @@ public class Server {
 
     private final int PORT = 9999;
     private ServerSocket serverSocket;
-
-    private Map<Socket, String> clientsMap;
-    //private Map<String, String> registeredUsers;
-
+    private Map<ClientDispatch, String> clientsMap;
 
     public Server() throws IOException {
 
         this.serverSocket = new ServerSocket(PORT);
         clientsMap = new ConcurrentHashMap<>();
-        //registeredUsers = new ConcurrentHashMap<>();
 
     }
 
@@ -42,27 +41,34 @@ public class Server {
             clientSocket = serverSocket.accept();
             //BLOCKING
 
+            ClientDispatch client = new ClientDispatch(clientSocket, this);
 
-            clientsMap.put(clientSocket, "client[" + i + "]");
+            clientsMap.put(client, "client[" + i + "]");
 
-            System.out.println("\nClient accepted\n"+"Socket: " +clientSocket+"\nClient: "+clientsMap.get(clientSocket));
+            System.out.println("\nClient accepted\n" + "Socket: " + clientSocket + "\nClient: " + clientsMap.get(clientSocket));
             System.out.println("");
 
-            cachedClientThreadPool.submit(new ClientDispatch(clientSocket, this));
+            cachedClientThreadPool.submit(client);
 
+            //TESTING sendAll
+            sendAll("hello player");
+
+            i++;
         }
-
-
     }
 
+    //TALK TO EVERY CLIENT
+    public void sendAll(String messageForClient) {
 
-    public void acceptClient() {
+        for (ClientDispatch client :
+                clientsMap.keySet()) {
 
+            //avoids infinite null
+            if (clientsMap.keySet() == null) {
+                return;
+            }
 
-    }
-
-    public void removeClient() {
-
-
+            client.send(messageForClient);
+        }
     }
 }
