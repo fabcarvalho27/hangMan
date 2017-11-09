@@ -35,6 +35,8 @@ public class Server {
 
         while (true) {
 
+            sendOne("client[1]", "output from Game");
+
             System.out.println("waiting for client");
 
             //BLOCKING
@@ -52,6 +54,7 @@ public class Server {
 
             //TESTING sendAll
             sendAll("hello player");
+
 
             i++;
         }
@@ -71,4 +74,23 @@ public class Server {
             client.send(messageForClient);
         }
     }
+
+    //TALK TO A SINGLE CLIENT
+    public void sendOne(String clientName, String messageToClient) {
+        for (Map.Entry <ClientDispatch, String> client :
+                clientsMap.entrySet()) {
+
+            //avoids infinite null
+            if (clientsMap.keySet() == null) {
+                return;
+            }
+
+            if (clientName.equals(client.getValue())) {
+                System.out.println("Message " + messageToClient + " delivered to client");
+                client.getKey().send(messageToClient);
+            }
+
+        }
+    }
+
 }
