@@ -167,4 +167,11 @@ public class TerminalGFX {
         insertDrawingIntoOutputScreen(dummy(4), 30, 1);
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeigth() {
+        return height;
+    }
 }
