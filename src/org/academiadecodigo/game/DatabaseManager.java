@@ -65,6 +65,7 @@ public class DatabaseManager {
 
         String randomWord = wordList[index];
 
+
         return randomWord;
     }
 
