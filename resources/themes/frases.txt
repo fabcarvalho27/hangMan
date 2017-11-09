@@ -1,0 +1,3 @@
+Welcome to hangman
+Choose a game option
+Enter number of players
