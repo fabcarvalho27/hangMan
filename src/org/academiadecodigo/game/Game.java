@@ -32,8 +32,7 @@ public class Game {
         correctGuesses = new String[gameWords[currentRound].length()];
         wrongGuesses = new String[Constants.MAX_NUMBER_WRONG_GUESSES];
 
-        while (!Winner()){
-
+        while (!Winner()) {
 
 
         }
@@ -71,9 +70,8 @@ public class Game {
         return gameWords[currentRound].matches(playerGuess);
     }
 
-    private boolean winner(){
-
-
+    private boolean winner() {
+        return false;
     }
 
 
