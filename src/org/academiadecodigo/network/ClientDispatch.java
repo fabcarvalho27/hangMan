@@ -1,4 +1,9 @@
 package org.academiadecodigo.network;
 
-public class ClientDispatch {
+public class ClientDispatch implements Runnable{
+
+    @Override
+    public void run() {
+
+    }
 }
