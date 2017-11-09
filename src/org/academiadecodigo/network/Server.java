@@ -48,7 +48,7 @@ public class Server {
             System.out.println("\nClient accepted\n"+"Socket: " +clientSocket+"\nClient: "+clientsMap.get(clientSocket));
             System.out.println("");
 
-            cachedClientThreadPool.submit();
+            cachedClientThreadPool.submit(new ClientDispatch(clientSocket, this));
 
         }
 
