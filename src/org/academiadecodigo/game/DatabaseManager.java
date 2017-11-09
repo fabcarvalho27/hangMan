@@ -9,9 +9,10 @@ public class DatabaseManager {
     private File file;
     private int numberOfWords;
     String[] wordList;
+    String[] gameWords;
     LinkedList<String> sentenceList;
 
-    public String pickRandomWord(String theme) {
+    public String[] pickGameWords(String theme, int gameRounds) {
 
         pickFilePath(theme);
         System.out.println("File Path: " + file);
@@ -19,14 +20,14 @@ public class DatabaseManager {
         countNumberOfWords();
         System.out.println("Number of words: " + numberOfWords);
 
-        String word = selectRandomWord();
-        System.out.println("Random word: " + word);
-        return word;
+        String[] words = giveGameWords(gameRounds);
+        System.out.println("Random word: " + words);
+        return words;
 
     }
 
 
-    public File pickFilePath(String theme) {
+    private File pickFilePath(String theme) {
 
         file = new File("resources/themes/" + theme + ".txt");
         return file;
@@ -34,7 +35,7 @@ public class DatabaseManager {
     }
 
 
-    public void countNumberOfWords() {
+    private void countNumberOfWords() {
 
         try {
             String line;
@@ -54,23 +55,33 @@ public class DatabaseManager {
             numberOfWords = wordList.length;
 
         } catch (IOException e) {
-            System.out.println("File reading problem");
+            System.out.println("File reading problem: " + e.getMessage());
         }
     }
 
-    public String selectRandomWord() {
+    private String[] giveGameWords(int gameRounds) {
 
-        int index = (int) ((Math.random() * wordList.length));
-        System.out.println("Index: " + index);
+        gameWords = new String[gameRounds];
+        String previousWord = "";
 
-        String randomWord = wordList[index];
+        for (int i = 0; i < gameRounds; i++) {
 
+            int index = (int) ((Math.random() * wordList.length));
+            if(wordList[index].equals(previousWord)) {
+                return null;
+            }
+            gameWords[i] = wordList[index];
+            previousWord = gameWords[i];
+        }
+        return gameWords;
 
-        return randomWord;
+        //System.out.println("Index: " + index);
+        //return wordList[index];
     }
 
 
-//TODO: make it beautiful!! :)
+
+    //TODO: make it beautiful!! :)
 //TODO: create .txt database files by theme
 
 
@@ -104,9 +115,9 @@ public class DatabaseManager {
         }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File  problem: " + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            ;
         }
 
 
