@@ -13,7 +13,6 @@ public class Server {
     private final int PORT = 9999;
     private ServerSocket serverSocket;
 
-
     private Map<Socket, String> clientsMap;
     //private Map<String, String> registeredUsers;
 
@@ -49,7 +48,7 @@ public class Server {
             System.out.println("\nClient accepted\n"+"Socket: " +clientSocket+"\nClient: "+clientsMap.get(clientSocket));
             System.out.println("");
 
-            cachedClientThreadPool.submit()
+            cachedClientThreadPool.submit();
 
         }
 
@@ -66,6 +65,4 @@ public class Server {
 
 
     }
-
-
 }

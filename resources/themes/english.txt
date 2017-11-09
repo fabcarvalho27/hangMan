@@ -1,0 +1,6 @@
+hangman
+stepladder
+pitchfork
+scaffold
+rope
+sixth
