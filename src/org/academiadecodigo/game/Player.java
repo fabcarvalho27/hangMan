@@ -28,6 +28,10 @@ public class Player {
         return numberMissedGuesses;
     }
 
+    public int getNumberGuessedLetters() {
+        return numberGuessedLetters;
+    }
+
     public void incrementNumberMissedGuesses() {
         numberMissedGuesses++;
     }
@@ -35,4 +39,5 @@ public class Player {
     public void incrementNumberGuessedLetters() {
         numberGuessedLetters++;
     }
+
 }

@@ -9,7 +9,6 @@ public class DataBaseTester {
         for (int i = 0; i < 6; i++) {
 
             dataBase.pickRandomWord("portugues");
-            System.out.println("");
         }
 
         for (int i = 0; i < 6; i++) {
@@ -23,6 +22,7 @@ public class DataBaseTester {
             dataBase.pickRandomSentence("frases");
             System.out.println("");
         }
+
 
     }
 }

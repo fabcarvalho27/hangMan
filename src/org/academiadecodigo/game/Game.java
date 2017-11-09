@@ -5,60 +5,89 @@ import org.academiadecodigo.Constants;
 public class Game {
 
     private DatabaseManager database = new DatabaseManager();
-    private String[] words;
-    private String[] correctGuesses;
-    private String[] wrongGuesses = new String[Constants.MAX_NUMBER_WRONG_GUESSES];
-    private int currentRound;
+
     private String theme;
+    private int rounds;
+    private int currentRound;
+    private String[] gameWords;
+    private String[] correctGuesses;
+    private String[] wrongGuesses;
 
     private Player player1;
     private Player player2;
 
 
-    public Game(Player player1, Player player2, String theme) {
-        this.theme = theme;
+    public Game(Player player1, Player player2, String theme, int rounds) {
 
+        this.theme = theme;
+        this.rounds = rounds;
+    }
+
+    public void init() {
 
     }
 
     public void start() {
 
-        throw new UnsupportedOperationException();
+        correctGuesses = new String[gameWords[currentRound].length()];
+        wrongGuesses = new String[Constants.MAX_NUMBER_WRONG_GUESSES];
+
+        while (!Winner()){
+
+
+
+        }
+
 
     }
 
 
-    public String[] gameWords() {
+    private String[] gameWords() {
 
-        words = new String[Constants.TOTAL_ROUNDS];
-
-        for (int i = 0; i < words.length; i++) {
-            words[i] = database.pickRandomWord(theme);
-
-        }
-
-        return words;
-
+        gameWords = new String[rounds];
+        return database.pickGameWords(theme, rounds);
     }
 
 
     private void checkPlayerGuess(Player player) {
 
-        //String[] playerGuess = player.playerGuess();
+        String playerGuess = player.playerGuess();
 
-        if (words[currentRound].matches(player.playerGuess())) {
+        if (matches(playerGuess)) {
 
-            //correctGuesses[] = player.playerGuess();
+            correctGuesses[player.getNumberGuessedLetters()] = playerGuess;
             player.incrementNumberGuessedLetters();
 
         } else {
 
-            wrongGuesses[player.getNumberMissedGuesses()] = player.playerGuess();
+            wrongGuesses[player.getNumberMissedGuesses()] = playerGuess;
             player.incrementNumberMissedGuesses();
-
         }
+    }
 
-        //Todo: finnish this method receiving String[] from database
+    //Utils methods
+    private boolean matches(String playerGuess) {
 
+        return gameWords[currentRound].matches(playerGuess);
+    }
+
+    private boolean winner(){
+
+
+    }
+
+
+    //Getters and Setters
+
+    public String[] getGameWords() {
+        return gameWords;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public String[] getWrongGuesses() {
+        return wrongGuesses;
     }
 }

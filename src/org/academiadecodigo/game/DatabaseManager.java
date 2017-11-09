@@ -14,13 +14,13 @@ public class DatabaseManager {
     public String pickRandomWord(String theme) {
 
         pickFilePath(theme);
-        System.out.println("File Path: " + file);
+        //System.out.println("File Path: " + file);
 
         countNumberOfWords();
-        System.out.println("Number of words: " + numberOfWords);
+        //System.out.println("Number of words: " + numberOfWords);
 
         String word = selectRandomWord();
-        System.out.println("Random word: " + word);
+        //System.out.println("Random word: " + word);
         return word;
 
     }
@@ -47,21 +47,21 @@ public class DatabaseManager {
             }
 
             bReader.close();
-            System.out.println("Concatenated text: " + longText);
+            //System.out.println("Concatenated text: " + longText);
 
             wordList = longText.split("\\W+");
 
             numberOfWords = wordList.length;
 
         } catch (IOException e) {
-            System.out.println("File reading problem");
+            System.out.println("File reading problem: " + e.getMessage());
         }
     }
 
     public String selectRandomWord() {
 
         int index = (int) ((Math.random() * wordList.length));
-        System.out.println("Index: " + index);
+        //System.out.println("Index: " + index);
 
         String randomWord = wordList[index];
 
@@ -76,13 +76,13 @@ public class DatabaseManager {
     public String pickRandomSentence(String theme) {
 
         pickFilePath(theme);
-        System.out.println("File Path: " + file);
+        //System.out.println("File Path: " + file);
 
         countNumberOfSentences();
-        System.out.println("Number of sentences: " + sentenceList.size());
+        //System.out.println("Number of sentences: " + sentenceList.size());
 
         String sentence = selectRandomSentence();
-        System.out.println("Random sentence: " + sentence);
+        //System.out.println("Random sentence: " + sentence);
         return sentence;
 
     }
@@ -114,10 +114,10 @@ public class DatabaseManager {
     public String selectRandomSentence() {
 
         int index = (int) ((Math.random() * sentenceList.size()));
-        System.out.println("Index: " + index);
+        //System.out.println("Index: " + index);
 
-        String randomSentence = sentenceList.get(index);
-        return randomSentence;
+        return sentenceList.get(index);
+        //return randomSentence;
     }
 
 
