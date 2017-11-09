@@ -66,8 +66,8 @@ public class DatabaseManager {
 
         for (int i = 0; i < gameRounds; i++) {
 
-            int index = (int) ((Math.random() * wordList.length));
-            if(wordList[index].equals(previousWord)) {
+            int index = (int)(Math.random() * wordList.length);
+            if (wordList[i].equals(previousWord)) {
                 return null;
             }
             gameWords[i] = wordList[index];
