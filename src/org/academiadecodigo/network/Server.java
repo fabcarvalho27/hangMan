@@ -35,7 +35,8 @@ public class Server {
 
         while (true) {
 
-            sendOne("client[1]", "output from Game");
+            //TESTING sendOne
+            sendOne("client[1]", "Testing sendOne method ");
 
             System.out.println("waiting for client");
 
@@ -53,7 +54,7 @@ public class Server {
             cachedClientThreadPool.submit(client);
 
             //TESTING sendAll
-            sendAll("hello player");
+            sendAll("testing sendAll method");
 
 
             i++;

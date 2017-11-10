@@ -46,8 +46,12 @@ public class ClientDispatch implements Runnable {
 
                 String clientInput = in.readLine();
 
+                if (clientInput == null) {
+                    clientSocket.close();
+                    return;
+                }
 
-                System.out.println(clientInput);
+                System.out.println(clientInput + " received from client");
 
             }
 
@@ -58,7 +62,4 @@ public class ClientDispatch implements Runnable {
 
     }
 
-    public Socket getClientSocket() {
-        return clientSocket;
-    }
 }
