@@ -1,5 +1,6 @@
 package org.academiadecodigo.network;
 
+import org.academiadecodigo.game.GameStatus;
 import org.academiadecodigo.terminalGFX.TerminalGFX;
 import org.academiadecodigo.terminalGFX.TextReader;
 
@@ -45,7 +46,7 @@ public class ClientDispatch implements Runnable {
         try {
 
             TextReader textReader = new TextReader() ;
-
+            GameStatus gameStatus = new GameStatus();
 
 
 
@@ -56,7 +57,7 @@ public class ClientDispatch implements Runnable {
 
                 //server.broadcast(textReader.returnLogo());
                 //server.broadcast(terminalGFX.render());
-                server.sendAll(terminalGFX.render());
+                server.sendAll(terminalGFX.render(gameStatus));
 
                 //BLOCK
                 String clientInput = in.readLine();
