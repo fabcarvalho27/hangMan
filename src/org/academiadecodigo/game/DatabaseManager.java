@@ -62,21 +62,20 @@ public class DatabaseManager {
     private String[] giveGameWords(int gameRounds) {
 
         gameWords = new String[gameRounds];
-        String previousWord = "";
+        int index;
+        int previousIndex = -1;
 
         for (int i = 0; i < gameRounds; i++) {
 
-            int index = (int)(Math.random() * wordList.length);
-            if (wordList[i].equals(previousWord)) {
+            while((index = (int)(Math.random() * wordList.length)) == (previousIndex)){
                 return null;
             }
             gameWords[i] = wordList[index];
-            previousWord = gameWords[i];
+            previousIndex = index;
         }
+        System.out.println(gameWords);
         return gameWords;
 
-        //System.out.println("Index: " + index);
-        //return wordList[index];
     }
 
 
