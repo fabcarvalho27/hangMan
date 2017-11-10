@@ -1,6 +1,8 @@
 package org.academiadecodigo.network;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,16 +15,12 @@ public class Server {
 
     private final int PORT = 9999;
     private ServerSocket serverSocket;
-
-    private Map<Socket, String> clientsMap;
-    //private Map<String, String> registeredUsers;
-
+    private Map<ClientDispatch, String> clientsMap;
 
     public Server() throws IOException {
 
         this.serverSocket = new ServerSocket(PORT);
-        clientsMap = new ConcurrentHashMap<>();
-        //registeredUsers = new ConcurrentHashMap<>();
+       clientsMap = new ConcurrentHashMap<>();
 
     }
 
@@ -37,31 +35,52 @@ public class Server {
 
         while (true) {
 
+            sendOne("client[1]", "output from Game");
+
             System.out.println("waiting for client");
 
             //BLOCKING
             clientSocket = serverSocket.accept();
             //BLOCKING
 
+            ClientDispatch client = new ClientDispatch(clientSocket, this);
 
-            clientsMap.put(clientSocket, "client[" + i + "]");
+            clientsMap.put(client, "client[" + i + "]");
 
             System.out.println("\nClient accepted\n" + "Socket: " + clientSocket + "\nClient: " + clientsMap.get(clientSocket));
             System.out.println("");
 
-            cachedClientThreadPool.submit(new ClientDispatch(clientSocket, this));
+            cachedClientThreadPool.submit(client);
 
+            //TESTING sendAll
+            sendAll("hello player");
+
+
+            i++;
         }
-
-
     }
 
     public void comunicateToClient(Socket clientSocket, String message) throws IOException {
 
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
+        //TALK TO EVERY CLIENT
+    }
+    public void sendAll(String messageForClient) {
 
+        for (ClientDispatch client :
+                clientsMap.keySet()) {
+
+            //avoids infinite null
+            if (clientsMap.keySet() == null) {
+                return;
+            }
+
+            client.send(messageForClient);
+        }
     }
 
+
+/*
     public void broadcast(String message) throws IOException {
 
         synchronized (clientsMap){
@@ -73,7 +92,24 @@ public class Server {
                 out.println(message);
             }
         }
+    */
 
+    //TALK TO A SINGLE CLIENT
+    public void sendOne(String clientName, String messageToClient) {
+        for (Map.Entry <ClientDispatch, String> client :
+                clientsMap.entrySet()) {
 
+            //avoids infinite null
+            if (clientsMap.keySet() == null) {
+                return;
+            }
+
+            if (clientName.equals(client.getValue())) {
+                System.out.println("Message " + messageToClient + " delivered to client");
+                client.getKey().send(messageToClient);
+            }
+
+        }
     }
+
 }

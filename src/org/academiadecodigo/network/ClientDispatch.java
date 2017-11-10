@@ -6,6 +6,7 @@ import org.academiadecodigo.terminalGFX.TextReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientDispatch implements Runnable {
@@ -13,15 +14,29 @@ public class ClientDispatch implements Runnable {
     private Socket clientSocket;
     private Server server;
     private TerminalGFX terminalGFX;
+    private PrintWriter out;
+    private BufferedReader in;
 
-    public ClientDispatch(Socket clientSocket, Server server) throws IOException {
 
-        this.clientSocket = clientSocket;
-        this.server = server;
-        this.terminalGFX = new TerminalGFX();
 
+    public ClientDispatch(Socket clientSocket, Server server) {
+
+        try {
+            this.clientSocket = clientSocket;
+            this.server = server;
+            this.terminalGFX = new TerminalGFX();
+
+
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    public void send(String message) {
+        out.println(message);
+    }
 
     @Override
     public void run() {
@@ -40,8 +55,8 @@ public class ClientDispatch implements Runnable {
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 //server.broadcast(textReader.returnLogo());
-                server.broadcast(terminalGFX.render());
-
+                //server.broadcast(terminalGFX.render());
+                server.sendAll(terminalGFX.render());
 
                 //BLOCK
                 String clientInput = in.readLine();
@@ -57,5 +72,9 @@ public class ClientDispatch implements Runnable {
             e.printStackTrace();
         }
 
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 }
