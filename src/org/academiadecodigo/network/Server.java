@@ -1,6 +1,7 @@
 package org.academiadecodigo.network;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class Server {
 
             clientsMap.put(clientSocket, "client[" + i + "]");
 
-            System.out.println("\nClient accepted\n"+"Socket: " +clientSocket+"\nClient: "+clientsMap.get(clientSocket));
+            System.out.println("\nClient accepted\n" + "Socket: " + clientSocket + "\nClient: " + clientsMap.get(clientSocket));
             System.out.println("");
 
             cachedClientThreadPool.submit(new ClientDispatch(clientSocket, this));
@@ -55,13 +56,23 @@ public class Server {
 
     }
 
+    public void comunicateToClient(Socket clientSocket, String message) throws IOException {
 
-    public void acceptClient() {
-
+        PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
 
     }
 
-    public void removeClient() {
+    public void broadcast(String message) throws IOException {
+
+        synchronized (clientsMap){
+
+            for (Socket clientSocket : clientsMap.keySet()){
+
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
+
+                out.println(message);
+            }
+        }
 
 
     }

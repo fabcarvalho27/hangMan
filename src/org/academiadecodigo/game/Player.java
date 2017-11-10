@@ -13,7 +13,6 @@ public class Player {
     public Player(/*Socket socket*/) {
 
         this.socket = socket;
-
     }
 
 
