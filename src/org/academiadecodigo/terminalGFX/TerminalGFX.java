@@ -11,6 +11,7 @@ public class TerminalGFX {
     private int height = 30;
     private char[][] outputScreenArray = new char[width][height];
     private int topPadding = 11;
+    private GameStatus gameStatus;
 
     private TextReader textReader;
 
@@ -18,26 +19,32 @@ public class TerminalGFX {
     public TerminalGFX() throws IOException {
 
         this.textReader = new TextReader();
-       // mountOutputScreen();
+
+        // mountOutputScreen();
     }
 
 
     public void test() throws IOException {
     }
 
+/*
+    private void mountOutputScreen(GameStatus gameStatus) {
+        int a = gameStatus.getP1Mistakes();
 
-    private void mountOutputScreen() throws IOException {
+    }
+*/
+    private void mountOutputScreen(GameStatus gameStatus) throws IOException {
 
         initializeArray(outputScreenArray);
         wordToScreen("Player 2", width - 18, topPadding + 12);
-        arrayToScreen(dummy(GameStatus.p2Mistakes), width - 15, topPadding + 14);
+        arrayToScreen(dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);
 
         wordToScreen("Player 1", width - 18, topPadding + 1);
-        arrayToScreen(dummy(GameStatus.p1Mistakes), width - 15, topPadding + 3);
+        arrayToScreen(dummy(gameStatus.getP1Mistakes()), width - 15, topPadding + 3);
 
-        wordToScreen("Guesses: " + GameStatus.guesses, 0, topPadding + 1);
-        wordToScreen("Rounds: " + GameStatus.rounds, 0, topPadding + 3);
-        wordToScreen(GameStatus.word, 12, topPadding + 10);
+        wordToScreen("Guesses: " + gameStatus.getGuesses(), 0, topPadding + 1);
+        wordToScreen("Rounds: " + gameStatus.getRounds(), 0, topPadding + 3);
+        wordToScreen(gameStatus.getWord(), 12, topPadding + 10);
 
         //arrayToScreen(stringToArray(Menus.menuEntrance),2,2);
         //arrayToScreen(stringToArray(DrawingsDepot.logo), 4, 0);
@@ -47,9 +54,9 @@ public class TerminalGFX {
     }
 
 
-    public String render() throws IOException {
+    public String render(GameStatus gameStatus) throws IOException {
 
-        mountOutputScreen();
+        mountOutputScreen(gameStatus);
         return arrayToString(getOutputScreenArray());
 
     }
