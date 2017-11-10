@@ -15,13 +15,16 @@ public class DatabaseManager {
     public String[] pickGameWords(String theme, int gameRounds) {
 
         pickFilePath(theme);
-        //System.out.println("File Path: " + file);
+        System.out.println("File Path: " + file);
 
         countNumberOfWords();
-        //System.out.println("Number of words: " + numberOfWords);
+        System.out.println("Number of words: " + numberOfWords);
 
         String[] words = giveGameWords(gameRounds);
-        System.out.println("Random word: " + words);
+        for (int i = 0; i < words.length; i++) {
+            System.out.println("Game word " + i + ": " + words[i]);
+        }
+
         return words;
 
     }
@@ -48,7 +51,7 @@ public class DatabaseManager {
             }
 
             bReader.close();
-            //System.out.println("Concatenated text: " + longText);
+            System.out.println("Concatenated text: " + longText);
 
             wordList = longText.split("\\W+");
 
@@ -62,22 +65,35 @@ public class DatabaseManager {
     private String[] giveGameWords(int gameRounds) {
 
         gameWords = new String[gameRounds];
-        int index;
-        int previousIndex = -1;
+        gameWords[0] = wordList[(int) (Math.random() * wordList.length)];
+        String randomWord;
+        /*int index = 0;
+        int previousIndex = 0;
 
         for (int i = 0; i < gameRounds; i++) {
 
-            while((index = (int)(Math.random() * wordList.length)) == (previousIndex)){
-                return null;
+            while(index == previousIndex){
+                index = (int)(Math.random() * wordList.length);
             }
             gameWords[i] = wordList[index];
             previousIndex = index;
+        }*/
+
+        for (int i = 1; i < gameRounds; i++) {
+
+            for (int j = 0; j < wordList.length; j++) {
+                if ((randomWord = wordList[(int) (Math.random() * wordList.length)]) != gameWords[i - 1]) {
+                    gameWords[i] = randomWord;
+                    break;
+                }
+                continue;
+            }
         }
-        System.out.println(gameWords);
+
+
         return gameWords;
 
     }
-
 
 
     //TODO: make it beautiful!! :)
@@ -109,9 +125,9 @@ public class DatabaseManager {
 
             bReader = new BufferedReader(new FileReader(file));
 
-        while((line = bReader.readLine()) != null){
-            sentenceList.add(line);
-        }
+            while ((line = bReader.readLine()) != null) {
+                sentenceList.add(line);
+            }
 
         } catch (FileNotFoundException e) {
             System.out.println("File  problem: " + e.getMessage());
