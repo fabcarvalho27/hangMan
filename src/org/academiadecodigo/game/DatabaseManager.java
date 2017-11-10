@@ -15,10 +15,10 @@ public class DatabaseManager {
     public String[] pickGameWords(String theme, int gameRounds) {
 
         pickFilePath(theme);
-        System.out.println("File Path: " + file);
+        //System.out.println("File Path: " + file);
 
         countNumberOfWords();
-        System.out.println("Number of words: " + numberOfWords);
+        //System.out.println("Number of words: " + numberOfWords);
 
         String[] words = giveGameWords(gameRounds);
         System.out.println("Random word: " + words);
@@ -48,7 +48,7 @@ public class DatabaseManager {
             }
 
             bReader.close();
-            System.out.println("Concatenated text: " + longText);
+            //System.out.println("Concatenated text: " + longText);
 
             wordList = longText.split("\\W+");
 
@@ -87,13 +87,13 @@ public class DatabaseManager {
     public String pickRandomSentence(String theme) {
 
         pickFilePath(theme);
-        System.out.println("File Path: " + file);
+        //System.out.println("File Path: " + file);
 
         countNumberOfSentences();
-        System.out.println("Number of sentences: " + sentenceList.size());
+        //System.out.println("Number of sentences: " + sentenceList.size());
 
         String sentence = selectRandomSentence();
-        System.out.println("Random sentence: " + sentence);
+        //System.out.println("Random sentence: " + sentence);
         return sentence;
 
     }
@@ -125,10 +125,10 @@ public class DatabaseManager {
     public String selectRandomSentence() {
 
         int index = (int) ((Math.random() * sentenceList.size()));
-        System.out.println("Index: " + index);
+        //System.out.println("Index: " + index);
 
-        String randomSentence = sentenceList.get(index);
-        return randomSentence;
+        return sentenceList.get(index);
+        //return randomSentence;
     }
 
 
