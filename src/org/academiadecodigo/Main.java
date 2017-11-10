@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-
+/*
         Server server = null;
         try {
             server = new Server();
@@ -20,7 +20,7 @@ public class Main {
         }
 
         server.start();
-
+*/
 
         Player player1 = new Player();
         Player player2 = new Player();

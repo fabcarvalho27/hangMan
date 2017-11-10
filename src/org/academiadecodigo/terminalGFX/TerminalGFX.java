@@ -4,8 +4,6 @@ package org.academiadecodigo.terminalGFX;
 import org.academiadecodigo.game.GameStatus;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TerminalGFX {
 
