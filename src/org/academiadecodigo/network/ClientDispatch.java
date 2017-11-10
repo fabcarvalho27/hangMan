@@ -39,7 +39,7 @@ public class ClientDispatch implements Runnable {
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                server.broadcast(textReader.returnLogo());
+                //server.broadcast(textReader.returnLogo());
                 server.broadcast(terminalGFX.render());
 
 

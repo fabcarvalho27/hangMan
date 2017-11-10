@@ -9,7 +9,7 @@ public  class GameStatus {
 
     public  static int p1Mistakes = 4;
     public  static  int p2Mistakes = 3;
-    public  static String word = "PALAVRA";
+    public  static String word = "P A L A V R A";
     public static  String guesses =" A B C ";
 
     public static int points = 100;
