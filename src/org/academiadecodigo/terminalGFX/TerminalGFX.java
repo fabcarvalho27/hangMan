@@ -13,20 +13,16 @@ public class TerminalGFX {
     private int topPadding = 11;
 
     private TextReader textReader;
-    // List<String> lines = new ArrayList<String>();
 
 
     public TerminalGFX() throws IOException {
 
         this.textReader = new TextReader();
-        mountOutputScreen();
-
+       // mountOutputScreen();
     }
 
 
     public void test() throws IOException {
-        //System.out.println(DrawingsDepot.logo);
-        render();
     }
 
 
@@ -46,14 +42,14 @@ public class TerminalGFX {
         //arrayToScreen(stringToArray(Menus.menuEntrance),2,2);
         //arrayToScreen(stringToArray(DrawingsDepot.logo), 4, 0);
 
-        //stringToArray(DrawingsDepot.logo);
         arrayToScreen(stringToArray(textReader.returnLogo()), 4, 0);
 
     }
 
 
-    public String render() {
+    public String render() throws IOException {
 
+        mountOutputScreen();
         return arrayToString(getOutputScreenArray());
 
     }

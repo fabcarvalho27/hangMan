@@ -13,17 +13,6 @@ import java.util.List;
 public class TextReader {
 
 
-    public static void main(String[] args) throws IOException {
-
-        String filepath;
-
-        TextReader textReader = new TextReader();
-
-        System.out.println(textReader.returnLogo());
-        //System.out.println(textReader.readText(filepath));
-
-    }
-
     public TextReader() throws FileNotFoundException {
 
     }
@@ -31,7 +20,6 @@ public class TextReader {
     public TextReader(String filepath) throws FileNotFoundException {
 
         this.filepath = filepath;
-
     }
 
 
