@@ -6,6 +6,7 @@ public class Game {
 
     //Properties
     private DatabaseManager database = new DatabaseManager();
+    private GameStatus gameStatus = new GameStatus();
 
     private String theme;
     private int rounds;
@@ -104,4 +105,7 @@ public class Game {
         return currentRound;
     }
 
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
 }
