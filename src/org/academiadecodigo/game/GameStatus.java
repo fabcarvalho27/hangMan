@@ -17,6 +17,9 @@ public  class GameStatus {
 
 
 
+    //Game info
+
+
 
 
 }
