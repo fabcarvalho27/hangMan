@@ -4,3 +4,5 @@ escada
 cadafalso
 sachola
 sexta
+sabado
+domingo

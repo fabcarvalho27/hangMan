@@ -4,3 +4,7 @@ pitchfork
 scaffold
 rope
 sixth
+seven
+eight
+nine
+ten

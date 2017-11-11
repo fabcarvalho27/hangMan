@@ -10,13 +10,13 @@ public class DataBaseTester {
 
         for (int i = 0; i < 6; i++) {
 
-            dataBase.pickGameWords("portugues", 5);
+            dataBase.pickGameWords("capitais", 2);
             System.out.println("");
         }
 
         for (int i = 0; i < 6; i++) {
 
-            dataBase.pickGameWords("english", 5);
+            dataBase.pickGameWords("english", 7);
             System.out.println("");
         }
 

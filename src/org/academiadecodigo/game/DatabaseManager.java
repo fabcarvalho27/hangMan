@@ -1,6 +1,7 @@
 package org.academiadecodigo.game;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class DatabaseManager {
@@ -8,9 +9,9 @@ public class DatabaseManager {
 
     private File file;
     private int numberOfWords;
-    String[] wordList;
-    String[] gameWords;
-    LinkedList<String> sentenceList;
+    private ArrayList<String> wordList;
+    private LinkedList<String> sentenceList;
+
 
     public String[] pickGameWords(String theme, int gameRounds) {
 
@@ -18,44 +19,37 @@ public class DatabaseManager {
         System.out.println("File Path: " + file);
 
         countNumberOfWords();
-        System.out.println("Number of words: " + numberOfWords);
+        System.out.println("Number of words in file: " + numberOfWords);
 
         String[] words = giveGameWords(gameRounds);
+        System.out.println("Number words per round: " + words.length);
         for (int i = 0; i < words.length; i++) {
             System.out.println("Game word " + i + ": " + words[i]);
         }
 
         return words;
-
     }
 
 
-    private File pickFilePath(String theme) {
+    private void pickFilePath(String theme) {
 
         file = new File("resources/themes/" + theme + ".txt");
-        return file;
-
     }
 
 
     private void countNumberOfWords() {
 
         try {
+
             String line;
-            String longText = "";
+            wordList = new ArrayList<>();
 
             BufferedReader bReader = new BufferedReader(new FileReader(file));
-
             while ((line = bReader.readLine()) != null) {
-                longText = longText.concat(line + " ");
+                wordList.add(line);
             }
 
-            bReader.close();
-            System.out.println("Concatenated text: " + longText);
-
-            wordList = longText.split("\\W+");
-
-            numberOfWords = wordList.length;
+            numberOfWords = wordList.size();
 
         } catch (IOException e) {
             System.out.println("File reading problem: " + e.getMessage());
@@ -64,40 +58,20 @@ public class DatabaseManager {
 
     private String[] giveGameWords(int gameRounds) {
 
-        gameWords = new String[gameRounds];
-        gameWords[0] = wordList[(int) (Math.random() * wordList.length)];
-        String randomWord;
-        /*int index = 0;
-        int previousIndex = 0;
+        String[] gameWords = new String[gameRounds];
+        int index;
 
         for (int i = 0; i < gameRounds; i++) {
-
-            while(index == previousIndex){
-                index = (int)(Math.random() * wordList.length);
-            }
-            gameWords[i] = wordList[index];
-            previousIndex = index;
-        }*/
-
-        for (int i = 1; i < gameRounds; i++) {
-
-            for (int j = 0; j < wordList.length; j++) {
-                if ((randomWord = wordList[(int) (Math.random() * wordList.length)]) != gameWords[i - 1]) {
-                    gameWords[i] = randomWord;
-                    break;
-                }
-                continue;
-            }
+            index = (int) (Math.random() * wordList.size());
+            gameWords[i] = wordList.get(index);
+            wordList.remove(index);
         }
-
-
         return gameWords;
-
     }
 
 
     //TODO: make it beautiful!! :)
-//TODO: create .txt database files by theme
+//TODO: create capitais.txt database files by theme
 
 
     public String pickRandomSentence(String theme) {
