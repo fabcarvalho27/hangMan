@@ -18,6 +18,8 @@ public class ClientDispatch implements Runnable {
     private PrintWriter out;
     private BufferedReader in;
 
+    private String clientInput;
+
 
 
     public ClientDispatch(Socket clientSocket, Server server) {
@@ -52,7 +54,7 @@ public class ClientDispatch implements Runnable {
             while (!clientSocket.isClosed()) {
 
 
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 terminalGFX.render(gameStatus);
 
@@ -61,10 +63,17 @@ public class ClientDispatch implements Runnable {
                 //BLOCK
                 String clientInput = in.readLine();
                 //BLOCK
+                clientInput = in.readLine();
 
+                //avoids infinite null
+                if (clientInput == null) {
+                    clientSocket.close();
+                    return;
+                }
 
-                //System.out.println(clientInput);
+                System.out.println(clientInput + " received from client");
 
+                closeDispatcher();
             }
 
 
@@ -73,6 +82,23 @@ public class ClientDispatch implements Runnable {
         }
 
     }
+
+    public void closeDispatcher() {
+
+        String endMessage = "/q";
+
+        if (clientInput != null) {
+            if (clientInput.equals(endMessage)) {
+                try {
+                    clientSocket.close();
+                    return;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     public Socket getClientSocket() {
         return clientSocket;

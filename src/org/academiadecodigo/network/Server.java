@@ -25,7 +25,7 @@ public class Server {
     }
 
 
-    public void start() throws IOException {
+    public void start() {
 
         ExecutorService cachedClientThreadPool = Executors.newCachedThreadPool(); //no fixed client limit
         Socket clientSocket;
@@ -35,28 +35,37 @@ public class Server {
 
         while (true) {
 
-            sendOne("client[1]", "output from Game");
 
-            System.out.println("waiting for client");
+            try {
+                //TESTING sendOne
+                sendOne("client[1]", "Testing sendOne method ");
 
-            //BLOCKING
-            clientSocket = serverSocket.accept();
-            //BLOCKING
+                System.out.println("waiting for client");
 
-            ClientDispatch client = new ClientDispatch(clientSocket, this);
+                //BLOCKING
+                clientSocket = serverSocket.accept();
+                //BLOCKING
 
-            clientsMap.put(client, "client[" + i + "]");
+                ClientDispatch client = new ClientDispatch(clientSocket, this);
 
-            System.out.println("\nClient accepted\n" + "Socket: " + clientSocket + "\nClient: " + clientsMap.get(clientSocket));
-            System.out.println("");
-
-            cachedClientThreadPool.submit(client);
-
-            //TESTING sendAll
-            sendAll("hello player");
+                clientsMap.put(client, "client[" + i + "]");
 
 
-            i++;
+                System.out.println("\nClient accepted\n" + "Socket: " + clientSocket + "\nClient: " + clientsMap.values());
+                System.out.println("");
+
+                cachedClientThreadPool.submit(client);
+
+                //TESTING sendAll
+                sendAll("testing sendAll method");
+
+                i++;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 
@@ -69,11 +78,6 @@ public class Server {
 
         for (ClientDispatch client :
                 clientsMap.keySet()) {
-
-            //avoids infinite null
-            if (clientsMap.keySet() == null) {
-                return;
-            }
 
             client.send(messageForClient);
         }
@@ -96,13 +100,8 @@ public class Server {
 
     //TALK TO A SINGLE CLIENT
     public void sendOne(String clientName, String messageToClient) {
-        for (Map.Entry <ClientDispatch, String> client :
+        for (Map.Entry<ClientDispatch, String> client :
                 clientsMap.entrySet()) {
-
-            //avoids infinite null
-            if (clientsMap.keySet() == null) {
-                return;
-            }
 
             if (clientName.equals(client.getValue())) {
                 System.out.println("Message " + messageToClient + " delivered to client");
@@ -111,5 +110,6 @@ public class Server {
 
         }
     }
+
 
 }
