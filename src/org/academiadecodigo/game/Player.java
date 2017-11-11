@@ -2,10 +2,7 @@ package org.academiadecodigo.game;
 
 import org.academiadecodigo.Constants;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,15 +18,15 @@ public class Player {
     private int numberMissedGuesses;
     private int numberGuessedLetters;
     private Socket playerSocket;
-    private BufferedReader in;
+    private Reader in;
     private PrintWriter out;
 
     //Constructor
     public Player(Socket playerSocket) {
-        this.playerSocket=playerSocket;
+        this.playerSocket = playerSocket;
         try {
             in = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
-            out = new PrintWriter(playerSocket.getOutputStream(),true);
+            out = new PrintWriter(playerSocket.getOutputStream(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,31 +42,35 @@ public class Player {
     }
 
 
-    public void outputMessage(String output){
+    public void outputMessage(String output) {
         out.println(output);
     }
 
 
     public char guessLetter() {
 
+
         try {
-        char c = (char) in.read();
-           return c;
+
+            char c = (char) in.read();
+
+            if(c =='\n'){
+               return (char) in.read();
+            }
+
+            return c;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return 0;
+
     }
 
     public Socket connect() {
 
         throw new UnsupportedOperationException();
     }
-
-
-
-
 
 
     //Utils methods
@@ -115,3 +116,4 @@ public class Player {
         return playerSocket;
     }
 }
+

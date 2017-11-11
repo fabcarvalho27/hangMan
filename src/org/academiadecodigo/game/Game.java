@@ -1,6 +1,7 @@
 package org.academiadecodigo.game;
 
 import org.academiadecodigo.Constants;
+import org.academiadecodigo.Utils;
 import org.academiadecodigo.terminalGFX.TerminalGFX;
 
 import java.io.IOException;
@@ -91,11 +92,11 @@ public class Game {
                 System.out.println(p1WordShown);
                 gameStatus.setP1Word(new String(p1WordShown));
 
-                //player1.outputMessage(new String(p1WordShown));
+                player1.outputMessage(new String(p1WordShown));
 
 
                 p1mistakes++;
-                gameStatus.setP1Mistakes(p1mistakes); 
+                gameStatus.setP1Mistakes(p1mistakes);
 
                     player1.outputMessage(terminalGFX.p1Render(gameStatus));
 
@@ -185,18 +186,12 @@ public class Game {
     }
 
 
-    public char[] initializeArray(char[] array) {
 
-        for (int i = 0; i < array.length; i++) {
-            array[i] = '_';
-        }
-        return array;
-    }
 
 
     private void pWordInit() {
         p1WordShown = new char[gameWords[0].length()];
-        char[] WordShown = initializeArray(p1WordShown);
+        char[] WordShown = Utils.initializeArray(p1WordShown);
 
         gameStatus.setP1Word(new String(WordShown));
         gameStatus.setP2Word(new String(WordShown));
