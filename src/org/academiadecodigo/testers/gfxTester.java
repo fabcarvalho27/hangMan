@@ -1,5 +1,6 @@
 package org.academiadecodigo.testers;
 
+import org.academiadecodigo.game.GameStatus;
 import org.academiadecodigo.terminalGFX.TerminalGFX;
 
 import java.io.IOException;
@@ -11,7 +12,8 @@ public class gfxTester {
 
     public static void main(String[] args) throws IOException {
 
-        TerminalGFX terminalGFX = new TerminalGFX();
+        GameStatus gameStatus = new GameStatus();
+        TerminalGFX terminalGFX = new TerminalGFX(gameStatus);
 
         terminalGFX.test();
     }

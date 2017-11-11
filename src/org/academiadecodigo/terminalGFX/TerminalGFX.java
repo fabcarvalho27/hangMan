@@ -18,32 +18,34 @@ public class TerminalGFX {
     private TextReader textReader;
 
 
-    public TerminalGFX() throws IOException {
+    public TerminalGFX(GameStatus gameStatus) throws IOException {
+
 
         this.textReader = new TextReader();
-
+       this.gameStatus = gameStatus;
         // mountp1Screen();
     }
 
 
     public void test() throws IOException {
 
+        System.out.println(p1Render());
         }
 
-    public void render(GameStatus gameStatus) throws IOException {
-        mountp1Screen(gameStatus);
-        mountp2Screen(gameStatus);
+    public void render() throws IOException {
+        mountp1Screen();
+        mountp2Screen();
     }
 
-    public String p1Render(GameStatus gameStatus) throws IOException {
+    public String p1Render() throws IOException {
 
-        mountp1Screen(gameStatus);
+        mountp1Screen();
         return arrayToString(p1ScreenArray);
     }
 
-    public String p2Render(GameStatus gameStatus) throws IOException {
+    public String p2Render() throws IOException {
 
-        mountp2Screen(gameStatus);
+        mountp2Screen();
         return arrayToString(p2ScreenArray);
     }
 
@@ -56,7 +58,7 @@ public class TerminalGFX {
         return arrayToString(p2ScreenArray);
     }
 
-    private void mountp1Screen(GameStatus gameStatus) throws IOException {
+    private void mountp1Screen() throws IOException {
 
         initializeArray(p1ScreenArray);
 
@@ -76,7 +78,7 @@ public class TerminalGFX {
         //arrayToScreen(stringToArray(DrawingsDepot.logo), 4, 0);
     }
 
-    private void mountp2Screen(GameStatus gameStatus) throws IOException {
+    private void mountp2Screen() throws IOException {
 
         initializeArray(p2ScreenArray);
 

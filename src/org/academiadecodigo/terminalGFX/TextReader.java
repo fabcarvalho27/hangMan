@@ -25,12 +25,13 @@ public class TextReader {
 
     private List<String> sentenceList = new LinkedList<>();
     private String line;
-    private String filepath = "/Users/codecadet/workspace/projects/hangMan/src/org/academiadecodigo/terminalGFX/Logo";
+    private String filepath ="" ;
     private BufferedReader bReader;
 
 
     public String readText(String filepath) throws IOException {
-        bReader = new BufferedReader(new FileReader(this.filepath));
+
+        bReader = new BufferedReader(new FileReader(filepath));
 
         String line = null;
         String str = "";
@@ -44,7 +45,7 @@ public class TextReader {
     }
 
     public String returnLogo() throws IOException {
-        return readText(filepath);
+        return readText("/Users/codecadet/workspace/projects/hangMan/src/org/academiadecodigo/terminalGFX/txt/logo");
     }
 
 
