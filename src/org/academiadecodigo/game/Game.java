@@ -79,7 +79,15 @@ public class Game {
 
             //MULTI THREAD
             analisePlayerGuess(player1, player1.guessLetter());
+            player1.getOut().write("fode-te\n");
+            player1.getOut().flush();
+            player2.getOut().write("o outro fodeu-se\n");
+            player2.getOut().flush();
             analisePlayerGuess(player2, player2.guessLetter());
+            player1.getOut().write("hg\n");
+            player1.getOut().flush();
+            player2.getOut().write("hrthreah\n");
+            player2.getOut().flush();
             //MULTI THREAD
         }
         if(isRoundWinner(player1)){

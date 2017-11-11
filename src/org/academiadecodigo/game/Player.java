@@ -12,6 +12,11 @@ public class Player implements Runnable {
 
     //Properties
     private Socket clientSocket;
+
+    public PrintWriter getOut() {
+        return out;
+    }
+
     private PrintWriter out;
     private BufferedReader in;
 
