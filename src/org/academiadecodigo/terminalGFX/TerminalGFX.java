@@ -10,6 +10,8 @@ public class TerminalGFX {
     private int width = 70;
     private int height = 30;
     private char[][] p1ScreenArray = new char[width][height];
+    private char[][] p2ScreenArray = new char[width][height];
+
     private int topPadding = 11;
     private GameStatus gameStatus;
 
@@ -25,41 +27,56 @@ public class TerminalGFX {
 
 
     public void test() throws IOException {
+
+        }
+
+    public String p1Render(GameStatus gameStatus) throws IOException {
+
+        mountp1Screen(gameStatus);
+        return arrayToString(p1ScreenArray);
     }
 
-/*
-    private void mountp1Screen(GameStatus gameStatus) {
-        int a = gameStatus.getP1Mistakes();
+    public String p2Render(GameStatus gameStatus) throws IOException {
 
+        mountp2Screen(gameStatus);
+        return arrayToString(p2ScreenArray);
     }
-*/
+
     private void mountp1Screen(GameStatus gameStatus) throws IOException {
 
         initializeArray(p1ScreenArray);
 
+        wordToScreen(p1ScreenArray, gameStatus.getP1Name(), width - 18, topPadding + 1);                //p1 name
+        arrayToScreen(p1ScreenArray,dummy(gameStatus.getP1Mistakes()), width - 15, topPadding + 3);     //p1 hangman
+        wordToScreen(p1ScreenArray, "P1Guesses: " + gameStatus.getP1Guesses(), 0, topPadding + 1);//p1 guesse
+        wordToScreen(p1ScreenArray, gameStatus.getP1Word(), 12, topPadding + 10);                       //p1 word shown
 
+        wordToScreen(p1ScreenArray, gameStatus.getP2Name(), width - 18, topPadding + 12);                      //oponent name
+        arrayToScreen(p1ScreenArray,dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);     //oponent hangman
 
-        wordToScreen("Player 1", width - 18, topPadding + 1);
-        arrayToScreen(dummy(gameStatus.getP1Mistakes()), width - 15, topPadding + 3);
-        wordToScreen("P1Guesses: " + gameStatus.getP1Guesses(), 0, topPadding + 1);
-        wordToScreen(gameStatus.getP1Word(),12,topPadding+10);
-
-        wordToScreen("Player 2", width - 18, topPadding + 12);
-        arrayToScreen(dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);
-
-        arrayToScreen(stringToArray(textReader.returnLogo()), 4, 0);
-        wordToScreen("Rounds: " + gameStatus.getRounds(), 0, topPadding + 3);
-        wordToScreen(gameStatus.getMessageToAll(), 0, topPadding + 15);
+        arrayToScreen(p1ScreenArray,stringToArray(textReader.returnLogo()), 4, 0);                       //LOGO
+        wordToScreen(p1ScreenArray, "Rounds: " + gameStatus.getRounds(), 0, topPadding + 3);       //rounds
+        wordToScreen(p1ScreenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);                   //message from game to all
 
         //arrayToScreen(stringToArray(Menus.menuEntrance),2,2);
         //arrayToScreen(stringToArray(DrawingsDepot.logo), 4, 0);
     }
 
+    private void mountp2Screen(GameStatus gameStatus) throws IOException {
 
-    public String p1Render(GameStatus gameStatus) throws IOException {
+        initializeArray(p2ScreenArray);
 
-        mountp1Screen(gameStatus);
-        return arrayToString(getP1ScreenArray());
+        wordToScreen(p2ScreenArray, gameStatus.getP2Name(), width - 18, topPadding + 1);
+        arrayToScreen(p2ScreenArray, dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 3);
+        wordToScreen(p2ScreenArray, "P2Guesses: " + gameStatus.getP2Guesses(), 0, topPadding + 1);
+        wordToScreen(p2ScreenArray, gameStatus.getP2Word(), 12, topPadding + 10);
+
+        wordToScreen(p2ScreenArray, gameStatus.getP1Name(), width - 18, topPadding + 12);
+        arrayToScreen(p2ScreenArray, dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);
+
+        arrayToScreen(p2ScreenArray, stringToArray(textReader.returnLogo()), 4, 0);
+        wordToScreen(p2ScreenArray, "Rounds: " + gameStatus.getRounds(), 0, topPadding + 3);
+        wordToScreen(p2ScreenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);
     }
 
 
@@ -123,7 +140,7 @@ public class TerminalGFX {
     }
 
 
-    private char[][] insertDrawingIntoArray(char[][] drawing, char[][] array, int x, int y /*String sector*/) {
+    private void arrayToScreen(char[][] array, char[][] drawing, int x, int y /*String sector*/) {
 
         for (int j = 0; j < drawing[0].length; j++) {
             for (int i = 0; i < drawing.length; i++) {
@@ -132,29 +149,20 @@ public class TerminalGFX {
             }
         }
 
-        return array;
     }
 
 
-    private void arrayToScreen(char[][] drawing, int x, int y) {
-
-        this.p1ScreenArray = insertDrawingIntoArray(drawing, p1ScreenArray, x, y);
-
-    }
-
-
-    private void wordToScreen(String word, int x, int y) {
+    private void wordToScreen(char[][] ScreenArray, String word, int x, int y) {
 
         char[] array = word.toCharArray();
 
         for (int i = 0; i < array.length; i++) {
 
-            this.p1ScreenArray[x + i][y] = array[i];
+            ScreenArray[x + i][y] = array[i];
         }
     }
 
 
-    //TODO
     public char[][] stringToArray(String string) {
 
         String[] lines = string.split("\n");
