@@ -48,24 +48,56 @@ public class Game {
 
     public void start() {
 
+        System.out.println("Start Game\n");
+
         while (!gameWinner()) {
 
-            System.out.println("Inside Game");
-            while (!roundWinner()) {
+            System.out.println("Start Round\n");
 
-                System.out.println("Inside round");
+            player1.init();
+            player2.init();
 
-                //MULTI THREAD
-                analisePlayerGuess(player1, player1.guessLetter());
-                analisePlayerGuess(player2, player2.guessLetter());
-                //MULTI THREAD
-            }
+            //TODO: working on player init status
+            startRound();
+        }
+
+        System.out.println("Game Winner");
+
+        if (isWinner(player1)) {
+            System.out.println("Player 1 Wins");
+            player1.setGameWinner(true);
+        } else {
+            System.out.println("Player 2 Wins");
+            player2.setGameWinner(true);
         }
         //TODO: waiting for start logic
     }
 
+    private void startRound() {
+
+        while (!roundWinner()) {
+
+            //MULTI THREAD
+            analisePlayerGuess(player1, player1.guessLetter());
+            analisePlayerGuess(player2, player2.guessLetter());
+            //MULTI THREAD
+        }
+        if(isRoundWinner(player1)){
+            System.out.println("Player 1 Wins round " + currentRound);
+            player1.incrementRoundPoints();
+        } else{
+            System.out.println("PLayer 2 Wins round " + currentRound);
+            player2.incrementRoundPoints();
+        }
+    }
+
+    private boolean isRoundWinner(Player player) {
+        return player.getRoundPoints() == gameWords[currentRound].length();
+    }
+
 
     //Methods
+
     private String[] generateGameWords() {
 
         return new String[]{
@@ -104,7 +136,7 @@ public class Game {
 
     private boolean gameWinner() {
 
-        return player1.getPoints() + player2.getPoints() == rounds;
+        return player1.getGamePoints() + player2.getGamePoints() == rounds;
     }
 
     private boolean roundWinner() {
@@ -120,6 +152,10 @@ public class Game {
     private boolean playerWins() {
         return player1.getCorrectGuesses().size() == gameWords[currentRound].length() ||
                 player2.getCorrectGuesses().size() == gameWords[currentRound].length();
+    }
+
+    private boolean isWinner(Player player) {
+        return rounds / player.getGamePoints() < 2.5;
     }
 
     //Getters and Setters

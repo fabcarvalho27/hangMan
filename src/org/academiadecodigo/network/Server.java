@@ -28,7 +28,7 @@ public class Server {
 
     public void start() {
 
-        while(true){
+        while (true) {
 
             try {
 
@@ -39,7 +39,7 @@ public class Server {
 
                 sendMessage("Hello");
 
-                Game game = new Game(new Player(client1Socket), new Player(client2Socket),"english",3);
+                Game game = new Game(new Player(client1Socket), new Player(client2Socket), "english", 3);
                 game.init();
                 game.start();
 
@@ -48,47 +48,6 @@ public class Server {
             }
 
         }
-
-
-       /* ExecutorService cachedClientThreadPool = Executors.newCachedThreadPool(); //no fixed client limit
-
-        int i = 1;
-
-
-        while (true) {
-
-
-            try {
-                //TESTING sendOne
-                sendOne("client[1]", "Testing sendOne method ");
-
-                System.out.println("waiting for client");
-
-                //BLOCKING
-                client1Socket = serverSocket.accept();
-                //BLOCKING
-
-                ClientDispatch client = new ClientDispatch(client1Socket, this);
-
-                clientsMap.put(client, "client[" + i + "]");
-
-
-                System.out.println("\nClient accepted\n" + "Socket: " + client1Socket + "\nClient: " + clientsMap.values());
-                System.out.println("");
-
-                cachedClientThreadPool.submit(client);
-
-                //TESTING sendAll
-                sendAll("testing sendAll method");
-
-                i++;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-*/
     }
 
     public void sendMessage(String message){
@@ -102,29 +61,4 @@ public class Server {
         }
 
     }
-
-    //TALK TO EVERY CLIENT
-    public void sendAll(String messageForClient) {
-
-        for (ClientDispatch client :
-                clientsMap.keySet()) {
-
-            client.send(messageForClient);
-        }
-    }
-
-    //TALK TO A SINGLE CLIENT
-    public void sendOne(String clientName, String messageToClient) {
-        for (Map.Entry<ClientDispatch, String> client :
-                clientsMap.entrySet()) {
-
-            if (clientName.equals(client.getValue())) {
-                System.out.println("Message " + messageToClient + " delivered to client");
-                client.getKey().send(messageToClient);
-            }
-
-        }
-    }
-
-
 }

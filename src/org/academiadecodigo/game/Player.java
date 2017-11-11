@@ -1,7 +1,5 @@
 package org.academiadecodigo.game;
 
-import org.academiadecodigo.Constants;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,11 +15,14 @@ public class Player implements Runnable {
     private PrintWriter out;
     private BufferedReader in;
 
-    private int points = 0;
+    private int gamePoints;
+    private int roundPoints = 0;
     private List<String> correctGuesses;
     private List<String> wrongGuesses;
     private int numberMissedGuesses;
     private int numberGuessedLetters;
+    private boolean gameWinner;
+    private boolean roundWinner;
 
     //Constructor
     public Player(Socket socket) {
@@ -43,6 +44,8 @@ public class Player implements Runnable {
 
         correctGuesses = new LinkedList<>();
         wrongGuesses = new LinkedList<>();
+        gameWinner = false;
+        gamePoints = 0;
     }
 
     public String guessLetter() {
@@ -80,10 +83,18 @@ public class Player implements Runnable {
         numberGuessedLetters++;
     }
 
+    public void incrementRoundPoints(){
+        roundPoints++;
+    }
+
 
     //Getters and Setters
-    public int getPoints() {
-        return points;
+    public int getGamePoints() {
+        return gamePoints;
+    }
+
+    public void setGamePoints(int gamePoints) {
+        this.gamePoints = gamePoints;
     }
 
     public List<String> getWrongGuesses() {
@@ -102,8 +113,40 @@ public class Player implements Runnable {
         this.correctGuesses = correctGuesses;
     }
 
+    public boolean isGameWinner() {
+        return gameWinner;
+    }
+
+    public void setGameWinner(boolean gameWinner) {
+        this.gameWinner = gameWinner;
+    }
+
+    public void setNumberMissedGuesses(int numberMissedGuesses) {
+        this.numberMissedGuesses = numberMissedGuesses;
+    }
+
+    public void setNumberGuessedLetters(int numberGuessedLetters) {
+        this.numberGuessedLetters = numberGuessedLetters;
+    }
+
     @Override
     public void run() {
 
+    }
+
+    public boolean isRoundWinner() {
+        return roundWinner;
+    }
+
+    public void setRoundWinner(boolean roundWinner) {
+        this.roundWinner = roundWinner;
+    }
+
+    public int getRoundPoints() {
+        return roundPoints;
+    }
+
+    public void setRoundPoints(int roundPoints) {
+        this.roundPoints = roundPoints;
     }
 }
