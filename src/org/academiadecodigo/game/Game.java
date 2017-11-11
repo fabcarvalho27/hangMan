@@ -40,13 +40,11 @@ public class Game {
         player1.init();
         player2.init();
 
-        //BLOCKING
-        //player1.connect();
-        //player2.connect();
-        //BLOCKING
     }
 
     public void start() {
+
+        init();
 
         System.out.println("Start Game\n");
 
@@ -54,10 +52,6 @@ public class Game {
 
             System.out.println("Start Round\n");
 
-            player1.init();
-            player2.init();
-
-            //TODO: working on player init status
             startRound();
         }
 
@@ -75,32 +69,50 @@ public class Game {
 
     private void startRound() {
 
+        resetRoundVariables();
+
         while (!roundWinner()) {
 
             //MULTI THREAD
             analisePlayerGuess(player1, player1.guessLetter());
-            player1.getOut().write("fode-te\n");
-            player1.getOut().flush();
-            player2.getOut().write("o outro fodeu-se\n");
-            player2.getOut().flush();
+            System.out.println("Player 1 Misses: " + player1.getNumberMissedGuesses());
+            System.out.println("Player 1 Guesses: " +player1.getNumberGuessedLetters());
+            System.out.println("Player 1 Round Points:" + player1.getRoundPoints());
+            System.out.println("Player 1 Game Points" + player1.getGamePoints());
+            System.out.println("###########################\n");
+
             analisePlayerGuess(player2, player2.guessLetter());
-            player1.getOut().write("hg\n");
-            player1.getOut().flush();
-            player2.getOut().write("hrthreah\n");
-            player2.getOut().flush();
+            System.out.println("Player 2 Misses: " + player2.getNumberMissedGuesses());
+            System.out.println("Player 2 Guesses: " +player2.getNumberGuessedLetters());
+            System.out.println("Player 2 Round Points:" + player2.getRoundPoints());
+            System.out.println("Player 2 Game Points" + player2.getGamePoints());
+            System.out.println("###########################\n");
+
+            //player1.getOut().write("hg\n");
+            //player1.getOut().flush();
+            //player2.getOut().write("hrthreah\n");
+            //player2.getOut().flush();
             //MULTI THREAD
         }
+
         if(isRoundWinner(player1)){
-            System.out.println("Player 1 Wins round " + currentRound);
+            System.out.println("\nPlayer 1 Wins round " + currentRound);
             player1.incrementRoundPoints();
         } else{
-            System.out.println("PLayer 2 Wins round " + currentRound);
+            System.out.println("\nPLayer 2 Wins round " + currentRound);
             player2.incrementRoundPoints();
         }
+
+        currentRound++;
+    }
+
+    private void resetRoundVariables() {
+        player1.init();
+        player2.init();
     }
 
     private boolean isRoundWinner(Player player) {
-        return player.getRoundPoints() == gameWords[currentRound].length();
+        return player.getNumberGuessedLetters() == gameWords[currentRound].length();
     }
 
 
@@ -178,5 +190,13 @@ public class Game {
 
     public GameStatus getGameStatus() {
         return gameStatus;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
     }
 }

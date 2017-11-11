@@ -34,13 +34,20 @@ public class Server {
 
                 //BLOCKING
                 client1Socket = serverSocket.accept();
-                //BLOCKING
+                sendMessage("Welcome to hangMan!", client1Socket);
+                sendMessage("Waiting for second Player...", client1Socket);
+
                 client2Socket = serverSocket.accept();
+                sendMessage("Welcome to hangMan!", client2Socket);
+                //BLOCKING
 
-                sendMessage("Hello");
+                Game game = new Game(new Player(client1Socket, "Player1"), new Player(client2Socket, "Player2"), "english", 3);
 
-                Game game = new Game(new Player(client1Socket), new Player(client2Socket), "english", 3);
-                game.init();
+                sendMessage("Game START, " + game.getPlayer1().getName(), client1Socket);
+                sendMessage("Game START, " + game.getPlayer2().getName(), client2Socket);
+
+                // Start Game
+
                 game.start();
 
             } catch (IOException e) {
@@ -50,10 +57,10 @@ public class Server {
         }
     }
 
-    public void sendMessage(String message){
+    public void sendMessage(String message, Socket socket) {
 
         try {
-            PrintWriter out = new PrintWriter(client1Socket.getOutputStream(),true);
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             out.println(message);
 
         } catch (IOException e) {

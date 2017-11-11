@@ -12,27 +12,26 @@ public class Player implements Runnable {
 
     //Properties
     private Socket clientSocket;
-
-    public PrintWriter getOut() {
-        return out;
-    }
-
     private PrintWriter out;
     private BufferedReader in;
 
-    private int gamePoints;
+    private String name;
+
     private int roundPoints = 0;
     private List<String> correctGuesses;
     private List<String> wrongGuesses;
     private int numberMissedGuesses;
     private int numberGuessedLetters;
-    private boolean gameWinner;
     private boolean roundWinner;
 
+    private int gamePoints = 0;
+    private boolean gameWinner;
+
     //Constructor
-    public Player(Socket socket) {
+    public Player(Socket socket, String name) {
 
         this.clientSocket = socket;
+        this.name = name;
 
         try {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -47,17 +46,18 @@ public class Player implements Runnable {
 
     public void init() {
 
+        numberGuessedLetters = 0;
+        numberMissedGuesses = 0;
         correctGuesses = new LinkedList<>();
         wrongGuesses = new LinkedList<>();
         gameWinner = false;
-        gamePoints = 0;
     }
 
     public String guessLetter() {
 
         try {
             String guessed = in.readLine();
-            System.out.println(guessed);
+            System.out.println(name + "guess: " + guessed);
             return guessed;
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class Player implements Runnable {
         numberGuessedLetters++;
     }
 
-    public void incrementRoundPoints(){
+    public void incrementRoundPoints() {
         roundPoints++;
     }
 
@@ -153,5 +153,17 @@ public class Player implements Runnable {
 
     public void setRoundPoints(int roundPoints) {
         this.roundPoints = roundPoints;
+    }
+
+    public PrintWriter getOut() {
+        return out;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
