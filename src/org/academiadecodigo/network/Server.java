@@ -66,6 +66,19 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    //TALK TO A SINGLE CLIENT
+
+    public void sendOne(String clientName, String messageToClient) {
+        for (Map.Entry<ClientDispatch, String> client :
+                clientsMap.entrySet()) {
+
+            if (clientName.equals(client.getValue())) {
+                System.out.println("Message " + messageToClient + " delivered to client");
+                client.getKey().send(messageToClient);
+            }
+
+        }
     }
 }
