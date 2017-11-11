@@ -6,6 +6,7 @@ public class Game {
 
     //Properties
     private DatabaseManager database = new DatabaseManager();
+    private GameStatus gameStatus = new GameStatus();
 
     private String theme;
     private int rounds;
@@ -24,33 +25,97 @@ public class Game {
         this.rounds = rounds;
     }
 
+    public Game(Player player1, String theme, int rounds) {
+
+        this.player1 = player1;
+        this.theme = theme;
+        this.rounds = rounds;
+    }
+
     //initialize game
     public void init() {
 
-        generateGameWords();
-        player1.connect();
-        player2.connect();
+        gameWords = generateGameWords();
+
+        player1.init();
+        player2.init();
+
+        //BLOCKING
+        //player1.connect();
+        //player2.connect();
+        //BLOCKING
     }
 
     public void start() {
 
+        System.out.println("Start Game\n");
+
         while (!gameWinner()) {
 
-            while (!roundWinner()){
+            System.out.println("Start Round\n");
 
-            analisePlayerGuess(player1, player1.guessLetter());
-            analisePlayerGuess(player2, player2.guessLetter());
-            }
+            player1.init();
+            player2.init();
+
+            //TODO: working on player init status
+            startRound();
+        }
+
+        System.out.println("Game Winner");
+
+        if (isWinner(player1)) {
+            System.out.println("Player 1 Wins");
+            player1.setGameWinner(true);
+        } else {
+            System.out.println("Player 2 Wins");
+            player2.setGameWinner(true);
         }
         //TODO: waiting for start logic
     }
 
+    private void startRound() {
+
+        while (!roundWinner()) {
+
+            //MULTI THREAD
+            analisePlayerGuess(player1, player1.guessLetter());
+            player1.getOut().write("fode-te\n");
+            player1.getOut().flush();
+            player2.getOut().write("o outro fodeu-se\n");
+            player2.getOut().flush();
+            analisePlayerGuess(player2, player2.guessLetter());
+            player1.getOut().write("hg\n");
+            player1.getOut().flush();
+            player2.getOut().write("hrthreah\n");
+            player2.getOut().flush();
+            //MULTI THREAD
+        }
+        if(isRoundWinner(player1)){
+            System.out.println("Player 1 Wins round " + currentRound);
+            player1.incrementRoundPoints();
+        } else{
+            System.out.println("PLayer 2 Wins round " + currentRound);
+            player2.incrementRoundPoints();
+        }
+    }
+
+    private boolean isRoundWinner(Player player) {
+        return player.getRoundPoints() == gameWords[currentRound].length();
+    }
+
 
     //Methods
+
     private String[] generateGameWords() {
 
-        gameWords = new String[rounds];
-        return database.pickGameWords(theme, rounds);
+        return new String[]{
+                "o",
+                "p",
+                "b",
+        };
+
+        //gameWords = new String[rounds];
+        //return database.pickGameWords(theme, rounds);
     }
 
 
@@ -58,12 +123,15 @@ public class Game {
 
         if (isLetterMatchingWord(letter)) {
 
+            System.out.println("match");
             player.getCorrectGuesses().add(letter);
             player.incrementNumberGuessedLetters();
 
         } else {
 
-            player.getWrongGuesses()[player.getNumberMissedGuesses()] = letter;
+            System.out.println("not match");
+
+            player.getWrongGuesses().add(letter);
             player.incrementNumberMissedGuesses();
         }
     }
@@ -76,7 +144,7 @@ public class Game {
 
     private boolean gameWinner() {
 
-        return player1.getPoints() + player2.getPoints() == rounds;
+        return player1.getGamePoints() + player2.getGamePoints() == rounds;
     }
 
     private boolean roundWinner() {
@@ -85,13 +153,17 @@ public class Game {
     }
 
     private boolean playerLose() {
-        return player1.getWrongGuesses().length == Constants.MAX_NUMBER_WRONG_GUESSES ||
-                player2.getWrongGuesses().length == Constants.MAX_NUMBER_WRONG_GUESSES;
+        return player1.getWrongGuesses().size() == Constants.MAX_NUMBER_WRONG_GUESSES ||
+                player2.getWrongGuesses().size() == Constants.MAX_NUMBER_WRONG_GUESSES;
     }
 
     private boolean playerWins() {
         return player1.getCorrectGuesses().size() == gameWords[currentRound].length() ||
                 player2.getCorrectGuesses().size() == gameWords[currentRound].length();
+    }
+
+    private boolean isWinner(Player player) {
+        return rounds / player.getGamePoints() < 2.5;
     }
 
     //Getters and Setters
@@ -104,4 +176,7 @@ public class Game {
         return currentRound;
     }
 
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
 }

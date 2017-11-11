@@ -23,7 +23,19 @@ public class GameStatus {
     private int rounds = 1;
 
 
+    private String gameMode;
+    private int currentsRound;
 
+    //Player info
+    private int points;
+    private String[] playerNames;
+    private int numberMissedGueses;
+
+
+
+    public String getGameMode() {
+        return gameMode;
+    }
 
     public int getP1Mistakes() {
         return p1Mistakes;
@@ -65,28 +77,12 @@ public class GameStatus {
         this.p1Guesses = p1Guesses;
     }
 
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
     public String getMessageToAll() {
         return messageToAll;
     }
 
     public void setMessageToAll(String messageToAll) {
         this.messageToAll = messageToAll;
-    }
-
-    public int getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(int rounds) {
-        this.rounds = rounds;
     }
 
     public String getP2Name() {
@@ -125,5 +121,56 @@ public class GameStatus {
     //my idea is arraylist of chars
     //Game info
 
+    public void setGameMode(String gameMode) {
+        this.gameMode = gameMode;
+    }
 
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public int getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
+    }
+
+    public int getCurrentsRound() {
+        return currentsRound;
+    }
+
+    public void setCurrentsRound(int currentsRound) {
+        this.currentsRound = currentsRound;
+    }
+
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public String[] getPlayerNames() {
+        return playerNames;
+    }
+
+    public void setPlayerNames(String[] playerNames) {
+        this.playerNames = playerNames;
+    }
+
+    public int getNumberMissedGueses() {
+        return numberMissedGueses;
+    }
+
+    public void setNumberMissedGueses(int numberMissedGueses) {
+        this.numberMissedGueses = numberMissedGueses;
+    }
 }
