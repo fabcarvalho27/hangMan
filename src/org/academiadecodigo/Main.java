@@ -9,12 +9,16 @@ import java.io.IOException;
 public class Main {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        Player player1 = new Player();
-        Player player2 = new Player();
 
-        Game game = new Game(player1,player2,"english",5);
+        Server server = null;
+        try {
+            server = new Server();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        server.start();
     }
 }

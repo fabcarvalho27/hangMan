@@ -1,21 +1,22 @@
 package org.academiadecodigo.network;
 
-import java.io.BufferedReader;
+import org.academiadecodigo.game.Game;
+import org.academiadecodigo.game.Player;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Server {
 
     private final int PORT = 9999;
     private ServerSocket serverSocket;
     private Map<ClientDispatch, String> clientsMap;
+    private Socket client1Socket;
+    private Socket client2Socket;
 
     public Server() throws IOException {
 
@@ -27,59 +28,48 @@ public class Server {
 
     public void start() {
 
-        ExecutorService cachedClientThreadPool = Executors.newCachedThreadPool(); //no fixed client limit
-        Socket clientSocket;
-
-        int i = 1;
-
-
         while (true) {
 
-
             try {
-                //TESTING sendOne
-                sendOne("client[1]", "Testing sendOne method ");
-
-                System.out.println("waiting for client");
 
                 //BLOCKING
-                clientSocket = serverSocket.accept();
+                client1Socket = serverSocket.accept();
+                sendMessage("Welcome to hangMan!", client1Socket);
+                sendMessage("Waiting for second Player...", client1Socket);
+
+                client2Socket = serverSocket.accept();
+                sendMessage("Welcome to hangMan!", client2Socket);
                 //BLOCKING
 
-                ClientDispatch client = new ClientDispatch(clientSocket, this);
+                Game game = new Game(new Player(client1Socket, "Player1"), new Player(client2Socket, "Player2"), "english", 3);
 
-                clientsMap.put(client, "client[" + i + "]");
+                sendMessage("Game START, " + game.getPlayer1().getName(), client1Socket);
+                sendMessage("Game START, " + game.getPlayer2().getName(), client2Socket);
 
+                // Start Game
 
-                System.out.println("\nClient accepted\n" + "Socket: " + clientSocket + "\nClient: " + clientsMap.values());
-                System.out.println("");
-
-                cachedClientThreadPool.submit(client);
-
-                //TESTING sendAll
-                sendAll("testing sendAll method");
-
-                i++;
+                game.start();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-
         }
     }
 
-    //TALK TO EVERY CLIENT
-    public void sendAll(String messageForClient) {
+    public void sendMessage(String message, Socket socket) {
 
-        for (ClientDispatch client :
-                clientsMap.keySet()) {
+        try {
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            out.println(message);
 
-            client.send(messageForClient);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     //TALK TO A SINGLE CLIENT
+
     public void sendOne(String clientName, String messageToClient) {
         for (Map.Entry<ClientDispatch, String> client :
                 clientsMap.entrySet()) {
@@ -91,6 +81,4 @@ public class Server {
 
         }
     }
-
-
 }
