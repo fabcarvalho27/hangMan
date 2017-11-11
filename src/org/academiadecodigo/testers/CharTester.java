@@ -18,9 +18,6 @@ public class CharTester {
 
         guessLetter.guessLetter('d', charArray);
 
-        guessLetter.isValidChar(ch);
-
-
     }
 
 
@@ -46,20 +43,7 @@ public class CharTester {
         }
 
 
-        public boolean isValidChar (char charToBeTested) {
 
-            //converted to String so to test with regex
-            String charToString = String.valueOf(charToBeTested);
-
-            // regex \p{L} matches a single code point in the category "letter"
-            if (charToString.matches("\\p{L}")) {
-                System.out.println("Valid character");
-                return true;
-            }
-
-            System.out.println("Invalid character");
-            return false;
-        }
 
     }
 

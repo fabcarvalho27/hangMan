@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Objects;
 
 public class ClientDispatch implements Runnable {
 
@@ -54,7 +55,7 @@ public class ClientDispatch implements Runnable {
                     return;
                 }
 
-                System.out.println(clientInput + " received from client");
+                System.out.println("\"" + clientInput + "\"" + " received from client");
 
                 closeDispatcher();
             }
@@ -82,7 +83,21 @@ public class ClientDispatch implements Runnable {
         }
     }
 
+    //RETURNS FALSE IF CHAR INPUT IS NOT A VALID LETTER
+    public boolean isValidChar (char charToBeTested) {
 
+        //converted to String so to test with regex
+        String charToString = String.valueOf(charToBeTested);
+
+        // regex \p{L} matches a single code point in the category "letter"
+        if (charToString.matches("\\p{L}")) {
+            System.out.println("Valid character");
+            return true;
+        }
+
+        System.out.println("Invalid character");
+        return false;
+    }
 
 
     public Socket getClientSocket() {
