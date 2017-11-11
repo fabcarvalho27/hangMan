@@ -57,7 +57,7 @@ public class ClientDispatch implements Runnable {
 
                 //server.broadcast(textReader.returnLogo());
                 //server.broadcast(terminalGFX.render());
-                server.sendAll(terminalGFX.render(gameStatus));
+                server.sendAll(terminalGFX.p1Render(gameStatus));
 
                 //BLOCK
                 String clientInput = in.readLine();

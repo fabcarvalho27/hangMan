@@ -9,7 +9,7 @@ public class TerminalGFX {
 
     private int width = 70;
     private int height = 30;
-    private char[][] outputScreenArray = new char[width][height];
+    private char[][] p1ScreenArray = new char[width][height];
     private int topPadding = 11;
     private GameStatus gameStatus;
 
@@ -20,7 +20,7 @@ public class TerminalGFX {
 
         this.textReader = new TextReader();
 
-        // mountOutputScreen();
+        // mountp1Screen();
     }
 
 
@@ -28,37 +28,38 @@ public class TerminalGFX {
     }
 
 /*
-    private void mountOutputScreen(GameStatus gameStatus) {
+    private void mountp1Screen(GameStatus gameStatus) {
         int a = gameStatus.getP1Mistakes();
 
     }
 */
-    private void mountOutputScreen(GameStatus gameStatus) throws IOException {
+    private void mountp1Screen(GameStatus gameStatus) throws IOException {
 
-        initializeArray(outputScreenArray);
-        wordToScreen("Player 2", width - 18, topPadding + 12);
-        arrayToScreen(dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);
+        initializeArray(p1ScreenArray);
+
+
 
         wordToScreen("Player 1", width - 18, topPadding + 1);
         arrayToScreen(dummy(gameStatus.getP1Mistakes()), width - 15, topPadding + 3);
+        wordToScreen("P1Guesses: " + gameStatus.getP1Guesses(), 0, topPadding + 1);
+        wordToScreen(gameStatus.getP1Word(),12,topPadding+10);
 
-        wordToScreen("Guesses: " + gameStatus.getGuesses(), 0, topPadding + 1);
+        wordToScreen("Player 2", width - 18, topPadding + 12);
+        arrayToScreen(dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);
+
+        arrayToScreen(stringToArray(textReader.returnLogo()), 4, 0);
         wordToScreen("Rounds: " + gameStatus.getRounds(), 0, topPadding + 3);
-        wordToScreen(gameStatus.getWord(), 12, topPadding + 10);
+        wordToScreen(gameStatus.getMessageToAll(), 0, topPadding + 15);
 
         //arrayToScreen(stringToArray(Menus.menuEntrance),2,2);
         //arrayToScreen(stringToArray(DrawingsDepot.logo), 4, 0);
-
-        arrayToScreen(stringToArray(textReader.returnLogo()), 4, 0);
-
     }
 
 
-    public String render(GameStatus gameStatus) throws IOException {
+    public String p1Render(GameStatus gameStatus) throws IOException {
 
-        mountOutputScreen(gameStatus);
-        return arrayToString(getOutputScreenArray());
-
+        mountp1Screen(gameStatus);
+        return arrayToString(getP1ScreenArray());
     }
 
 
@@ -137,7 +138,7 @@ public class TerminalGFX {
 
     private void arrayToScreen(char[][] drawing, int x, int y) {
 
-        this.outputScreenArray = insertDrawingIntoArray(drawing, outputScreenArray, x, y);
+        this.p1ScreenArray = insertDrawingIntoArray(drawing, p1ScreenArray, x, y);
 
     }
 
@@ -148,7 +149,7 @@ public class TerminalGFX {
 
         for (int i = 0; i < array.length; i++) {
 
-            this.outputScreenArray[x + i][y] = array[i];
+            this.p1ScreenArray[x + i][y] = array[i];
         }
     }
 
@@ -215,9 +216,9 @@ public class TerminalGFX {
 
     }
 
-    public char[][] getOutputScreenArray() {
+    public char[][] getP1ScreenArray() {
 
-        return outputScreenArray;
+        return p1ScreenArray;
     }
 }
 
