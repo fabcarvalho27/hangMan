@@ -58,7 +58,7 @@ public class ClientDispatch implements Runnable {
 
                 terminalGFX.render();
 
-                server.sendAll(terminalGFX.p2Screen());
+                //server.sendAll(terminalGFX.p2Screen());
 
                 //BLOCK
                 String clientInput = in.readLine();
