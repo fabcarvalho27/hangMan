@@ -32,8 +32,7 @@ public class Game {
         this.player1 = player1;
         this.player2 = player2;
         this.theme = theme;
-        this.rounds = rounds;
-    }
+        this.rounds = rounds;}
 
     public Game(Player player1, String theme, int rounds) {
 
@@ -53,9 +52,8 @@ public class Game {
 
 
 
-
         try {
-            terminalGFX = new TerminalGFX();
+            terminalGFX = new TerminalGFX(gameStatus);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,7 +73,7 @@ public class Game {
 
             System.out.println("inside game");
             System.out.println("word to be found: " + gameWords[0]);
-            player1.outputMessage(terminalGFX.p1Render(gameStatus));
+            player1.outputMessage(terminalGFX.p1Render());
 
             while (true) {
 
@@ -98,7 +96,7 @@ public class Game {
                 p1mistakes++;
                 gameStatus.setP1Mistakes(p1mistakes);
 
-                    player1.outputMessage(terminalGFX.p1Render(gameStatus));
+                    player1.outputMessage(terminalGFX.p1Render());
 
                 System.out.println("after render");
 

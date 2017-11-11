@@ -27,7 +27,6 @@ public class ClientDispatch implements Runnable {
         try {
             this.clientSocket = clientSocket;
             this.server = server;
-            this.terminalGFX = new TerminalGFX();
 
 
             out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -56,7 +55,7 @@ public class ClientDispatch implements Runnable {
 
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                terminalGFX.render(gameStatus);
+                terminalGFX.render();
 
                 server.sendAll(terminalGFX.p2Screen());
 
