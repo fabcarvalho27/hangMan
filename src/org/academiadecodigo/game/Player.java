@@ -2,8 +2,11 @@ package org.academiadecodigo.game;
 
 import org.academiadecodigo.Constants;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,9 +20,19 @@ public class Player {
     private String[] wrongGuesses;
     private int numberMissedGuesses;
     private int numberGuessedLetters;
+    private Socket playerSocket;
+    private BufferedReader in;
+    private PrintWriter out;
 
     //Constructor
-    public Player() {
+    public Player(Socket playerSocket) {
+        this.playerSocket=playerSocket;
+        try {
+            in = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
+            out = new PrintWriter(playerSocket.getOutputStream(),true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -31,15 +44,31 @@ public class Player {
         wrongGuesses = new String[Constants.MAX_NUMBER_WRONG_GUESSES];
     }
 
-    public String guessLetter() {
 
-        throw new UnsupportedOperationException();
+    public void outputMessage(String output){
+        out.println(output);
+    }
+
+
+    public char guessLetter() {
+        try {
+
+           return in.readLine().charAt(0);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 'Z';
     }
 
     public Socket connect() {
 
         throw new UnsupportedOperationException();
     }
+
+
+
+
 
 
     //Utils methods
@@ -79,5 +108,9 @@ public class Player {
 
     public void setCorrectGuesses(List<String> correctGuesses) {
         this.correctGuesses = correctGuesses;
+    }
+
+    public Socket getPlayerSocket() {
+        return playerSocket;
     }
 }

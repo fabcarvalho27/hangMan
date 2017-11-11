@@ -6,6 +6,8 @@ import org.academiadecodigo.game.Player;
 public class GameTester {
 
     public static void main(String[] args) {
+
+/*
         Player p1 = new Player();
         Player p2 = new Player();
 
@@ -13,7 +15,7 @@ public class GameTester {
 
         game.init();
         game.start();
-
+*/
     }
 
 

@@ -7,7 +7,7 @@ public class GameStatus {
 
 
     private String p1Name = "PLAYER 1";
-    private int p1Mistakes = 4;
+    private int p1Mistakes = 0;
     private int p1points = 100;
     private String p1Word = "P A L A V R A p1";
     private String p1Guesses = " A B C  do p1";
@@ -25,9 +25,6 @@ public class GameStatus {
 
 
 
-    public int getP1Mistakes() {
-        return p1Mistakes;
-    }
 
     public int getP2Mistakes() {
         return p2Mistakes;
@@ -119,6 +116,14 @@ public class GameStatus {
 
     public void setP2Guesses(String p2Guesses) {
         this.p2Guesses = p2Guesses;
+    }
+
+    public int getP1Mistakes() {
+        return p1Mistakes;
+    }
+
+    public void setP1Mistakes(int p1Mistakes) {
+        this.p1Mistakes = p1Mistakes;
     }
 
 

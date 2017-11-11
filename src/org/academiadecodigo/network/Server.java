@@ -1,5 +1,8 @@
 package org.academiadecodigo.network;
 
+import org.academiadecodigo.game.Game;
+import org.academiadecodigo.game.Player;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,7 +41,7 @@ public class Server {
 
             try {
                 //TESTING sendOne
-                sendOne("client[1]", "Testing sendOne method ");
+                //sendOne("client[1]", "Testing sendOne method ");
 
                 System.out.println("waiting for client");
 
@@ -46,18 +49,22 @@ public class Server {
                 clientSocket = serverSocket.accept();
                 //BLOCKING
 
-                ClientDispatch client = new ClientDispatch(clientSocket, this);
+               // ClientDispatch client = new ClientDispatch(clientSocket, this);
 
-                clientsMap.put(client, "client[" + i + "]");
+               // clientsMap.put(client, "client[" + i + "]");
 
 
                 System.out.println("\nClient accepted\n" + "Socket: " + clientSocket + "\nClient: " + clientsMap.values());
                 System.out.println("");
 
-                cachedClientThreadPool.submit(client);
+                //cachedClientThreadPool.submit(client);
+
+                Game game = new Game(new Player(clientSocket),"english", 1);
+                game.init();
+                game.start();
 
                 //TESTING sendAll
-                sendAll("testing sendAll method");
+                //sendAll("testing sendAll method");
 
                 i++;
 

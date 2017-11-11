@@ -21,7 +21,7 @@ public class DatabaseManager {
         //System.out.println("Number of words: " + numberOfWords);
 
         String[] words = giveGameWords(gameRounds);
-        System.out.println("Random word: " + words);
+        //System.out.println("Random word: " + words);
         return words;
 
     }
