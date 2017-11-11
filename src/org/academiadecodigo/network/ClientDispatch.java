@@ -45,7 +45,6 @@ public class ClientDispatch implements Runnable {
 
         try {
 
-            TextReader textReader = new TextReader() ;
             GameStatus gameStatus = new GameStatus();
 
 
@@ -55,9 +54,9 @@ public class ClientDispatch implements Runnable {
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                //server.broadcast(textReader.returnLogo());
-                //server.broadcast(terminalGFX.render());
-                server.sendAll(terminalGFX.p1Render(gameStatus));
+                terminalGFX.render(gameStatus);
+
+                server.sendAll(terminalGFX.p2Screen());
 
                 //BLOCK
                 String clientInput = in.readLine();

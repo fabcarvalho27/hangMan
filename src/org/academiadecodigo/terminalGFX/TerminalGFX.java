@@ -30,6 +30,11 @@ public class TerminalGFX {
 
         }
 
+    public void render(GameStatus gameStatus) throws IOException {
+        mountp1Screen(gameStatus);
+        mountp2Screen(gameStatus);
+    }
+
     public String p1Render(GameStatus gameStatus) throws IOException {
 
         mountp1Screen(gameStatus);
@@ -39,6 +44,15 @@ public class TerminalGFX {
     public String p2Render(GameStatus gameStatus) throws IOException {
 
         mountp2Screen(gameStatus);
+        return arrayToString(p2ScreenArray);
+    }
+
+    public String p1Screen(){
+        return arrayToString(p1ScreenArray);
+    }
+
+    public String p2Screen(){
+
         return arrayToString(p2ScreenArray);
     }
 
