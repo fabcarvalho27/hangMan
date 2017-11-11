@@ -25,22 +25,40 @@ public class Game {
         this.rounds = rounds;
     }
 
+    public Game(Player player1, String theme, int rounds) {
+
+        this.player1 = player1;
+        this.theme = theme;
+        this.rounds = rounds;
+    }
+
     //initialize game
     public void init() {
 
-        generateGameWords();
-        player1.connect();
-        player2.connect();
+        gameWords = generateGameWords();
+
+        player1.init();
+        player2.init();
+
+        //BLOCKING
+        //player1.connect();
+        //player2.connect();
+        //BLOCKING
     }
 
     public void start() {
 
         while (!gameWinner()) {
 
-            while (!roundWinner()){
+            System.out.println("Inside Game");
+            while (!roundWinner()) {
 
-            analisePlayerGuess(player1, player1.guessLetter());
-            analisePlayerGuess(player2, player2.guessLetter());
+                System.out.println("Inside round");
+
+                //MULTI THREAD
+                analisePlayerGuess(player1, player1.guessLetter());
+                analisePlayerGuess(player2, player2.guessLetter());
+                //MULTI THREAD
             }
         }
         //TODO: waiting for start logic
@@ -50,8 +68,14 @@ public class Game {
     //Methods
     private String[] generateGameWords() {
 
-        gameWords = new String[rounds];
-        return database.pickGameWords(theme, rounds);
+        return new String[]{
+                "o",
+                "p",
+                "b",
+        };
+
+        //gameWords = new String[rounds];
+        //return database.pickGameWords(theme, rounds);
     }
 
 
@@ -59,12 +83,15 @@ public class Game {
 
         if (isLetterMatchingWord(letter)) {
 
+            System.out.println("match");
             player.getCorrectGuesses().add(letter);
             player.incrementNumberGuessedLetters();
 
         } else {
 
-            player.getWrongGuesses()[player.getNumberMissedGuesses()] = letter;
+            System.out.println("not match");
+
+            player.getWrongGuesses().add(letter);
             player.incrementNumberMissedGuesses();
         }
     }
@@ -86,8 +113,8 @@ public class Game {
     }
 
     private boolean playerLose() {
-        return player1.getWrongGuesses().length == Constants.MAX_NUMBER_WRONG_GUESSES ||
-                player2.getWrongGuesses().length == Constants.MAX_NUMBER_WRONG_GUESSES;
+        return player1.getWrongGuesses().size() == Constants.MAX_NUMBER_WRONG_GUESSES ||
+                player2.getWrongGuesses().size() == Constants.MAX_NUMBER_WRONG_GUESSES;
     }
 
     private boolean playerWins() {
