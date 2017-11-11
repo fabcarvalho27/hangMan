@@ -51,14 +51,15 @@ public class Player {
 
 
     public char guessLetter() {
-        try {
 
-           return in.readLine().charAt(0);
+        try {
+        char c = (char) in.read();
+           return c;
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return 'Z';
+        return 0;
     }
 
     public Socket connect() {

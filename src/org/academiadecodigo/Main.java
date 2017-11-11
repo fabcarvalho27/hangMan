@@ -24,13 +24,11 @@ public class Main {
 
 
     public static void main(String[] args) {
->>>>>>> pre-master
 
         Player player1 = new Player();
         Player player2 = new Player();
 
         Game game = new Game(player1,player2,"english",5);
-<<<<<<< HEAD
 */
     }
 }

@@ -48,7 +48,7 @@ public class Game {
         gameStatus = new GameStatus();
         gameWords = generateGameWords();
 
-        p1WordInit();
+        pWordInit();
 
 
 
@@ -95,7 +95,7 @@ public class Game {
 
 
                 p1mistakes++;
-                gameStatus.setP1Mistakes(p1mistakes);
+                gameStatus.setP1Mistakes(p1mistakes); 
 
                     player1.outputMessage(terminalGFX.p1Render(gameStatus));
 
@@ -194,10 +194,12 @@ public class Game {
     }
 
 
-    private void p1WordInit() {
+    private void pWordInit() {
         p1WordShown = new char[gameWords[0].length()];
-        p1WordShown = initializeArray(p1WordShown);
-        gameStatus.setP1Word(new String(p1WordShown));
+        char[] WordShown = initializeArray(p1WordShown);
+
+        gameStatus.setP1Word(new String(WordShown));
+        gameStatus.setP2Word(new String(WordShown));
     }
 
 }
