@@ -143,14 +143,14 @@ public class Game {
         //Player 1 update
         gameStatus.setP1Mistakes(player1.getNumberMissedGuesses());
         gameStatus.setP1points(player1.getGamePoints());
-        gameStatus.setP1Word("TEST");
-        gameStatus.setP1Guesses("TEST");
+        gameStatus.setP1Word(new String(player1.getCorrectGuesses()));
+        gameStatus.setP1Guesses(new String(player1.getWrongGuesses()));
 
         //Player 2 update
         gameStatus.setP2Mistakes(player2.getNumberMissedGuesses());
         gameStatus.setP2points(player2.getGamePoints());
-        gameStatus.setP2Word("TEST");
-        gameStatus.setP2Guesses("TEST");
+        gameStatus.setP2Word(new String(player2.getCorrectGuesses()));
+        gameStatus.setP2Guesses(new String(player2.getWrongGuesses()));
 
         //Game update
         gameStatus.setRounds(rounds);
@@ -251,6 +251,18 @@ public class Game {
         System.out.println(player.getName() + ": has " + player.getGamePoints() + " points");
         return player.getGamePoints() > rounds / 2;
     }
+
+
+
+    public static char[] initializeArray(char[] array) {
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = '_';
+        }
+        return array;
+    }
+
+
 
 //Getters and Setters
 
