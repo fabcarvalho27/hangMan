@@ -12,22 +12,15 @@ public class DataBaseTester {
 
         /*for (int i = 0; i < 6; i++) {
 
-            dataBase.pickGameWords("capitais", 2);
+            dataBase.pickGameWords("worldcapitals", 5);
             System.out.println("");
         }
 
         for (int i = 0; i < 6; i++) {
 
-            dataBase.pickGameWords("english", 7);
+            dataBase.pickGameWords("intellijunkies", 5);
             System.out.println("");
         }
-
-       /* for (int i = 0; i < 6; i++) {
-
-            dataBase.pickRandomSentence("frases");
-            System.out.println("");
-        }*/
-
 
     }
 }
