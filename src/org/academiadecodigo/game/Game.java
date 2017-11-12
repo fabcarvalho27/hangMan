@@ -102,7 +102,7 @@ public class Game {
         while (!roundWinner()) {
 
             //MULTI THREAD
-            turn(player1);
+            //turn(player1);
 
             analisePlayerGuess(player1, player1.guessLetter());
             System.out.println("Player 1 Misses: " + player1.getNumberMissedGuesses());
@@ -113,7 +113,7 @@ public class Game {
             updateGameStatus();
             sendClientScreen();
 
-            turn(player2);
+            //turn(player2);
             analisePlayerGuess(player2, player2.guessLetter());
             System.out.println("Player 2 Misses: " + player2.getNumberMissedGuesses());
             System.out.println("Player 2 Guesses: " + player2.getNumberGuessedLetters());
@@ -153,13 +153,14 @@ public class Game {
 
     private void turn(Player player) {
 
-
+/*
         if(player == player1) {
             //gameStatus.setP1Message();
         }
 
 
         //sendClientScreen();
+        */
     }
 
     private void timer321() {
