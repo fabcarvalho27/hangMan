@@ -44,13 +44,14 @@ public class Player implements Runnable {
 
     //Methods
 
-    public void init() {
+    public void init(int currentRoundWordLenght) {
 
         numberGuessedLetters = 0;
         numberMissedGuesses = 0;
         wrongGuesses = new char[Constants.MAX_NUMBER_WRONG_GUESSES];
-        correctGuesses = new char[20];
+        correctGuesses = new char[currentRoundWordLenght];
         gameWinner = false;
+
     }
 
     public char guessLetter() {
@@ -64,11 +65,11 @@ public class Player implements Runnable {
 
             if(guess.length()>1 || guess.equals("")){
                 out.println("Not a valid Letter... Please try again");
-                guessLetter();
+               return guessLetter();
             }
 
             System.out.println(name + "guess: " + guess);
-            return guess.toCharArray()[0];
+            return guess.toUpperCase().toCharArray()[0];
 
     }
 

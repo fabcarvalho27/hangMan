@@ -52,8 +52,8 @@ public class Game {
 
         //TODO: test game words. error
 
-        player1.init();
-        player2.init();
+        player1.init(gameWords[currentRound].length());
+        player2.init(gameWords[currentRound].length());
         gameStatus.setP1Name(player1.getName());
         gameStatus.setP2Name(player2.getName());
 
@@ -71,8 +71,6 @@ public class Game {
 
         while (!gameWinner()) {
 
-            System.out.println("Start Round\n");
-
             startRound();
         }
 
@@ -86,36 +84,6 @@ public class Game {
             player2.setGameWinner(true);
         }
         //TODO: waiting for start logic
-    }
-
-    private void updateGameStatus() {
-
-        //Player 1 update
-        gameStatus.setP1Mistakes(player1.getNumberMissedGuesses());
-        gameStatus.setP1points(player1.getRoundPoints());
-        gameStatus.setP1Word("TEST");
-        gameStatus.setP1Guesses("TEST");
-
-        //Player 2 update
-        gameStatus.setP2Mistakes(player2.getNumberMissedGuesses());
-        gameStatus.setP2points(player2.getRoundPoints());
-        gameStatus.setP2Word("TEST");
-        gameStatus.setP2Guesses("TEST");
-
-        //Game update
-        gameStatus.setRounds(rounds);
-        gameStatus.setCurrentsRound(currentRound);
-    }
-
-    private void updateClients() {
-
-        try {
-            player1.getOut().println(GFX.p1Render());
-            player2.getOut().println(GFX.p2Render());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void startRound() {
@@ -164,6 +132,37 @@ public class Game {
         currentRound++;
     }
 
+    private void updateGameStatus() {
+
+        //Player 1 update
+        gameStatus.setP1Mistakes(player1.getNumberMissedGuesses());
+        gameStatus.setP1points(player1.getRoundPoints());
+        gameStatus.setP1Word("TEST");
+        gameStatus.setP1Guesses("TEST");
+
+        //Player 2 update
+        gameStatus.setP2Mistakes(player2.getNumberMissedGuesses());
+        gameStatus.setP2points(player2.getRoundPoints());
+        gameStatus.setP2Word("TEST");
+        gameStatus.setP2Guesses("TEST");
+
+        //Game update
+        gameStatus.setRounds(rounds);
+        gameStatus.setCurrentsRound(currentRound);
+    }
+
+    private void updateClients() {
+
+        try {
+            player1.getOut().println(GFX.p1Render());
+            player2.getOut().println(GFX.p2Render());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     private void initRoundWord() {
 
         roundWordInChars = new char[gameWords[currentRound].length()];
@@ -172,8 +171,8 @@ public class Game {
     }
 
     private void resetRoundVariables() {
-        player1.init();
-        player2.init();
+        player1.init(gameWords[currentRound].length());
+        player2.init(gameWords[currentRound].length());
     }
 
     private boolean isRoundWinner(Player player) {
@@ -189,8 +188,7 @@ public class Game {
         return database.pickGameWords(theme, rounds);
     }
 
-    //fabio
-    /*private void analisePlayerGuess(Player player, char letter) {
+    private void analisePlayerGuess(Player player, char letter) {
 
         boolean match = false;
 
@@ -215,10 +213,10 @@ public class Game {
 
         }
 
+        System.out.println(new String(player.getCorrectGuesses()));
 
     }
-    */
-    //eduardo
+
 
 
 //Utils methods
