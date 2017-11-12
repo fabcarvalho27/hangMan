@@ -49,7 +49,6 @@ public class Player implements Runnable {
         numberMissedGuesses = 0;
         wrongGuesses = new char[Constants.MAX_NUMBER_WRONG_GUESSES];
         correctGuesses = new char[currentRoundWordLenght];
-        gameWinner = false;
 
     }
 
@@ -57,28 +56,48 @@ public class Player implements Runnable {
 
         String guess = "";
         try {
-            guess = in.readLine();
+            guess = in.readLine().toUpperCase();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-            if(guess.length()>1 || guess.equals(" ")|| guess.equals("")){
-                out.println("Not a valid Letter... Please try again");
-               return guessLetter();
-            }
+        if (letterAlreadyChosen(guess)) {
+            out.println("Letter already chosen... Please try again");
+            return guessLetter();
+        }
 
-            System.out.println(name + "guess: " + guess);
-            return guess.toUpperCase().toCharArray()[0];
+        if (invalideLetterSize(guess) || !valideLetters(guess)) {
+            out.println("Not a valid Letter... Please try again");
+            return guessLetter();
+        }
+
+        System.out.println(name + "guess: " + guess);
+        return guess.charAt(0);
 
     }
-
-    public Socket connect() {
-
-        throw new UnsupportedOperationException();
-    }
-
 
     //Utils methods
+    private boolean letterAlreadyChosen(String letter) {
+
+        for (int i = 0; i < correctGuesses.length;) {
+            System.out.println("Correct Guess: " + correctGuesses[i]);
+            System.out.println("Letter: " + letter.charAt(0));
+            return correctGuesses[i] == letter.charAt(0);
+        }
+
+        return false;
+    }
+
+    private boolean invalideLetterSize(String letter){
+
+        return letter.length() > 1 || letter.equals(" ") || letter.equals("");
+    }
+
+    private boolean valideLetters(String letter){
+
+        return letter.matches("\\p{L}");
+    }
+
     public int getNumberMissedGuesses() {
         return numberMissedGuesses;
     }
@@ -125,11 +144,6 @@ public class Player implements Runnable {
         this.numberGuessedLetters = numberGuessedLetters;
     }
 
-    @Override
-    public void run() {
-
-    }
-
     public boolean isRoundWinner() {
         return roundWinner;
     }
@@ -164,5 +178,10 @@ public class Player implements Runnable {
 
     public void setWrongGuesses(char[] wrongGuesses) {
         this.wrongGuesses = wrongGuesses;
+    }
+
+    @Override
+    public void run() {
+
     }
 }

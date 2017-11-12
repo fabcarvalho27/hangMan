@@ -25,7 +25,7 @@ public class TextReader {
 
     private List<String> sentenceList = new LinkedList<>();
     private String line;
-    private String filepath ="" ;
+    private String filepath = "";
     private BufferedReader bReader;
 
 

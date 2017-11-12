@@ -115,10 +115,6 @@ public class Game {
             updateGameStatus();
             sendClientScreen();
 
-            //player1.getOut().write("hg\n");
-            //player1.getOut().flush();
-            //player2.getOut().write("hrthreah\n");
-            //player2.getOut().flush();
             //MULTI THREAD
         }
 
