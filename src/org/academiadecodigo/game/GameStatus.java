@@ -11,6 +11,7 @@ public class GameStatus {
     private int p1points = 2;
     private String p1Word = "P A L A V R A p1";
     private String p1Guesses = " A B C  do p1";
+    private String p1Message = "";
 
     //PLayer 2 status
     private String p2Name;
@@ -18,6 +19,7 @@ public class GameStatus {
     private int p2points;
     private String p2Word = "P A L A V R A  p2";
     private String p2Guesses = "D E F do p2";
+    private String p2Message = "";
 
     //Game Status
     private String theme = " TEMA";
@@ -182,5 +184,21 @@ public class GameStatus {
 
     public void setP2Mistakes(int p2Mistakes) {
         this.p2Mistakes = p2Mistakes;
+    }
+
+    public String getP1Message() {
+        return p1Message;
+    }
+
+    public void setP1Message(String p1Message) {
+        this.p1Message = p1Message;
+    }
+
+    public String getP2Message() {
+        return p2Message;
+    }
+
+    public void setP2Message(String p2Message) {
+        this.p2Message = p2Message;
     }
 }
