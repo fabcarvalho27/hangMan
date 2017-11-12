@@ -54,9 +54,11 @@ public class Game {
 
         player1.init(gameWords[currentRound - 1].length());
         player2.init(gameWords[currentRound - 1].length());
+
         gameStatus.setP1Name(player1.getName());
         gameStatus.setP2Name(player2.getName());
         gameStatus.setRounds(rounds);
+        gameStatus.setTheme(theme);
 
     }
 
@@ -100,6 +102,8 @@ public class Game {
         while (!roundWinner()) {
 
             //MULTI THREAD
+            turn(player1);
+
             analisePlayerGuess(player1, player1.guessLetter());
             System.out.println("Player 1 Misses: " + player1.getNumberMissedGuesses());
             System.out.println("Player 1 Guesses: " + player1.getNumberGuessedLetters());
@@ -109,6 +113,7 @@ public class Game {
             updateGameStatus();
             sendClientScreen();
 
+            turn(player2);
             analisePlayerGuess(player2, player2.guessLetter());
             System.out.println("Player 2 Misses: " + player2.getNumberMissedGuesses());
             System.out.println("Player 2 Guesses: " + player2.getNumberGuessedLetters());
@@ -144,6 +149,17 @@ public class Game {
 
         currentRound++;
         gameStatus.setCurrentsRound(currentRound);
+    }
+
+    private void turn(Player player) {
+
+
+        if(player == player1) {
+            //gameStatus.setP1Message();
+        }
+
+
+        //sendClientScreen();
     }
 
     private void timer321() {
@@ -235,7 +251,7 @@ public class Game {
         player2.init(gameWords[currentRound - 1].length());
 
         gameStatus.setP1Message("");
-        gameStatus.setP2Guesses("");
+        gameStatus.setP2Message("");
     }
 
 
