@@ -78,10 +78,10 @@ public class Game {
         System.out.println("##########Game Winner##########");
 
         if (isGameWinner(player1)) {
-            System.out.println("Player 1 Wins GAME");
+            System.out.println(player1.getName()+" Wins GAME");
             player1.setGameWinner(true);
         } else {
-            System.out.println("Player 2 Wins GAME");
+            System.out.println(player2.getName()+ " Wins GAME");
             player2.setGameWinner(true);
         }
         //TODO: waiting for start logic
