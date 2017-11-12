@@ -71,7 +71,7 @@ public class TerminalGFX {
         arrayToScreen(p1ScreenArray,dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);     //oponent hangman
 
         arrayToScreen(p1ScreenArray,stringToArray(textReader.returnLogo()), 4, 0);                       //LOGO
-        wordToScreen(p1ScreenArray, "Rounds: " + gameStatus.getRounds(), 0, topPadding + 3);       //rounds
+        wordToScreen(p1ScreenArray, "Round: " + gameStatus.getCurrentsRound() + " of " + gameStatus.getRounds(), 0, topPadding + 3);       //rounds
         wordToScreen(p1ScreenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);                   //message from game to all
 
         //arrayToScreen(stringToArray(Menus.menuEntrance),2,2);
@@ -91,7 +91,7 @@ public class TerminalGFX {
         arrayToScreen(p2ScreenArray, dummy(gameStatus.getP1Mistakes()), width - 15, topPadding + 14);
 
         arrayToScreen(p2ScreenArray, stringToArray(textReader.returnLogo()), 4, 0);
-        wordToScreen(p2ScreenArray, "Rounds: " + gameStatus.getRounds(), 0, topPadding + 3);
+        wordToScreen(p2ScreenArray, "Round: " + gameStatus.getCurrentsRound() + " of " + gameStatus.getRounds(), 0, topPadding + 3);
         wordToScreen(p2ScreenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);
     }
 

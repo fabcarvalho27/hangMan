@@ -22,7 +22,7 @@ public class GameStatus {
     //Game Status
     private String theme = " TEMA";
     private String messageToAll = "PLAY!!";
-    private int rounds = 1;
+    private int rounds;
     private int currentsRound;
 
 

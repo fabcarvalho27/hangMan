@@ -14,7 +14,7 @@ public class Game {
 
     private String theme;
     private int rounds;
-    private int currentRound;
+    private int currentRound = 1;
     private String[] gameWords;
     private char[] roundWordInChars;
 
@@ -52,10 +52,11 @@ public class Game {
 
         //TODO: test game words. error
 
-        player1.init(gameWords[currentRound].length());
-        player2.init(gameWords[currentRound].length());
+        player1.init(gameWords[currentRound - 1].length());
+        player2.init(gameWords[currentRound - 1].length());
         gameStatus.setP1Name(player1.getName());
         gameStatus.setP2Name(player2.getName());
+        gameStatus.setRounds(rounds);
 
     }
 
@@ -67,7 +68,7 @@ public class Game {
 
 
         System.out.println("Start Game\n");
-        updateClients();
+        sendClientScreen();
 
         while (!gameWinner()) {
 
@@ -77,10 +78,10 @@ public class Game {
         System.out.println("##########Game Winner##########");
 
         if (isWinner(player1)) {
-            System.out.println("Player 1 Wins");
+            System.out.println("Player 1 Wins GAME");
             player1.setGameWinner(true);
         } else {
-            System.out.println("Player 2 Wins");
+            System.out.println("Player 2 Wins GAME");
             player2.setGameWinner(true);
         }
         //TODO: waiting for start logic
@@ -99,18 +100,20 @@ public class Game {
             analisePlayerGuess(player1, player1.guessLetter());
             System.out.println("Player 1 Misses: " + player1.getNumberMissedGuesses());
             System.out.println("Player 1 Guesses: " + player1.getNumberGuessedLetters());
-            System.out.println("Player 1 Round Points:" + player1.getRoundPoints());
+            System.out.println("Player 1 Round Points:" + player1.getGamePoints());
             System.out.println("Player 1 Game Points" + player1.getGamePoints());
             System.out.println("###########################\n");
-            updateClients();
+            updateGameStatus();
+            sendClientScreen();
 
             analisePlayerGuess(player2, player2.guessLetter());
             System.out.println("Player 2 Misses: " + player2.getNumberMissedGuesses());
             System.out.println("Player 2 Guesses: " + player2.getNumberGuessedLetters());
-            System.out.println("Player 2 Round Points:" + player2.getRoundPoints());
+            System.out.println("Player 2 Round Points:" + player2.getGamePoints());
             System.out.println("Player 2 Game Points" + player2.getGamePoints());
             System.out.println("###########################\n");
-            updateClients();
+            updateGameStatus();
+            sendClientScreen();
 
             //player1.getOut().write("hg\n");
             //player1.getOut().flush();
@@ -122,27 +125,30 @@ public class Game {
         System.out.println("#######Round Winner###########");
 
         if (isRoundWinner(player1)) {
-            System.out.println("\nPlayer 1 Wins round " + currentRound);
-            player1.incrementRoundPoints();
+            System.out.println("\n" + player1.getName() + " Wins round " + currentRound);
+                    player1.incrementGamePoints();
+            System.out.println(player1.getGamePoints());
         } else {
-            System.out.println("\nPLayer 2 Wins round " + currentRound);
-            player2.incrementRoundPoints();
+            System.out.println("\n" +player2.getName() + "Wins round " + currentRound);
+            player2.incrementGamePoints();
+            System.out.println(player2.getGamePoints());
         }
 
         currentRound++;
+        gameStatus.setCurrentsRound(currentRound);
     }
 
     private void updateGameStatus() {
 
         //Player 1 update
         gameStatus.setP1Mistakes(player1.getNumberMissedGuesses());
-        gameStatus.setP1points(player1.getRoundPoints());
+        gameStatus.setP1points(player1.getGamePoints());
         gameStatus.setP1Word("TEST");
         gameStatus.setP1Guesses("TEST");
 
         //Player 2 update
         gameStatus.setP2Mistakes(player2.getNumberMissedGuesses());
-        gameStatus.setP2points(player2.getRoundPoints());
+        gameStatus.setP2points(player2.getGamePoints());
         gameStatus.setP2Word("TEST");
         gameStatus.setP2Guesses("TEST");
 
@@ -151,7 +157,7 @@ public class Game {
         gameStatus.setCurrentsRound(currentRound);
     }
 
-    private void updateClients() {
+    private void sendClientScreen() {
 
         try {
             player1.getOut().println(GFX.p1Render());
@@ -165,18 +171,18 @@ public class Game {
 
     private void initRoundWord() {
 
-        roundWordInChars = new char[gameWords[currentRound].length()];
+        roundWordInChars = new char[gameWords[currentRound - 1].length()];
 
-        roundWordInChars = gameWords[currentRound].toCharArray();
+        roundWordInChars = gameWords[currentRound - 1].toCharArray();
     }
 
     private void resetRoundVariables() {
-        player1.init(gameWords[currentRound].length());
-        player2.init(gameWords[currentRound].length());
+        player1.init(gameWords[currentRound - 1].length());
+        player2.init(gameWords[currentRound - 1].length());
     }
 
     private boolean isRoundWinner(Player player) {
-        return player.getNumberGuessedLetters() == gameWords[currentRound].length();
+        return player.getNumberGuessedLetters() == gameWords[currentRound - 1].length();
     }
 
 
@@ -218,12 +224,12 @@ public class Game {
     }
 
 
-
 //Utils methods
 
     private boolean gameWinner() {
 
         return player1.getGamePoints() + player2.getGamePoints() == rounds;
+
     }
 
     private boolean roundWinner() {
@@ -237,12 +243,13 @@ public class Game {
     }
 
     private boolean playerWins() {
-        return player1.getNumberGuessedLetters() == gameWords[currentRound].length() ||
-                player2.getNumberGuessedLetters() == gameWords[currentRound].length();
+        return player1.getNumberGuessedLetters() == gameWords[currentRound - 1].length() ||
+                player2.getNumberGuessedLetters() == gameWords[currentRound - 1].length();
     }
 
     private boolean isWinner(Player player) {
-        return rounds / player.getGamePoints() < 2.5;
+        System.out.println(player.getName() + ": has " + player.getGamePoints() + " points");
+        return player.getGamePoints() > rounds / 2;
     }
 
 //Getters and Setters

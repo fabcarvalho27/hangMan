@@ -17,7 +17,6 @@ public class Player implements Runnable {
 
     private String name;
 
-    private int roundPoints = 0;
     private char[] correctGuesses;
     private char[] wrongGuesses;
     private int numberMissedGuesses;
@@ -63,7 +62,7 @@ public class Player implements Runnable {
             e.printStackTrace();
         }
 
-            if(guess.length()>1 || guess.equals("")){
+            if(guess.length()>1 || guess.equals(" ")|| guess.equals("")){
                 out.println("Not a valid Letter... Please try again");
                return guessLetter();
             }
@@ -96,8 +95,8 @@ public class Player implements Runnable {
         numberGuessedLetters++;
     }
 
-    public void incrementRoundPoints() {
-        roundPoints++;
+    public void incrementGamePoints() {
+        gamePoints++;
     }
 
 
@@ -137,14 +136,6 @@ public class Player implements Runnable {
 
     public void setRoundWinner(boolean roundWinner) {
         this.roundWinner = roundWinner;
-    }
-
-    public int getRoundPoints() {
-        return roundPoints;
-    }
-
-    public void setRoundPoints(int roundPoints) {
-        this.roundPoints = roundPoints;
     }
 
     public PrintWriter getOut() {
