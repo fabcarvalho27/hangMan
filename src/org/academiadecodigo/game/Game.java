@@ -45,8 +45,12 @@ public class Game {
     public void init() {
 
         gameWords = generateGameWords();
-        for
-            //TODO: test game words. error
+        for (String s :
+                gameWords) {
+            System.out.println("test game init() word: " + s);
+        }
+
+        //TODO: test game words. error
 
         player1.init();
         player2.init();
@@ -72,7 +76,7 @@ public class Game {
             startRound();
         }
 
-        System.out.println("Game Winner");
+        System.out.println("##########Game Winner##########");
 
         if (isWinner(player1)) {
             System.out.println("Player 1 Wins");
@@ -116,6 +120,8 @@ public class Game {
 
     private void startRound() {
 
+        System.out.println("Start Round\n");
+
         resetRoundVariables();
         initRoundWord();
 
@@ -142,6 +148,8 @@ public class Game {
             //player2.getOut().flush();
             //MULTI THREAD
         }
+
+        System.out.println("#######Round Winner###########");
 
         if (isRoundWinner(player1)) {
             System.out.println("\nPlayer 1 Wins round " + currentRound);
@@ -214,13 +222,13 @@ public class Game {
     }
 
     private boolean playerLose() {
-        return player1.getWrongGuesses().length == Constants.MAX_NUMBER_WRONG_GUESSES ||
-                player2.getWrongGuesses().length == Constants.MAX_NUMBER_WRONG_GUESSES;
+        return player1.getNumberMissedGuesses() == Constants.MAX_NUMBER_WRONG_GUESSES ||
+                player2.getNumberMissedGuesses() == Constants.MAX_NUMBER_WRONG_GUESSES;
     }
 
     private boolean playerWins() {
-        return player1.getCorrectGuesses().length == gameWords[currentRound].length() ||
-                player2.getCorrectGuesses().length == gameWords[currentRound].length();
+        return player1.getNumberGuessedLetters() == gameWords[currentRound].length() ||
+                player2.getNumberGuessedLetters() == gameWords[currentRound].length();
     }
 
     private boolean isWinner(Player player) {

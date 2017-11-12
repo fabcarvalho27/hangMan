@@ -16,18 +16,10 @@ public class DatabaseManager {
     public String[] pickGameWords(String theme, int gameRounds) {
 
         pickFilePath(theme);
-        System.out.println("File Path: " + file);
 
         countNumberOfWords();
-        System.out.println("Number of words in file: " + numberOfWords);
 
-        String[] words = giveGameWords(gameRounds);
-        System.out.println("Number words per round: " + words.length);
-        for (int i = 0; i < words.length; i++) {
-            System.out.println("Game word " + i + ": " + words[i]);
-        }
-
-        return words;
+        return giveGameWords(gameRounds);
     }
 
 
@@ -68,60 +60,6 @@ public class DatabaseManager {
         }
         return gameWords;
     }
-
-
-    //TODO: make it beautiful!! :)
-//TODO: create capitais.txt database files by theme
-
-
-    public String pickRandomSentence(String theme) {
-
-        pickFilePath(theme);
-        //System.out.println("File Path: " + file);
-
-        countNumberOfSentences();
-        //System.out.println("Number of sentences: " + sentenceList.size());
-
-        String sentence = selectRandomSentence();
-        //System.out.println("Random sentence: " + sentence);
-        return sentence;
-
-    }
-
-
-    public void countNumberOfSentences() {
-
-        String line;
-        sentenceList = new LinkedList<>();
-        BufferedReader bReader = null;
-
-        try {
-
-            bReader = new BufferedReader(new FileReader(file));
-
-            while ((line = bReader.readLine()) != null) {
-                sentenceList.add(line);
-            }
-
-        } catch (FileNotFoundException e) {
-            System.out.println("File  problem: " + e.getMessage());
-        } catch (IOException e) {
-            ;
-        }
-
-
-    }
-
-    public String selectRandomSentence() {
-
-        int index = (int) ((Math.random() * sentenceList.size()));
-        //System.out.println("Index: " + index);
-
-        return sentenceList.get(index);
-        //return randomSentence;
-    }
-
-
 }
 
 
