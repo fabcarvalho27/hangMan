@@ -3,7 +3,9 @@ package org.academiadecodigo.network;
 import org.academiadecodigo.game.Game;
 import org.academiadecodigo.game.Player;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -34,14 +36,16 @@ public class Server {
 
                 //BLOCKING
                 client1Socket = serverSocket.accept();
-                sendMessage("Welcome to hangMan!", client1Socket);
-                sendMessage("Waiting for second Player...", client1Socket);
+                sendMessage("Welcome to hangMan!\nWhat is you name?", client1Socket);
+                String player1Name = readMessage(client1Socket);
+                sendMessage("Waiting for second player", client1Socket);
 
                 client2Socket = serverSocket.accept();
-                sendMessage("Welcome to hangMan!", client2Socket);
+                sendMessage("Welcome to hangMan!\nWhat is you name?", client2Socket);
+                String player2Name = readMessage(client2Socket);
                 //BLOCKING
 
-                Game game = new Game(new Player(client1Socket, "Fabio"), new Player(client2Socket, "Eduardo"), "capitais", 3);
+                Game game = new Game(new Player(client1Socket, player1Name), new Player(client2Socket, player2Name), "capitais", 3);
 
                 sendMessage("Game START, " + game.getPlayer1().getName(), client1Socket);
                 sendMessage("Game START, " + game.getPlayer2().getName(), client2Socket);
@@ -66,6 +70,18 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String readMessage(Socket socket) {
+
+        String message = "";
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            message = in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return message;
     }
 
     public void sendAllMessage(String message, Socket client1Socket, Socket client2Socket) {
