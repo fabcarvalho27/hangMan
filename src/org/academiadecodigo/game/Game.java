@@ -1,12 +1,16 @@
 package org.academiadecodigo.game;
 
 import org.academiadecodigo.Constants;
+import org.academiadecodigo.terminalGFX.TerminalGFX;
+
+import java.io.IOException;
 
 public class Game {
 
     //Properties
-    private DatabaseManager database = new DatabaseManager();
-    private GameStatus gameStatus = new GameStatus();
+    private DatabaseManager database;
+    private GameStatus gameStatus;
+    private TerminalGFX GFX;
 
     private String theme;
     private int rounds;
@@ -23,14 +27,21 @@ public class Game {
         this.player2 = player2;
         this.theme = theme;
         this.rounds = rounds;
+        database = new DatabaseManager();
+        gameStatus = new GameStatus();
+        try {
+            GFX = new TerminalGFX(gameStatus);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Game(Player player1, String theme, int rounds) {
+    /*public Game(Player player1, String theme, int rounds) {
 
         this.player1 = player1;
         this.theme = theme;
         this.rounds = rounds;
-    }
+    }*/
 
     //initialize game
     public void init() {
@@ -46,7 +57,9 @@ public class Game {
 
         init();
 
+
         System.out.println("Start Game\n");
+        updateClients();
 
         while (!gameWinner()) {
 
@@ -67,6 +80,17 @@ public class Game {
         //TODO: waiting for start logic
     }
 
+    private void updateClients() {
+
+        try {
+            player1.getOut().println(GFX.p1Render());
+            player2.getOut().println(GFX.p2Render());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void startRound() {
 
         resetRoundVariables();
@@ -76,14 +100,14 @@ public class Game {
             //MULTI THREAD
             analisePlayerGuess(player1, player1.guessLetter());
             System.out.println("Player 1 Misses: " + player1.getNumberMissedGuesses());
-            System.out.println("Player 1 Guesses: " +player1.getNumberGuessedLetters());
+            System.out.println("Player 1 Guesses: " + player1.getNumberGuessedLetters());
             System.out.println("Player 1 Round Points:" + player1.getRoundPoints());
             System.out.println("Player 1 Game Points" + player1.getGamePoints());
             System.out.println("###########################\n");
 
             analisePlayerGuess(player2, player2.guessLetter());
             System.out.println("Player 2 Misses: " + player2.getNumberMissedGuesses());
-            System.out.println("Player 2 Guesses: " +player2.getNumberGuessedLetters());
+            System.out.println("Player 2 Guesses: " + player2.getNumberGuessedLetters());
             System.out.println("Player 2 Round Points:" + player2.getRoundPoints());
             System.out.println("Player 2 Game Points" + player2.getGamePoints());
             System.out.println("###########################\n");
@@ -95,10 +119,10 @@ public class Game {
             //MULTI THREAD
         }
 
-        if(isRoundWinner(player1)){
+        if (isRoundWinner(player1)) {
             System.out.println("\nPlayer 1 Wins round " + currentRound);
             player1.incrementRoundPoints();
-        } else{
+        } else {
             System.out.println("\nPLayer 2 Wins round " + currentRound);
             player2.incrementRoundPoints();
         }

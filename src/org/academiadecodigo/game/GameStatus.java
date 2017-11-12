@@ -5,26 +5,28 @@ public class GameStatus {
     public static int[] mistakesArray = new int[2];
     public static int[] pointsArray;
 
-
+    //Player 1 status
     private String p1Name = "PLAYER 1";
     private int p1Mistakes = 4;
     private int p1points = 100;
     private String p1Word = "P A L A V R A p1";
     private String p1Guesses = " A B C  do p1";
 
+    //PLayer 2 status
     private String p2Name = " PLAYER 2";
     private int p2Mistakes = 3;
     private int p2points = 200;
     private String p2Word = "P A L A V R A  p2";
     private String p2Guesses = "D E F do p2";
 
+    //Game Status
     private String theme = " TEMA";
     private String messageToAll = "MESSAGE TO EVERYBODY";
     private int rounds = 1;
+    private int currentsRound;
 
 
     private String gameMode;
-    private int currentsRound;
 
     //Player info
     private int points;

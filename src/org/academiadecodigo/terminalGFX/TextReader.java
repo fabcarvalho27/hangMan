@@ -45,7 +45,7 @@ public class TextReader {
     }
 
     public String returnLogo() throws IOException {
-        return readText("/Users/codecadet/workspace/projects/hangMan/src/org/academiadecodigo/terminalGFX/txt/logo");
+        return readText("resources/TerminalGFX/logo");
     }
 
 

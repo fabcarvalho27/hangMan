@@ -68,6 +68,21 @@ public class Server {
         }
     }
 
+    public void sendAllMessage(String message, Socket client1Socket, Socket client2Socket) {
+
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(client1Socket.getOutputStream(), true);
+            out.println(message);
+            out = new PrintWriter(client2Socket.getOutputStream(), true);
+            out.println(message);
+            out.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //TALK TO A SINGLE CLIENT
 
     public void sendOne(String clientName, String messageToClient) {
