@@ -21,6 +21,6 @@ public class DataBaseTester {
             dataBase.pickGameWords("intellijunkies", 5);
             System.out.println("");
         }
-
+*/
     }
 }
