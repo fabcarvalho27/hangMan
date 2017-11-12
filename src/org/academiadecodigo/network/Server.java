@@ -41,7 +41,7 @@ public class Server {
                 sendMessage("Welcome to hangMan!", client2Socket);
                 //BLOCKING
 
-                Game game = new Game(new Player(client1Socket, "Fabio"), new Player(client2Socket, "Eduardo"), "english", 3);
+                Game game = new Game(new Player(client1Socket, "Fabio"), new Player(client2Socket, "Eduardo"), "capitais", 3);
 
                 sendMessage("Game START, " + game.getPlayer1().getName(), client1Socket);
                 sendMessage("Game START, " + game.getPlayer2().getName(), client2Socket);
@@ -95,5 +95,21 @@ public class Server {
             }
 
         }
+    }
+
+    public Socket getClient1Socket() {
+        return client1Socket;
+    }
+
+    public void setClient1Socket(Socket client1Socket) {
+        this.client1Socket = client1Socket;
+    }
+
+    public Socket getClient2Socket() {
+        return client2Socket;
+    }
+
+    public void setClient2Socket(Socket client2Socket) {
+        this.client2Socket = client2Socket;
     }
 }

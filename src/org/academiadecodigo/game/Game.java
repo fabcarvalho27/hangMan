@@ -16,6 +16,7 @@ public class Game {
     private int rounds;
     private int currentRound;
     private String[] gameWords;
+    private char[] roundWordInChars;
 
     private Player player1;
     private Player player2;
@@ -36,17 +37,16 @@ public class Game {
         }
     }
 
-    /*public Game(Player player1, String theme, int rounds) {
+    public Game() {
 
-        this.player1 = player1;
-        this.theme = theme;
-        this.rounds = rounds;
-    }*/
+    }
 
     //initialize game
     public void init() {
 
         gameWords = generateGameWords();
+        for
+            //TODO: test game words. error
 
         player1.init();
         player2.init();
@@ -117,6 +117,7 @@ public class Game {
     private void startRound() {
 
         resetRoundVariables();
+        initRoundWord();
 
         while (!roundWinner()) {
 
@@ -153,6 +154,13 @@ public class Game {
         currentRound++;
     }
 
+    private void initRoundWord() {
+
+        roundWordInChars = new char[gameWords[currentRound].length()];
+
+        roundWordInChars = gameWords[currentRound].toCharArray();
+    }
+
     private void resetRoundVariables() {
         player1.init();
         player2.init();
@@ -167,39 +175,33 @@ public class Game {
 
     private String[] generateGameWords() {
 
-        return new String[]{
-                "o",
-                "p",
-                "b",
-        };
-
-        //gameWords = new String[rounds];
-        //return database.pickGameWords(theme, rounds);
+        gameWords = new String[rounds];
+        return database.pickGameWords(theme, rounds);
     }
 
 
-    private void analisePlayerGuess(Player player, String letter) {
+    private void analisePlayerGuess(Player player, char letter) {
 
-        if (isLetterMatchingWord(letter)) {
+        for (int i = 0; i < roundWordInChars.length; i++) {
 
-            System.out.println("match");
-            player.getCorrectGuesses().add(letter);
-            player.incrementNumberGuessedLetters();
+            if (letter == roundWordInChars[i]) {
 
-        } else {
+                System.out.println("match");
+                player.getCorrectGuesses()[i] = letter;
+                player.incrementNumberGuessedLetters();
 
-            System.out.println("not match");
 
-            player.getWrongGuesses().add(letter);
-            player.incrementNumberMissedGuesses();
+            } else {
+
+                System.out.println("not match");
+
+                player.getWrongGuesses()[i] = letter;
+                player.incrementNumberMissedGuesses();
+            }
         }
     }
 
     //Utils methods
-    private boolean isLetterMatchingWord(String playerGuess) {
-
-        return playerGuess.matches(gameWords[currentRound]);
-    }
 
     private boolean gameWinner() {
 
@@ -212,13 +214,13 @@ public class Game {
     }
 
     private boolean playerLose() {
-        return player1.getWrongGuesses().size() == Constants.MAX_NUMBER_WRONG_GUESSES ||
-                player2.getWrongGuesses().size() == Constants.MAX_NUMBER_WRONG_GUESSES;
+        return player1.getWrongGuesses().length == Constants.MAX_NUMBER_WRONG_GUESSES ||
+                player2.getWrongGuesses().length == Constants.MAX_NUMBER_WRONG_GUESSES;
     }
 
     private boolean playerWins() {
-        return player1.getCorrectGuesses().size() == gameWords[currentRound].length() ||
-                player2.getCorrectGuesses().size() == gameWords[currentRound].length();
+        return player1.getCorrectGuesses().length == gameWords[currentRound].length() ||
+                player2.getCorrectGuesses().length == gameWords[currentRound].length();
     }
 
     private boolean isWinner(Player player) {

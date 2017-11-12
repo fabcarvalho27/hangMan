@@ -1,12 +1,12 @@
 package org.academiadecodigo.game;
 
+import org.academiadecodigo.Constants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Player implements Runnable {
 
@@ -18,8 +18,8 @@ public class Player implements Runnable {
     private String name;
 
     private int roundPoints = 0;
-    private List<String> correctGuesses;
-    private List<String> wrongGuesses;
+    private char[] correctGuesses;
+    private char[] wrongGuesses;
     private int numberMissedGuesses;
     private int numberGuessedLetters;
     private boolean roundWinner;
@@ -48,21 +48,28 @@ public class Player implements Runnable {
 
         numberGuessedLetters = 0;
         numberMissedGuesses = 0;
-        correctGuesses = new LinkedList<>();
-        wrongGuesses = new LinkedList<>();
+        wrongGuesses = new char[Constants.MAX_NUMBER_WRONG_GUESSES];
+        correctGuesses = new char[20];
         gameWinner = false;
     }
 
-    public String guessLetter() {
+    public char guessLetter() {
 
+        String guess = "";
         try {
-            String guessed = in.readLine();
-            System.out.println(name + "guess: " + guessed);
-            return guessed;
+            guess = in.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+
+            if(guess.length()>1 || guess.equals("")){
+                out.println("Not a valid Letter... Please try again");
+                guessLetter();
+            }
+
+            System.out.println(name + "guess: " + guess);
+            return guess.toCharArray()[0];
+
     }
 
     public Socket connect() {
@@ -100,22 +107,6 @@ public class Player implements Runnable {
 
     public void setGamePoints(int gamePoints) {
         this.gamePoints = gamePoints;
-    }
-
-    public List<String> getWrongGuesses() {
-        return wrongGuesses;
-    }
-
-    public void setWrongGuesses(List<String> wrongGuesses) {
-        this.wrongGuesses = wrongGuesses;
-    }
-
-    public List<String> getCorrectGuesses() {
-        return correctGuesses;
-    }
-
-    public void setCorrectGuesses(List<String> correctGuesses) {
-        this.correctGuesses = correctGuesses;
     }
 
     public boolean isGameWinner() {
@@ -165,5 +156,21 @@ public class Player implements Runnable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public char[] getCorrectGuesses() {
+        return correctGuesses;
+    }
+
+    public void setCorrectGuesses(char[] correctGuesses) {
+        this.correctGuesses = correctGuesses;
+    }
+
+    public char[] getWrongGuesses() {
+        return wrongGuesses;
+    }
+
+    public void setWrongGuesses(char[] wrongGuesses) {
+        this.wrongGuesses = wrongGuesses;
     }
 }
