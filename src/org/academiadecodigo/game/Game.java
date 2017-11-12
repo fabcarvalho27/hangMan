@@ -134,6 +134,7 @@ public class Game {
             System.out.println("Player 1 Round Points:" + player1.getRoundPoints());
             System.out.println("Player 1 Game Points" + player1.getGamePoints());
             System.out.println("###########################\n");
+            updateClients();
 
             analisePlayerGuess(player2, player2.guessLetter());
             System.out.println("Player 2 Misses: " + player2.getNumberMissedGuesses());
@@ -141,6 +142,7 @@ public class Game {
             System.out.println("Player 2 Round Points:" + player2.getRoundPoints());
             System.out.println("Player 2 Game Points" + player2.getGamePoints());
             System.out.println("###########################\n");
+            updateClients();
 
             //player1.getOut().write("hg\n");
             //player1.getOut().flush();
@@ -187,8 +189,10 @@ public class Game {
         return database.pickGameWords(theme, rounds);
     }
 
+    //fabio
+    /*private void analisePlayerGuess(Player player, char letter) {
 
-    private void analisePlayerGuess(Player player, char letter) {
+        boolean match = false;
 
         for (int i = 0; i < roundWordInChars.length; i++) {
 
@@ -196,20 +200,28 @@ public class Game {
 
                 System.out.println("match");
                 player.getCorrectGuesses()[i] = letter;
+                System.out.println("Correct guess letter:" + player.getCorrectGuesses()[i]);
                 player.incrementNumberGuessedLetters();
+                System.out.println("Number correct guesses: " + player.getNumberGuessedLetters());
+                match = true;
 
-
-            } else {
-
-                System.out.println("not match");
-
-                player.getWrongGuesses()[i] = letter;
-                player.incrementNumberMissedGuesses();
             }
         }
-    }
 
-    //Utils methods
+        if (!match) {
+            System.out.println("not match");
+            player.getWrongGuesses()[player.getNumberMissedGuesses()] = letter;
+            player.incrementNumberMissedGuesses();
+
+        }
+
+
+    }
+    */
+    //eduardo
+
+
+//Utils methods
 
     private boolean gameWinner() {
 
@@ -235,7 +247,7 @@ public class Game {
         return rounds / player.getGamePoints() < 2.5;
     }
 
-    //Getters and Setters
+//Getters and Setters
 
     public String[] getGameWords() {
         return gameWords;
