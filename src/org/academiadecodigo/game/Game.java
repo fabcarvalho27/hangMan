@@ -77,7 +77,7 @@ public class Game {
 
         System.out.println("##########Game Winner##########");
 
-        if (isWinner(player1)) {
+        if (isGameWinner(player1)) {
             System.out.println("Player 1 Wins GAME");
             player1.setGameWinner(true);
         } else {
@@ -93,6 +93,9 @@ public class Game {
 
         resetRoundVariables();
         initRoundWord();
+
+        updateGameStatus();
+        sendClientScreen();
 
         while (!roundWinner()) {
 
@@ -120,18 +123,73 @@ public class Game {
 
         System.out.println("#######Round Winner###########");
 
+
         if (isRoundWinner(player1)) {
+
             System.out.println("\n" + player1.getName() + " Wins round " + currentRound);
-                    player1.incrementGamePoints();
+            player1.setRoundWinner(true);
+            player1.incrementGamePoints();
             System.out.println(player1.getGamePoints());
+
         } else {
-            System.out.println("\n" +player2.getName() + "Wins round " + currentRound);
+            System.out.println("\n" + player2.getName() + "Wins round " + currentRound);
+            player2.setRoundWinner(true);
             player2.incrementGamePoints();
             System.out.println(player2.getGamePoints());
         }
 
+        sendRoundResultScreen();
+
+        timer321();
+
         currentRound++;
         gameStatus.setCurrentsRound(currentRound);
+    }
+
+    private void timer321() {
+        try {
+            Thread.sleep(9000);
+            gameStatus.setMessageToAll("3");
+            sendClientScreen();
+
+            Thread.sleep(2000);
+            gameStatus.setMessageToAll("2");
+            sendClientScreen();
+
+            Thread.sleep(2000);
+            gameStatus.setMessageToAll("1");
+            sendClientScreen();
+
+            Thread.sleep(2000);
+            gameStatus.setMessageToAll("");
+            sendClientScreen();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void sendRoundResultScreen() {
+        String winnerMSG = "SCREEN: YOU WIN!";
+        String loserMSG = "SCREEN: YOU LOOSE!";
+
+        if (isRoundWinner(player1)||isRoundLooser(player2)) {
+
+            System.out.println(player1.getName() + winnerMSG);
+            System.out.println(player2.getName() + loserMSG);
+            gameStatus.setP1Message(winnerMSG);
+            gameStatus.setP2Message(loserMSG);
+        } else {
+
+            System.out.println(player2.getName() + winnerMSG);
+            System.out.println(player1.getName() + loserMSG);
+            gameStatus.setP2Message(winnerMSG);
+            gameStatus.setP1Message(loserMSG);
+
+
+        }
+        sendClientScreen();
     }
 
     private void updateGameStatus() {
@@ -139,14 +197,14 @@ public class Game {
         //Player 1 update
         gameStatus.setP1Mistakes(player1.getNumberMissedGuesses());
         gameStatus.setP1points(player1.getGamePoints());
-        gameStatus.setP1Word("TEST");
-        gameStatus.setP1Guesses("TEST");
+        gameStatus.setP1Word(new String(player1.getCorrectGuesses()));
+        gameStatus.setP1Guesses(new String(player1.getWrongGuesses()));
 
         //Player 2 update
         gameStatus.setP2Mistakes(player2.getNumberMissedGuesses());
         gameStatus.setP2points(player2.getGamePoints());
-        gameStatus.setP2Word("TEST");
-        gameStatus.setP2Guesses("TEST");
+        gameStatus.setP2Word(new String(player2.getCorrectGuesses()));
+        gameStatus.setP2Guesses(new String(player2.getWrongGuesses()));
 
         //Game update
         gameStatus.setRounds(rounds);
@@ -175,10 +233,9 @@ public class Game {
     private void resetRoundVariables() {
         player1.init(gameWords[currentRound - 1].length());
         player2.init(gameWords[currentRound - 1].length());
-    }
 
-    private boolean isRoundWinner(Player player) {
-        return player.getNumberGuessedLetters() == gameWords[currentRound - 1].length();
+        gameStatus.setP1Message("");
+        gameStatus.setP2Guesses("");
     }
 
 
@@ -243,10 +300,27 @@ public class Game {
                 player2.getNumberGuessedLetters() == gameWords[currentRound - 1].length();
     }
 
-    private boolean isWinner(Player player) {
+    private boolean isGameWinner(Player player) {
         System.out.println(player.getName() + ": has " + player.getGamePoints() + " points");
         return player.getGamePoints() > rounds / 2;
     }
+
+    private boolean isRoundWinner(Player player) {
+        return player.getNumberMissedGuesses() == gameWords[currentRound - 1].length();
+    }
+
+    private boolean isRoundLooser(Player player) {
+        return player.getNumberMissedGuesses() == Constants.MAX_NUMBER_WRONG_GUESSES;
+    }
+
+    public static char[] initializeArray(char[] array) {
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = '_';
+        }
+        return array;
+    }
+
 
 //Getters and Setters
 

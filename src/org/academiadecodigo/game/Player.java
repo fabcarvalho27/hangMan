@@ -48,9 +48,13 @@ public class Player implements Runnable {
         numberGuessedLetters = 0;
         numberMissedGuesses = 0;
         wrongGuesses = new char[Constants.MAX_NUMBER_WRONG_GUESSES];
-        correctGuesses = new char[currentRoundWordLenght];
 
+        roundWinner=false;
+        initCorrectGuesses(currentRoundWordLenght);
+
+        gameWinner = false;
     }
+
 
     public char guessLetter() {
 
@@ -67,6 +71,7 @@ public class Player implements Runnable {
         }
 
         if (invalideLetterSize(guess) || !valideLetters(guess)) {
+
             out.println("Not a valid Letter... Please try again");
             return guessLetter();
         }
@@ -116,6 +121,20 @@ public class Player implements Runnable {
 
     public void incrementGamePoints() {
         gamePoints++;
+    }
+
+
+    public void initCorrectGuesses(int currentRoundWordLenght) {
+
+        correctGuesses = initializeArray(new char[currentRoundWordLenght],'_');
+    }
+
+    public char[] initializeArray(char[] array,char character) {
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] = character;
+        }
+        return array;
     }
 
 
