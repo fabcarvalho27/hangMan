@@ -50,12 +50,16 @@ public class Game {
 
         player1.init();
         player2.init();
+        gameStatus.setP1Name(player1.getName());
+        gameStatus.setP2Name(player2.getName());
 
     }
 
     public void start() {
 
         init();
+
+        updateGameStatus();
 
 
         System.out.println("Start Game\n");
@@ -78,6 +82,25 @@ public class Game {
             player2.setGameWinner(true);
         }
         //TODO: waiting for start logic
+    }
+
+    private void updateGameStatus() {
+
+        //Player 1 update
+        gameStatus.setP1Mistakes(player1.getNumberMissedGuesses());
+        gameStatus.setP1points(player1.getRoundPoints());
+        gameStatus.setP1Word("TEST");
+        gameStatus.setP1Guesses("TEST");
+
+        //Player 2 update
+        gameStatus.setP2Mistakes(player2.getNumberMissedGuesses());
+        gameStatus.setP2points(player2.getRoundPoints());
+        gameStatus.setP2Word("TEST");
+        gameStatus.setP2Guesses("TEST");
+
+        //Game update
+        gameStatus.setRounds(rounds);
+        gameStatus.setCurrentsRound(currentRound);
     }
 
     private void updateClients() {

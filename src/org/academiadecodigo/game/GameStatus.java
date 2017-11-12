@@ -6,22 +6,22 @@ public class GameStatus {
     public static int[] pointsArray;
 
     //Player 1 status
-    private String p1Name = "PLAYER 1";
-    private int p1Mistakes = 4;
-    private int p1points = 100;
+    private String p1Name;
+    private int p1Mistakes;
+    private int p1points;
     private String p1Word = "P A L A V R A p1";
     private String p1Guesses = " A B C  do p1";
 
     //PLayer 2 status
-    private String p2Name = " PLAYER 2";
-    private int p2Mistakes = 3;
-    private int p2points = 200;
+    private String p2Name;
+    private int p2Mistakes;
+    private int p2points;
     private String p2Word = "P A L A V R A  p2";
     private String p2Guesses = "D E F do p2";
 
     //Game Status
     private String theme = " TEMA";
-    private String messageToAll = "MESSAGE TO EVERYBODY";
+    private String messageToAll = "PLAY!!";
     private int rounds = 1;
     private int currentsRound;
 
@@ -174,5 +174,13 @@ public class GameStatus {
 
     public void setNumberMissedGueses(int numberMissedGueses) {
         this.numberMissedGueses = numberMissedGueses;
+    }
+
+    public void setP1Mistakes(int p1Mistakes) {
+        this.p1Mistakes = p1Mistakes;
+    }
+
+    public void setP2Mistakes(int p2Mistakes) {
+        this.p2Mistakes = p2Mistakes;
     }
 }

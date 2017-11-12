@@ -41,7 +41,7 @@ public class Server {
                 sendMessage("Welcome to hangMan!", client2Socket);
                 //BLOCKING
 
-                Game game = new Game(new Player(client1Socket, "Player1"), new Player(client2Socket, "Player2"), "english", 3);
+                Game game = new Game(new Player(client1Socket, "Fabio"), new Player(client2Socket, "Eduardo"), "english", 3);
 
                 sendMessage("Game START, " + game.getPlayer1().getName(), client1Socket);
                 sendMessage("Game START, " + game.getPlayer2().getName(), client2Socket);
