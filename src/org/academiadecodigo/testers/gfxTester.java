@@ -2,6 +2,7 @@ package org.academiadecodigo.testers;
 
 import org.academiadecodigo.game.GameStatus;
 import org.academiadecodigo.terminalGFX.TerminalGFX;
+import org.academiadecodigo.terminalGFX.TextReader;
 
 import java.io.IOException;
 
@@ -11,6 +12,16 @@ import java.io.IOException;
 public class gfxTester {
 
     public static void main(String[] args) throws IOException {
+
+/*
+        TextReader textReader = new TextReader();
+
+        System.out.println("before");
+
+        textReader.readText("setScreen");
+
+        System.out.println("after");
+        */
 
         GameStatus gameStatus = new GameStatus();
         TerminalGFX terminalGFX = new TerminalGFX(gameStatus);

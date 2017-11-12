@@ -6,9 +6,9 @@ public class GameStatus {
     public static int[] pointsArray;
 
     //Player 1 status
-    private String p1Name;
-    private int p1Mistakes;
-    private int p1points;
+    private String p1Name = "alk";
+    private int p1Mistakes = 2;;
+    private int p1points = 2;
     private String p1Word = "P A L A V R A p1";
     private String p1Guesses = " A B C  do p1";
 
