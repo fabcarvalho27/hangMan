@@ -16,18 +16,10 @@ public class DatabaseManager {
     public String[] pickGameWords(String theme, int gameRounds) {
 
         pickFilePath(theme);
-        System.out.println("File Path: " + file);
 
         countNumberOfWords();
-        System.out.println("Number of words in file: " + numberOfWords);
 
-        String[] words = giveGameWords(gameRounds);
-        System.out.println("Number words per round: " + words.length);
-        for (int i = 0; i < words.length; i++) {
-            System.out.println("Game word " + i + ": " + words[i]);
-        }
-
-        return words;
+        return giveGameWords(gameRounds);
     }
 
 

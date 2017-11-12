@@ -66,32 +66,32 @@ public class TerminalGFX {
         arrayToScreen(p1ScreenArray,dummy(gameStatus.getP1Mistakes()), width - 15, topPadding + 3);     //p1 hangman
         wordToScreen(p1ScreenArray, "P1Guesses: " + gameStatus.getP1Guesses(), 0, topPadding + 1);//p1 guesses
         wordToScreen(p1ScreenArray, gameStatus.getP1Word(), 12, topPadding + 10);                       //p1 word shown
+        wordToScreen(p1ScreenArray,gameStatus.getP1Message(),0,height-1);                               //message
 
-        wordToScreen(p1ScreenArray, gameStatus.getP2Name(), width - 18, topPadding + 12);                      //oponent name
+        wordToScreen(p1ScreenArray, gameStatus.getP2Name(), width - 18, topPadding + 12);                //oponent name
         arrayToScreen(p1ScreenArray,dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);     //oponent hangman
 
         arrayToScreen(p1ScreenArray,stringToArray(textReader.returnLogo()), 4, 0);                       //LOGO
-        wordToScreen(p1ScreenArray, "Rounds: " + gameStatus.getRounds(), 0, topPadding + 3);       //rounds
+        wordToScreen(p1ScreenArray, "Round: " + gameStatus.getCurrentsRound() + " of " + gameStatus.getRounds(), 0, topPadding + 3);       //rounds
         wordToScreen(p1ScreenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);                   //message from game to all
 
-        //arrayToScreen(stringToArray(Menus.menuEntrance),2,2);
-        //arrayToScreen(stringToArray(DrawingsDepot.logo), 4, 0);
     }
 
     private void mountp2Screen() throws IOException {
 
         initializeArray(p2ScreenArray);
 
-        wordToScreen(p2ScreenArray, gameStatus.getP2Name(), width - 18, topPadding + 1);
-        arrayToScreen(p2ScreenArray, dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 3);
-        wordToScreen(p2ScreenArray, "P2Guesses: " + gameStatus.getP2Guesses(), 0, topPadding + 1);
-        wordToScreen(p2ScreenArray, gameStatus.getP2Word(), 12, topPadding + 10);
+        wordToScreen(p2ScreenArray, gameStatus.getP2Name(), width - 18, topPadding + 1 );                   //name
+        arrayToScreen(p2ScreenArray, dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 3 );       //hangman
+        wordToScreen(p2ScreenArray, "P2Guesses: " + gameStatus.getP2Guesses(), 0, topPadding + 1);      //guesses
+        wordToScreen(p2ScreenArray, gameStatus.getP2Word(), 12, topPadding + 10);                              //wordshown
+        wordToScreen(p2ScreenArray,gameStatus.getP2Message(),0,height-1);                                   //message
 
         wordToScreen(p2ScreenArray, gameStatus.getP1Name(), width - 18, topPadding + 12);
         arrayToScreen(p2ScreenArray, dummy(gameStatus.getP1Mistakes()), width - 15, topPadding + 14);
 
         arrayToScreen(p2ScreenArray, stringToArray(textReader.returnLogo()), 4, 0);
-        wordToScreen(p2ScreenArray, "Rounds: " + gameStatus.getRounds(), 0, topPadding + 3);
+        wordToScreen(p2ScreenArray, "Round: " + gameStatus.getCurrentsRound() + " of " + gameStatus.getRounds(), 0, topPadding + 3);
         wordToScreen(p2ScreenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);
     }
 

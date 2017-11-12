@@ -8,7 +8,9 @@ public class DataBaseTester {
 
         DatabaseManager dataBase = new DatabaseManager();
 
-        for (int i = 0; i < 6; i++) {
+        System.out.println("Database test: " + dataBase.pickGameWords("capitais",5)[0]);
+
+        /*for (int i = 0; i < 6; i++) {
 
             dataBase.pickGameWords("worldcapitals", 5);
             System.out.println("");
