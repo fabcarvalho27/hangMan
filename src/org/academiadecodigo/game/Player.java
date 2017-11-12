@@ -49,6 +49,7 @@ public class Player implements Runnable {
         numberMissedGuesses = 0;
         wrongGuesses = new char[Constants.MAX_NUMBER_WRONG_GUESSES];
 
+        roundWinner=false;
         initCorrectGuesses(currentRoundWordLenght);
 
         gameWinner = false;
