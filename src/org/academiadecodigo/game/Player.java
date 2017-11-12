@@ -65,14 +65,14 @@ public class Player implements Runnable {
             e.printStackTrace();
         }
 
-        if (letterAlreadyChosen(guess)) {
-            out.println("Letter already chosen... Please try again");
-            return guessLetter();
-        }
-
         if (invalideLetterSize(guess) || !valideLetters(guess)) {
 
             out.println("Not a valid Letter... Please try again");
+            return guessLetter();
+        }
+
+        if (letterAlreadyChosen(guess)) {
+            out.println("Letter already chosen... Please try again");
             return guessLetter();
         }
 
