@@ -41,7 +41,7 @@ public class Server {
 
                 //BLOCKING
                 client1Socket = serverSocket.accept();
-                sendMessage("Welcome to hangMan!\nWhat is you name?", client1Socket);
+                sendMessage("\nWelcome to hangMan!\n", client1Socket);
 
                 // String player1Name = readMessage(client1Socket);
                 sendMessage("Waiting for second player", client1Socket);
@@ -49,7 +49,7 @@ public class Server {
 
                 client2Socket = serverSocket.accept();
 
-                sendMessage("Welcome to hangMan!\nWhat is you name?", client2Socket);
+                sendMessage("Welcome to hangMan!\n", client2Socket);
                 //String player2Name = readMessage(client2Socket);
                 //BLOCKING
 

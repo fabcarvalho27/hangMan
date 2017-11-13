@@ -27,12 +27,13 @@ public class Player implements Runnable {
     private boolean gameWinner;
 
     private Game game;
+    private volatile boolean gotName;
 
     //Constructor
-    public Player(Socket socket, String name, Game game) {
+    public Player(Socket socket, Game game) {
 
         this.clientSocket = socket;
-        this.name = name;
+        //this.name = name;
         this.game = game;
 
         try {
@@ -225,6 +226,16 @@ public class Player implements Runnable {
     @Override
     public void run() {
 
+        getOut().println("Whats your name?");
+        //BLOCK
+        try {
+            name = in.readLine();
+            gotName = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //BLOCK
+
 
         while (true) {
 
@@ -234,7 +245,10 @@ public class Player implements Runnable {
                 //BLOCK
                 //System.out.println(clientInput);
 
+                //BLOCK
                 game.analisePlayerGuess(this, guessLetter());
+                //BLOCK
+
                 game.updateGameStatus();
                 game.sendClientsScreen();
             }
@@ -242,5 +256,8 @@ public class Player implements Runnable {
         }
     }
 
+    public  boolean gotName(){{
+    return gotName;}
+    }
 
 }

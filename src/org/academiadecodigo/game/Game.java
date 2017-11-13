@@ -8,11 +8,11 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Game implements Runnable{
+public class Game implements Runnable {
 
     //Properties
     private DatabaseManager database;
-    private GameStatus gameStatus;
+    private volatile GameStatus gameStatus;
     private TerminalGFX GFX;
 
     private String theme;
@@ -28,8 +28,8 @@ public class Game implements Runnable{
     //Constructor
     public Game(Socket player1Socket, Socket player2Socket, String theme, int rounds) {
 
-        this.player1 = new Player(player1Socket, "Eduardo", this);
-        this.player2 = new Player(player2Socket, "Fabio", this);
+        this.player1 = new Player(player1Socket, this);
+        this.player2 = new Player(player2Socket,  this);
         this.theme = theme;
         this.rounds = rounds;
         database = new DatabaseManager();
@@ -59,8 +59,7 @@ public class Game implements Runnable{
         player1.init(gameWords[currentRound - 1].length());
         player2.init(gameWords[currentRound - 1].length());
 
-        gameStatus.setP1Name(player1.getName());
-        gameStatus.setP2Name(player2.getName());
+
         gameStatus.setRounds(rounds);
         gameStatus.setTheme(theme);
         gameStatus.setMessageToAll("");
@@ -74,6 +73,14 @@ public class Game implements Runnable{
         threadPool.submit(player2);
 
         init();
+
+        System.out.println("Waiting for both players to insert their names");
+        while (!(player1.gotName() && player2.gotName())) {
+        }
+        gameStatus.setP1Name(player1.getName());
+        gameStatus.setP2Name(player2.getName());
+
+        sendClientsScreen();
 
         updateGameStatus();
 
@@ -302,6 +309,7 @@ public class Game implements Runnable{
         gameStatus.setCurrentsRound(currentRound);
     }
 
+
     public void sendClientsScreen() {
 
         try {
@@ -450,4 +458,5 @@ public class Game implements Runnable{
     public void run() {
         start();
     }
+
 }
