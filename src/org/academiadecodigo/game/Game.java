@@ -4,6 +4,9 @@ import org.academiadecodigo.Constants;
 import org.academiadecodigo.terminalGFX.TerminalGFX;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Game {
 
@@ -22,10 +25,10 @@ public class Game {
     private Player player2;
 
     //Constructor
-    public Game(Player player1, Player player2, String theme, int rounds) {
+    public Game(Socket player1Socket, Socket player2Socket, String theme, int rounds) {
 
-        this.player1 = player1;
-        this.player2 = player2;
+        this.player1 = new Player(player1Socket, "player1", this);
+        this.player2 = new Player(player2Socket, "player2", this);
         this.theme = theme;
         this.rounds = rounds;
         database = new DatabaseManager();
@@ -64,6 +67,10 @@ public class Game {
 
     public void start() {
 
+        ExecutorService threadPool = Executors.newCachedThreadPool();
+        threadPool.submit(player1);
+        threadPool.submit(player2);
+
         init();
 
         updateGameStatus();
@@ -80,10 +87,10 @@ public class Game {
         System.out.println("##########Game Winner##########");
 
         if (isGameWinner(player1)) {
-            System.out.println(player1.getName()+" Wins GAME");
+            System.out.println(player1.getName() + " Wins GAME");
             player1.setGameWinner(true);
         } else {
-            System.out.println(player2.getName()+ " Wins GAME");
+            System.out.println(player2.getName() + " Wins GAME");
             player2.setGameWinner(true);
         }
         //TODO: waiting for start logic
@@ -99,8 +106,12 @@ public class Game {
         updateGameStatus();
         sendClientScreen();
 
-        while (!roundWinner()) {
+        System.out.println("before round\n");
 
+        while (!roundWinner()) {
+            System.out.println("\ninside round");
+
+/*
             //MULTI THREAD
             //turn(player1);
 
@@ -124,6 +135,9 @@ public class Game {
             sendClientScreen();
 
             //MULTI THREAD
+            */
+
+
         }
 
         System.out.println("#######Round Winner###########");
@@ -191,7 +205,7 @@ public class Game {
         String winnerMSG = "SCREEN: YOU WIN!";
         String loserMSG = "SCREEN: YOU LOOSE!";
 
-        if (isRoundWinner(player1)||isRoundLooser(player2)) {
+        if (isRoundWinner(player1) || isRoundLooser(player2)) {
 
             System.out.println(player1.getName() + winnerMSG);
             System.out.println(player2.getName() + loserMSG);
@@ -209,7 +223,7 @@ public class Game {
         sendClientScreen();
     }
 
-    private void updateGameStatus() {
+    public void updateGameStatus() {
 
         //Player 1 update
         gameStatus.setP1Mistakes(player1.getNumberMissedGuesses());
@@ -228,10 +242,12 @@ public class Game {
         gameStatus.setCurrentsRound(currentRound);
     }
 
-    private void sendClientScreen() {
+    public void sendClientScreen() {
 
         try {
+
             player1.getOut().println(GFX.p1Render());
+            System.out.println("tryn to send 1");
             player2.getOut().println(GFX.p2Render());
         } catch (IOException e) {
             e.printStackTrace();
@@ -264,7 +280,7 @@ public class Game {
         return database.pickGameWords(theme, rounds);
     }
 
-    private void analisePlayerGuess(Player player, char letter) {
+    public void analisePlayerGuess(Player player, char letter) {
 
         boolean match = false;
 

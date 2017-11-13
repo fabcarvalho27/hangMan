@@ -26,11 +26,14 @@ public class Player implements Runnable {
     private int gamePoints = 0;
     private boolean gameWinner;
 
+    private Game game;
+
     //Constructor
-    public Player(Socket socket, String name) {
+    public Player(Socket socket, String name, Game game) {
 
         this.clientSocket = socket;
         this.name = name;
+        this.game = game;
 
         try {
             out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -49,7 +52,7 @@ public class Player implements Runnable {
         numberMissedGuesses = 0;
         wrongGuesses = new char[Constants.MAX_NUMBER_WRONG_GUESSES];
 
-        roundWinner=false;
+        roundWinner = false;
         initCorrectGuesses(currentRoundWordLenght);
 
         gameWinner = false;
@@ -84,7 +87,7 @@ public class Player implements Runnable {
     //Utils methods
     private boolean letterAlreadyChosen(String letter) {
 
-        for (int i = 0; i < correctGuesses.length;) {
+        for (int i = 0; i < correctGuesses.length; ) {
             System.out.println("Correct Guess: " + correctGuesses[i]);
             System.out.println("Letter: " + letter.charAt(0));
             return correctGuesses[i] == letter.charAt(0);
@@ -93,12 +96,12 @@ public class Player implements Runnable {
         return false;
     }
 
-    private boolean invalideLetterSize(String letter){
+    private boolean invalideLetterSize(String letter) {
 
         return letter.length() > 1 || letter.equals(" ") || letter.equals("");
     }
 
-    private boolean valideLetters(String letter){
+    private boolean valideLetters(String letter) {
 
         return letter.matches("\\p{L}");
     }
@@ -126,10 +129,10 @@ public class Player implements Runnable {
 
     public void initCorrectGuesses(int currentRoundWordLenght) {
 
-        correctGuesses = initializeArray(new char[currentRoundWordLenght],'_');
+        correctGuesses = initializeArray(new char[currentRoundWordLenght], '_');
     }
 
-    public char[] initializeArray(char[] array,char character) {
+    public char[] initializeArray(char[] array, char character) {
 
         for (int i = 0; i < array.length; i++) {
             array[i] = character;
@@ -202,5 +205,22 @@ public class Player implements Runnable {
     @Override
     public void run() {
 
+            while (true) {
+
+                //BLOCK
+                //String clientInput = in.readLine();
+                //BLOCK
+                //System.out.println(clientInput);
+
+                game.analisePlayerGuess(this,guessLetter());
+                game.updateGameStatus();
+                game.sendClientScreen();
+            }
+
+
+
     }
+
+
+
 }

@@ -9,7 +9,7 @@ import java.io.IOException;
 public class GameTester {
 
     public static void main(String[] args) {
-
+/*
         try {
             Server server = new Server();
             Game game = new Game(new Player(server.getClient1Socket(), "P1"), new Player(server.getClient2Socket(), "P2"), "english", 5);
@@ -19,7 +19,7 @@ public class GameTester {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+*/
     }
 
 }
