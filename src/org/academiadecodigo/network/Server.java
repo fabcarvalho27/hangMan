@@ -32,8 +32,7 @@ public class Server {
 
     public void start() {
 
-
-
+        ExecutorService gamesThreadPool = Executors.newCachedThreadPool();
 
 
         while (true) {
@@ -44,7 +43,7 @@ public class Server {
                 client1Socket = serverSocket.accept();
                 sendMessage("Welcome to hangMan!\nWhat is you name?", client1Socket);
 
-               // String player1Name = readMessage(client1Socket);
+                // String player1Name = readMessage(client1Socket);
                 sendMessage("Waiting for second player", client1Socket);
 
 
@@ -54,15 +53,16 @@ public class Server {
                 //String player2Name = readMessage(client2Socket);
                 //BLOCKING
 
-                Game game = new Game(client1Socket,client2Socket, "intellijunkies",2);
+                Game game = new Game(client1Socket, client2Socket, "intellijunkies", 2);
+                gamesThreadPool.submit(game);
                 //Game game = new Game(new Player(client1Socket, player1Name), new Player(client2Socket, player2Name), "intellijunkies", 3);
 
-                sendMessage("Game START, " + game.getPlayer1().getName(), client1Socket);
-                sendMessage("Game START, " + game.getPlayer2().getName(), client2Socket);
+
+                //sendMessage("Game START, " + game.getPlayer1().getName(), client1Socket);
+                //sendMessage("Game START, " + game.getPlayer2().getName(), client2Socket);
 
                 // Start Game
 
-                game.start();
 
             } catch (IOException e) {
                 e.printStackTrace();

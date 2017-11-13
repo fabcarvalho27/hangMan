@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Game {
+public class Game implements Runnable{
 
     //Properties
     private DatabaseManager database;
@@ -82,7 +82,6 @@ public class Game {
         sendClientsScreen();
 
         while (!gameWinner()) {
-            acceptingGuesses = true;
 
             startRound();
         }
@@ -111,7 +110,6 @@ public class Game {
 
         gameStatus.setMessageToAll("#### GAMEOVER ###");
         sendClientsScreen();
-
 
     }
 
@@ -168,6 +166,7 @@ public class Game {
 
 
         }
+
         acceptingGuesses(false);
 
         System.out.println("#######Round Winner###########");
@@ -445,5 +444,10 @@ public class Game {
 
     public boolean isAcceptingGuesses() {
         return acceptingGuesses;
+    }
+
+    @Override
+    public void run() {
+        start();
     }
 }
