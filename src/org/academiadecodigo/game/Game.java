@@ -319,7 +319,7 @@ public class Game implements Runnable {
             player2.getOut().println(GFX.p2Render());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
     }
@@ -408,7 +408,7 @@ public class Game implements Runnable {
     }
 
     private boolean isRoundWinner(Player player) {
-        return player.getNumberMissedGuesses() == gameWords[currentRound - 1].length();
+        return player.getNumberGuessedLetters() == gameWords[currentRound - 1].length();
     }
 
     private boolean isRoundLooser(Player player) {
