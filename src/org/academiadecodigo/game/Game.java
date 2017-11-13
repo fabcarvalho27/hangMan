@@ -86,6 +86,7 @@ public class Game implements Runnable {
 
 
         System.out.println("Start Game\n");
+
         sendClientsScreen();
 
         while (!gameWinner()) {
@@ -138,7 +139,7 @@ public class Game implements Runnable {
 
             acceptingGuesses(true);
 
-            System.out.println("accepting guesses: " + acceptingGuesses);
+            //System.out.println("accepting guesses: " + acceptingGuesses);
 
             // System.out.println("\ninside round");
             //System.out.println("Player wins:" + playerWins());

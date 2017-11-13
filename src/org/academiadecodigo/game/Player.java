@@ -1,6 +1,7 @@
 package org.academiadecodigo.game;
 
 import org.academiadecodigo.Constants;
+import org.academiadecodigo.terminalGFX.TerminalGFX;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -227,6 +228,7 @@ public class Player implements Runnable {
     public void run() {
 
         getOut().println("Whats your name?");
+
         //BLOCK
         try {
             name = in.readLine();
@@ -236,14 +238,12 @@ public class Player implements Runnable {
         }
         //BLOCK
 
+        getOut().println("\n Name inserted.\nWaiting for the other oponent..");
+
 
         while (true) {
 
             while (game.isAcceptingGuesses()) {
-                //BLOCK
-                //String clientInput = in.readLine();
-                //BLOCK
-                //System.out.println(clientInput);
 
                 //BLOCK
                 game.analisePlayerGuess(this, guessLetter());
@@ -256,8 +256,10 @@ public class Player implements Runnable {
         }
     }
 
-    public  boolean gotName(){{
-    return gotName;}
+    public boolean gotName() {
+        {
+            return gotName;
+        }
     }
 
 }
