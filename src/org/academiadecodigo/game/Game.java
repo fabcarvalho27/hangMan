@@ -434,9 +434,11 @@ public class Game implements Runnable {
         char[] charArray = wordArray;
         char[] result = new char[charArray.length * 2];
 
+
+        result[0]=wordArray[0];
         for (int i = 1; i < charArray.length; i++) {
 
-            result[i * 2] = charArray[i-1];
+            result[i * 2] = charArray[i];
             result[i * 2 - 1] = ' ';
 
         }
