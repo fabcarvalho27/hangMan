@@ -296,13 +296,13 @@ public class Game implements Runnable {
         //Player 1 update
         gameStatus.setP1Mistakes(player1.getNumberMissedGuesses());
         gameStatus.setP1points(player1.getGamePoints());
-        gameStatus.setP1Word(new String(player1.getCorrectGuesses()));
+        gameStatus.setP1Word(spaceWord(player1.getCorrectGuesses()));
         gameStatus.setP1Guesses(new String(player1.getWrongGuesses()));
 
         //Player 2 update
         gameStatus.setP2Mistakes(player2.getNumberMissedGuesses());
         gameStatus.setP2points(player2.getGamePoints());
-        gameStatus.setP2Word(new String(player2.getCorrectGuesses()));
+        gameStatus.setP2Word(spaceWord(player2.getCorrectGuesses()));
         gameStatus.setP2Guesses(new String(player2.getWrongGuesses()));
 
         //Game update
@@ -429,6 +429,21 @@ public class Game implements Runnable {
     }
 
 
+    private String spaceWord(char[] wordArray) {
+
+        char[] charArray = wordArray;
+        char[] result = new char[charArray.length * 2];
+
+        for (int i = 1; i < charArray.length; i++) {
+
+            result[i * 2] = charArray[i-1];
+            result[i * 2 - 1] = ' ';
+
+        }
+        return new String(result);
+    }
+
+
 //Getters and Setters
 
     public String[] getGameWords() {
@@ -459,5 +474,6 @@ public class Game implements Runnable {
     public void run() {
         start();
     }
+
 
 }

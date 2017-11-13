@@ -210,4 +210,8 @@ public class GameStatus {
     public void setTimeSlot(String timeSlot) {
         this.timeSlot = timeSlot;
     }
+
+
+
+
 }
