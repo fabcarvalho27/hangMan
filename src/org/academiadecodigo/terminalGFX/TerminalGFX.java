@@ -64,7 +64,7 @@ public class TerminalGFX {
 
         wordToScreen(p1ScreenArray, gameStatus.getP1Name(), width - 18, topPadding + 1);                //p1 name
         arrayToScreen(p1ScreenArray, dummy(gameStatus.getP1Mistakes()), width - 15, topPadding + 3);     //p1 hangman
-        wordToScreen(p1ScreenArray, "P1Guesses: " + gameStatus.getP1Guesses(), 0, topPadding + 2);//p1 guesses
+        wordToScreen(p1ScreenArray, "Guesses: " + gameStatus.getP1Guesses(), 0, topPadding + 2);//p1 guesses
         wordToScreen(p1ScreenArray, gameStatus.getP1Word(), 12, topPadding + 10);                       //p1 word shown
         wordToScreen(p1ScreenArray, gameStatus.getP1Message(), 0, height - 1);                               //message
 
@@ -75,6 +75,11 @@ public class TerminalGFX {
         wordToScreen(p1ScreenArray, "Round: " + gameStatus.getCurrentsRound() + " of " + gameStatus.getRounds(), 0, topPadding + 3);       //rounds
         wordToScreen(p1ScreenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);                   //message from game to all
         wordToScreen(p1ScreenArray, "Theme: " + gameStatus.getTheme(), 0, topPadding + 1);                              //theme
+
+        wordToScreen(p1ScreenArray, gameStatus.getTimeSlot(), 2, topPadding + 13);
+        wordToScreen(p1ScreenArray, gameStatus.getTimeSlot(), 2, topPadding + 6);
+        wordToScreen(p1ScreenArray, gameStatus.getTimeSlot(), 35, topPadding +13);
+        wordToScreen(p1ScreenArray, gameStatus.getTimeSlot(), 35, topPadding + 6);
     }
 
     private void mountp2Screen() throws IOException {
@@ -83,7 +88,7 @@ public class TerminalGFX {
 
         wordToScreen(p2ScreenArray, gameStatus.getP2Name(), width - 18, topPadding + 1);                   //name
         arrayToScreen(p2ScreenArray, dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 3);       //hangman
-        wordToScreen(p2ScreenArray, "P2Guesses: " + gameStatus.getP2Guesses(), 0, topPadding + 2);      //guesses
+        wordToScreen(p2ScreenArray, "Guesses: " + gameStatus.getP2Guesses(), 0, topPadding + 2);      //guesses
         wordToScreen(p2ScreenArray, gameStatus.getP2Word(), 12, topPadding + 10);                              //wordshown
         wordToScreen(p2ScreenArray, gameStatus.getP2Message(), 0, height - 1);                                   //message
 
@@ -94,6 +99,11 @@ public class TerminalGFX {
         wordToScreen(p2ScreenArray, "Round: " + gameStatus.getCurrentsRound() + " of " + gameStatus.getRounds(), 0, topPadding + 3);
         wordToScreen(p2ScreenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);
         wordToScreen(p2ScreenArray, "Theme: " + gameStatus.getTheme(), 0, topPadding + 1);
+
+        wordToScreen(p2ScreenArray, gameStatus.getTimeSlot(), 2, topPadding + 13);
+        wordToScreen(p2ScreenArray, gameStatus.getTimeSlot(), 2, topPadding + 6);
+        wordToScreen(p2ScreenArray, gameStatus.getTimeSlot(), 35, topPadding + 13);
+        wordToScreen(p2ScreenArray, gameStatus.getTimeSlot(), 35, topPadding + 6);
     }
 
 

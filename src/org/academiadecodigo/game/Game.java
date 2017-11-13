@@ -23,12 +23,13 @@ public class Game {
 
     private Player player1;
     private Player player2;
+    private volatile boolean acceptingGuesses;
 
     //Constructor
     public Game(Socket player1Socket, Socket player2Socket, String theme, int rounds) {
 
-        this.player1 = new Player(player1Socket, "player1", this);
-        this.player2 = new Player(player2Socket, "player2", this);
+        this.player1 = new Player(player1Socket, "Eduardo", this);
+        this.player2 = new Player(player2Socket, "Fabio", this);
         this.theme = theme;
         this.rounds = rounds;
         database = new DatabaseManager();
@@ -62,6 +63,7 @@ public class Game {
         gameStatus.setP2Name(player2.getName());
         gameStatus.setRounds(rounds);
         gameStatus.setTheme(theme);
+        gameStatus.setMessageToAll("");
 
     }
 
@@ -77,9 +79,10 @@ public class Game {
 
 
         System.out.println("Start Game\n");
-        sendClientScreen();
+        sendClientsScreen();
 
         while (!gameWinner()) {
+            acceptingGuesses = true;
 
             startRound();
         }
@@ -89,14 +92,32 @@ public class Game {
         if (isGameWinner(player1)) {
             System.out.println(player1.getName() + " Wins GAME");
             player1.setGameWinner(true);
+            gameStatus.setMessageToAll(player1.getName() + " IS THE WINNER!!!" + " " + player2.getName() + " sucks..");
         } else {
             System.out.println(player2.getName() + " Wins GAME");
             player2.setGameWinner(true);
+            gameStatus.setMessageToAll(player2.getName() + " IS THE WINNER!!!" + " " + player1.getName() + " sucks..");
         }
-        //TODO: waiting for start logic
+
+        sendClientsScreen();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("###GAME OVER");
+
+        gameStatus.setMessageToAll("#### GAMEOVER ###");
+        sendClientsScreen();
+
+
     }
 
     private void startRound() {
+
+        time321();
 
         System.out.println("Start Round\n");
 
@@ -104,12 +125,20 @@ public class Game {
         initRoundWord();
 
         updateGameStatus();
-        sendClientScreen();
+        sendClientsScreen();
 
         System.out.println("before round\n");
 
         while (!roundWinner()) {
-            System.out.println("\ninside round");
+
+            acceptingGuesses(true);
+
+            System.out.println("accepting guesses: " + acceptingGuesses);
+
+            // System.out.println("\ninside round");
+            //System.out.println("Player wins:" + playerWins());
+            //System.out.println("player looses: " + playerLose());
+            // System.out.println("Round winner: " + roundWinner());
 
 /*
             //MULTI THREAD
@@ -122,7 +151,7 @@ public class Game {
             System.out.println("Player 1 Game Points" + player1.getGamePoints());
             System.out.println("###########################\n");
             updateGameStatus();
-            sendClientScreen();
+            sendClientsScreen();
 
             //turn(player2);
             analisePlayerGuess(player2, player2.guessLetter());
@@ -132,15 +161,18 @@ public class Game {
             System.out.println("Player 2 Game Points" + player2.getGamePoints());
             System.out.println("###########################\n");
             updateGameStatus();
-            sendClientScreen();
+            sendClientsScreen();
 
             //MULTI THREAD
             */
 
 
         }
+        acceptingGuesses(false);
 
         System.out.println("#######Round Winner###########");
+        String winRound = "You win this round";
+        String looseRound = "You loose this round";
 
 
         if (isRoundWinner(player1)) {
@@ -148,18 +180,43 @@ public class Game {
             System.out.println("\n" + player1.getName() + " Wins round " + currentRound);
             player1.setRoundWinner(true);
             player1.incrementGamePoints();
+
             System.out.println(player1.getGamePoints());
 
+            gameStatus.setMessageToAll(player1.getName() + " is wins round " + currentRound);
+            gameStatus.setP1Message(winRound);
+            gameStatus.setP2Message(looseRound);
+
         } else {
-            System.out.println("\n" + player2.getName() + "Wins round " + currentRound);
+            System.out.println("\n" + player2.getName() + " Wins round " + currentRound);
             player2.setRoundWinner(true);
             player2.incrementGamePoints();
+
             System.out.println(player2.getGamePoints());
+
+            gameStatus.setMessageToAll(player2.getName() + " wins round " + currentRound);
+            gameStatus.setP1Message(looseRound);
+            gameStatus.setP2Message(winRound);
         }
 
-        sendRoundResultScreen();
+        try {
 
-        timer321();
+            sendRoundResultScreen();
+            Thread.sleep(2000);
+
+            gameStatus.setMessageToAll(" Word: " + gameWords[currentRound - 1]);
+            sendClientsScreen();
+            Thread.sleep(2000);
+
+            gameStatus.setMessageToAll("");
+            gameStatus.setP1Message("");
+            gameStatus.setP2Message("");
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+//time321
 
         currentRound++;
         gameStatus.setCurrentsRound(currentRound);
@@ -173,27 +230,31 @@ public class Game {
         }
 
 
-        //sendClientScreen();
+        //sendClientsScreen();
         */
     }
 
-    private void timer321() {
+    private void time321() {
         try {
-            Thread.sleep(9000);
-            gameStatus.setMessageToAll("3");
-            sendClientScreen();
+            gameStatus.setTimeSlot("3");
+            sendClientsScreen();
+            Thread.sleep(1000)
+            ;
+            gameStatus.setTimeSlot("2");
+            sendClientsScreen();
+            Thread.sleep(1000);
 
-            Thread.sleep(2000);
-            gameStatus.setMessageToAll("2");
-            sendClientScreen();
+            gameStatus.setTimeSlot("1");
+            sendClientsScreen();
+            Thread.sleep(1000);
 
-            Thread.sleep(2000);
-            gameStatus.setMessageToAll("1");
-            sendClientScreen();
+            gameStatus.setTimeSlot("PLAY!!");
+            gameStatus.setP1Message("");
+            gameStatus.setP2Message("");
+            sendClientsScreen();
+            Thread.sleep(1000);
 
-            Thread.sleep(2000);
-            gameStatus.setMessageToAll("");
-            sendClientScreen();
+            gameStatus.setTimeSlot("");
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -202,8 +263,8 @@ public class Game {
 
 
     private void sendRoundResultScreen() {
-        String winnerMSG = "SCREEN: YOU WIN!";
-        String loserMSG = "SCREEN: YOU LOOSE!";
+        String winnerMSG = " YOU WIN!";
+        String loserMSG = " YOU LOOSE!";
 
         if (isRoundWinner(player1) || isRoundLooser(player2)) {
 
@@ -220,7 +281,7 @@ public class Game {
 
 
         }
-        sendClientScreen();
+        sendClientsScreen();
     }
 
     public void updateGameStatus() {
@@ -242,13 +303,13 @@ public class Game {
         gameStatus.setCurrentsRound(currentRound);
     }
 
-    public void sendClientScreen() {
+    public void sendClientsScreen() {
 
         try {
 
             player1.getOut().println(GFX.p1Render());
-            System.out.println("tryn to send 1");
             player2.getOut().println(GFX.p2Render());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -346,6 +407,11 @@ public class Game {
         return player.getNumberMissedGuesses() == Constants.MAX_NUMBER_WRONG_GUESSES;
     }
 
+
+    private void acceptingGuesses(boolean value) {
+        acceptingGuesses = value;
+    }
+
     public static char[] initializeArray(char[] array) {
 
         for (int i = 0; i < array.length; i++) {
@@ -375,5 +441,9 @@ public class Game {
 
     public Player getPlayer2() {
         return player2;
+    }
+
+    public boolean isAcceptingGuesses() {
+        return acceptingGuesses;
     }
 }

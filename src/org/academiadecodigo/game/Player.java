@@ -68,21 +68,40 @@ public class Player implements Runnable {
             e.printStackTrace();
         }
 
+        String notValid = "Not a valid Letter... Please try again";
+        String alreadyChosen = "Letter already chosen... Please try again";
+
         if (invalideLetterSize(guess) || !valideLetters(guess)) {
 
-            out.println("Not a valid Letter... Please try again");
+            setPlayerMessage(notValid);
+            game.sendClientsScreen();
             return guessLetter();
         }
 
         if (letterAlreadyChosen(guess)) {
-            out.println("Letter already chosen... Please try again");
+
+            setPlayerMessage(alreadyChosen);
+            game.sendClientsScreen();
             return guessLetter();
         }
 
+        setPlayerMessage("");
+        game.sendClientsScreen();
         System.out.println(name + "guess: " + guess);
+
         return guess.charAt(0);
 
     }
+
+
+    public void setPlayerMessage(String message) {
+        if (this == game.getPlayer1()) {
+            game.getGameStatus().setP1Message(message);
+        } else {
+            game.getGameStatus().setP2Message(message);
+        }
+    }
+
 
     //Utils methods
     private boolean letterAlreadyChosen(String letter) {
@@ -202,25 +221,25 @@ public class Player implements Runnable {
         this.wrongGuesses = wrongGuesses;
     }
 
+
     @Override
     public void run() {
 
-            while (true) {
+        while (true) {
 
+            while (game.isAcceptingGuesses()) {
                 //BLOCK
                 //String clientInput = in.readLine();
                 //BLOCK
                 //System.out.println(clientInput);
 
-                game.analisePlayerGuess(this,guessLetter());
+                game.analisePlayerGuess(this, guessLetter());
                 game.updateGameStatus();
-                game.sendClientScreen();
+                game.sendClientsScreen();
             }
 
-
-
+        }
     }
-
 
 
 }

@@ -7,25 +7,27 @@ public class GameStatus {
 
     //Player 1 status
     private String p1Name = "alk";
-    private int p1Mistakes = 2;;
-    private int p1points = 2;
-    private String p1Word = "P A L A V R A p1";
-    private String p1Guesses = " A B C  do p1";
-    private String p1Message = "";
+    private volatile int p1Mistakes = 2;
+    ;
+    private volatile int p1points = 2;
+    private volatile String p1Word = "P A L A V R A p1";
+    private volatile String p1Guesses = " A B C  do p1";
+    private volatile String p1Message = "";
 
     //PLayer 2 status
     private String p2Name;
-    private int p2Mistakes;
-    private int p2points;
-    private String p2Word = "P A L A V R A  p2";
-    private String p2Guesses = "D E F do p2";
-    private String p2Message = "";
+    private volatile int p2Mistakes;
+    private volatile int p2points;
+    private volatile String p2Word = "P A L A V R A  p2";
+    private volatile String p2Guesses = "D E F do p2";
+    private volatile String p2Message = "";
 
     //Game Status
     private String theme = " TEMA";
     private String messageToAll = "PLAY!!";
     private int rounds;
     private int currentsRound;
+    private String timeSlot = "0";
 
 
     private String gameMode;
@@ -34,7 +36,6 @@ public class GameStatus {
     private int points;
     private String[] playerNames;
     private int numberMissedGueses;
-
 
 
     public String getGameMode() {
@@ -200,5 +201,13 @@ public class GameStatus {
 
     public void setP2Message(String p2Message) {
         this.p2Message = p2Message;
+    }
+
+    public String getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(String timeSlot) {
+        this.timeSlot = timeSlot;
     }
 }
