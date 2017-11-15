@@ -33,13 +33,13 @@ public class TerminalGFX {
     }
 
     public void render() throws IOException {
-        mountp1Screen();
+        mountp1Screen(p1ScreenArray);
         mountp2Screen();
     }
 
     public String p1Render() throws IOException {
 
-        mountp1Screen();
+        mountp1Screen(p1ScreenArray);
         return arrayToString(p1ScreenArray);
     }
 
@@ -58,28 +58,54 @@ public class TerminalGFX {
         return arrayToString(p2ScreenArray);
     }
 
-    private void mountp1Screen() throws IOException {
 
-        initializeArray(p1ScreenArray);
+    private void mountp1Screen(char[][] screenArray) throws IOException {
 
-        wordToScreen(p1ScreenArray, gameStatus.getP1Name(), width - 18, topPadding + 1);                //p1 name
-        arrayToScreen(p1ScreenArray, dummy(gameStatus.getP1Mistakes()), width - 15, topPadding + 3);     //p1 hangman
-        wordToScreen(p1ScreenArray, "Guesses: " + gameStatus.getP1Guesses(), 0, topPadding + 2);//p1 guesses
-        wordToScreen(p1ScreenArray, gameStatus.getP1Word(), 12, topPadding + 10);                       //p1 word shown
-        wordToScreen(p1ScreenArray, gameStatus.getP1Message(), 0, height - 1);                               //message
+        initializeArray(screenArray);
 
-        wordToScreen(p1ScreenArray, gameStatus.getP2Name(), width - 18, topPadding + 12);                //oponent name
-        arrayToScreen(p1ScreenArray, dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);     //oponent hangman
 
-        arrayToScreen(p1ScreenArray, stringToArray(textReader.returnLogo()), 4, 0);                       //LOGO
-        wordToScreen(p1ScreenArray, "Round: " + gameStatus.getCurrentsRound() + " of " + gameStatus.getRounds(), 0, topPadding + 3);       //rounds
-        wordToScreen(p1ScreenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);                   //message from game to all
-        wordToScreen(p1ScreenArray, "Theme: " + gameStatus.getTheme(), 0, topPadding + 1);                              //theme
 
-        wordToScreen(p1ScreenArray, gameStatus.getTimeSlot(), 2, topPadding + 13);
-        wordToScreen(p1ScreenArray, gameStatus.getTimeSlot(), 2, topPadding + 6);
-        wordToScreen(p1ScreenArray, gameStatus.getTimeSlot(), 35, topPadding +13);
-        wordToScreen(p1ScreenArray, gameStatus.getTimeSlot(), 35, topPadding + 6);
+
+
+        wordToScreen(screenArray, gameStatus.getMessageToAll(), 0, topPadding + 15);                   //message from game to all
+
+
+        playerInfo(screenArray);
+
+        opponentInfo(screenArray);
+        header(screenArray);
+        timerToScreen(screenArray);
+
+    }
+
+    private void playerInfo(char[][] screenArray) {
+
+        wordToScreen(screenArray, gameStatus.getP1Name(), ScreenConstants.namePosX, ScreenConstants.namePosY);                //p1 name
+        arrayToScreen(screenArray, dummy(gameStatus.getP1Mistakes()), ScreenConstants.dummyPosX, ScreenConstants.dummyPosY);     //p1 hangman
+        wordToScreen(screenArray, "Guesses: " + gameStatus.getP1Guesses(), ScreenConstants.guessesPosX, ScreenConstants.guessesPosY);//p1 guesses
+        wordToScreen(screenArray, gameStatus.getP1Word(), ScreenConstants.wordPosX, ScreenConstants.wordPosY);                       //p1 word shown
+
+        wordToScreen(screenArray, gameStatus.getP1Message(), ScreenConstants.pMessagePosX, ScreenConstants.pMessagePosY);                               //message
+
+    }
+
+    private void opponentInfo(char[][] screenArray){
+
+        wordToScreen(screenArray, gameStatus.getP2Name(), ScreenConstants.o, topPadding + 12);                //oponent name
+        arrayToScreen(screenArray, dummy(gameStatus.getP2Mistakes()), width - 15, topPadding + 14);     //oponent hangman
+    }
+
+    private void header(char[][] screenArray) {
+
+        try {
+
+            arrayToScreen(screenArray, stringToArray(textReader.returnLogo()), ScreenConstants.logoPosX, ScreenConstants.logoPosY);                       //LOGO
+            wordToScreen(screenArray, "Round: " + gameStatus.getCurrentsRound() + " of " + gameStatus.getRounds(), ScreenConstants.roundPosX, ScreenConstants.roundPosY);       //rounds
+            wordToScreen(screenArray, "Theme: " + gameStatus.getTheme(), ScreenConstants.themePosX, ScreenConstants.themePosY);                              //theme
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void mountp2Screen() throws IOException {
@@ -106,6 +132,17 @@ public class TerminalGFX {
         wordToScreen(p2ScreenArray, gameStatus.getTimeSlot(), 35, topPadding + 6);
     }
 
+
+    private void timerToScreen(char[][] screenArray) {
+
+        wordToScreen(screenArray, gameStatus.getTimeSlot(), ScreenConstants.timerLeft, ScreenConstants.timerDown);
+
+        wordToScreen(screenArray, gameStatus.getTimeSlot(), ScreenConstants.timerLeft, ScreenConstants.timerUp);
+
+        wordToScreen(screenArray, gameStatus.getTimeSlot(), ScreenConstants.timerRight, ScreenConstants.timerDown);
+
+        wordToScreen(screenArray, gameStatus.getTimeSlot(), ScreenConstants.timerRight, ScreenConstants.timerUp);
+    }
 
     private void initializeArray(char[][] array) {
 
