@@ -1,47 +1,66 @@
 package org.academiadecodigo.game;
 
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class DatabaseManager {
 
-    InputStreamReader inputStreamReader;
-    File file;
+
+    private File file;
+    private int numberOfWords;
+    private ArrayList<String> wordList;
+    private LinkedList<String> sentenceList;
 
 
-    public String pickFilePath(String theme) {
+    public String[] pickGameWords(String theme, int gameRounds) {
 
-        switch (theme) {
-            case x:
-                return;
+        pickFilePath(theme);
 
-            case y:
+        countNumberOfWords();
 
-                return;
+        return giveGameWords(gameRounds);
+    }
 
-            case z:
 
-                return "path";
+    private void pickFilePath(String theme) {
 
-            default:
+        file = new File("resources/themes/" + theme + ".txt");
+    }
 
-                return "default path";
 
+    private void countNumberOfWords() {
+
+        try {
+
+            String line;
+            wordList = new ArrayList<>();
+
+            BufferedReader bReader = new BufferedReader(new FileReader(file));
+            while ((line = bReader.readLine()) != null) {
+                wordList.add(line);
+            }
+
+            numberOfWords = wordList.size();
+
+        } catch (IOException e) {
+            System.out.println("File reading problem: " + e.getMessage());
         }
     }
 
-    public String pickRandomWord(String theme) {
+    private String[] giveGameWords(int gameRounds) {
 
-        pickFilePath(theme);
-        selectRandomLine();
+        String[] gameWords = new String[gameRounds];
+        int index;
 
-
+        for (int i = 0; i < gameRounds; i++) {
+            index = (int) (Math.random() * wordList.size());
+            gameWords[i] = wordList.get(index);
+            wordList.remove(index);
+        }
+        return gameWords;
     }
-
-    public void selectRandomLine() {
-
-    }
-
-    //TODO: make it beautiful!! :)
-    //TODO: create .txt database files by theme
 }
+
+
+
