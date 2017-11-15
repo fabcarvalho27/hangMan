@@ -32,14 +32,13 @@ public class Game implements Runnable {
         this.player2 = new Player(player2Socket,  this);
         this.theme = theme;
         this.rounds = rounds;
+
         database = new DatabaseManager();
         gameStatus = new GameStatus();
-        try {
-            GFX = new TerminalGFX(gameStatus);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        GFX = new TerminalGFX(gameStatus);
     }
+
 
     public Game() {
 
@@ -54,7 +53,6 @@ public class Game implements Runnable {
             System.out.println("test game init() word: " + s);
         }
 
-        //TODO: test game words. error
 
         player1.init(gameWords[currentRound - 1].length());
         player2.init(gameWords[currentRound - 1].length());
@@ -97,9 +95,11 @@ public class Game implements Runnable {
         System.out.println("##########Game Winner##########");
 
         if (isGameWinner(player1)) {
+
             System.out.println(player1.getName() + " Wins GAME");
             player1.setGameWinner(true);
             gameStatus.setMessageToAll(player1.getName() + " IS THE WINNER!!!" + " " + player2.getName() + " sucks..");
+
         } else {
             System.out.println(player2.getName() + " Wins GAME");
             player2.setGameWinner(true);
@@ -121,6 +121,7 @@ public class Game implements Runnable {
 
     }
 
+
     private void startRound() {
 
         time321();
@@ -135,43 +136,10 @@ public class Game implements Runnable {
 
         System.out.println("before round\n");
 
-        while (!roundWinner()) {
+
+        while (!roundWinner()) { //TODO wait and notify
 
             acceptingGuesses(true);
-
-            //System.out.println("accepting guesses: " + acceptingGuesses);
-
-            // System.out.println("\ninside round");
-            //System.out.println("Player wins:" + playerWins());
-            //System.out.println("player looses: " + playerLose());
-            // System.out.println("Round winner: " + roundWinner());
-
-/*
-            //MULTI THREAD
-            //turn(player1);
-
-            analisePlayerGuess(player1, player1.guessLetter());
-            System.out.println("Player 1 Misses: " + player1.getNumberMissedGuesses());
-            System.out.println("Player 1 Guesses: " + player1.getNumberGuessedLetters());
-            System.out.println("Player 1 Round Points:" + player1.getGamePoints());
-            System.out.println("Player 1 Game Points" + player1.getGamePoints());
-            System.out.println("###########################\n");
-            updateGameStatus();
-            sendClientsScreen();
-
-            //turn(player2);
-            analisePlayerGuess(player2, player2.guessLetter());
-            System.out.println("Player 2 Misses: " + player2.getNumberMissedGuesses());
-            System.out.println("Player 2 Guesses: " + player2.getNumberGuessedLetters());
-            System.out.println("Player 2 Round Points:" + player2.getGamePoints());
-            System.out.println("Player 2 Game Points" + player2.getGamePoints());
-            System.out.println("###########################\n");
-            updateGameStatus();
-            sendClientsScreen();
-
-            //MULTI THREAD
-            */
-
 
         }
 
@@ -313,14 +281,10 @@ public class Game implements Runnable {
 
     public void sendClientsScreen() {
 
-        try {
 
             player1.getOut().println(GFX.p1Render());
             player2.getOut().println(GFX.p2Render());
 
-        } catch (IOException e) {
-            //e.printStackTrace();
-        }
 
     }
 

@@ -18,14 +18,14 @@ public class Server {
 
     private final int PORT = 9999;
     private ServerSocket serverSocket;
-    private Map<ClientDispatch, String> clientsMap;
+   // private Map<ClientDispatch, String> clientsMap;
     private Socket client1Socket;
     private Socket client2Socket;
 
     public Server() throws IOException {
 
         this.serverSocket = new ServerSocket(PORT);
-        clientsMap = new ConcurrentHashMap<>();
+       // clientsMap = new ConcurrentHashMap<>();
 
     }
 
@@ -109,8 +109,9 @@ public class Server {
         }
     }
 
-    //TALK TO A SINGLE CLIENT
 
+    //TALK TO A SINGLE CLIENT
+/*
     public void sendOne(String clientName, String messageToClient) {
         for (Map.Entry<ClientDispatch, String> client :
                 clientsMap.entrySet()) {
@@ -121,7 +122,8 @@ public class Server {
             }
 
         }
-    }
+    }*/
+
 
     public Socket getClient1Socket() {
         return client1Socket;

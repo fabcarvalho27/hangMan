@@ -6,9 +6,9 @@ package org.academiadecodigo.terminalGFX;
 public abstract class ScreenConstants {
 
     //general info
-    private static int width = 70;
-    private static int height = 30;
-    private static int topPadding = 11;
+    public static int width = 70;
+    public static int height = 30;
+    public static int topPadding = 11;
 
 
     //player info
@@ -26,8 +26,8 @@ public abstract class ScreenConstants {
 
 
     //opponent info
-    public static int oponentPosX = width - 18;
-    public static int oponentPosY = topPadding + 12;
+    public static int oponentNamePosX = width - 18;
+    public static int oponentNamePosY = topPadding + 12;
 
     public static int oponentDummyPosX = width - 15;
     public static int oponentDummyPoxY = topPadding + 14;
@@ -53,8 +53,8 @@ public abstract class ScreenConstants {
 
 
     //timer
-    public static int timerLeft = 8;
-    public static int timerRight = timerLeft + 33;
+    public static int timerLeft = 6;
+    public static int timerRight = timerLeft + 34;
     public static int timerUp = topPadding + 6;
     public static int timerDown = timerUp + 7;
 
